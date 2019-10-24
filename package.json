@@ -42,7 +42,19 @@
       "plugin:vue/essential",
       "@vue/standard"
     ],
-    "rules": {},
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
+      "space-before-function-paren": 0,
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "generator-star-spacing": "off",
+      "no-debugger": "error"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
