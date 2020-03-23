@@ -1,0 +1,39 @@
+
+/**
+ * 样式覆盖
+ */
+ 
+// button
+.cube-btn {
+  padding: 14px 0;
+  border-radius: 0;
+}
+
+// tab
+.cube-tab-bar {
+  height: 42px;
+  background-color: #fff;
+  .cube-tab{
+    font-size: 15px;
+    color: #1A1A1A;
+  }
+  .cube-tab_active {
+    color: #f98700;
+  }
+}
+
+// toast宽度过窄
+.cube-toast-tip {
+  max-width: 65vw;
+}
+
+// 解决disabled输入框在ios上颜色不正常
+input:disabled {
+  -webkit-text-fill-color: #666;
+  color: #666;
+  opacity: 1;
+}
+input:disabled::placeholder {
+  -webkit-text-fill-color: #ccc;
+  // opacity: 0.6;
+}
