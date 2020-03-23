@@ -9,6 +9,7 @@
     "cz": "git-cz"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "vant": "^2.5.7",
     "vue": "^2.6.11",
@@ -51,5 +52,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "license": "MIT"
 }
