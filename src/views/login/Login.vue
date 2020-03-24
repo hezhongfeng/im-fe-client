@@ -25,6 +25,12 @@ export default {
   methods: {
     onSubmit(values) {
       console.log('submit', values);
+      this.$http
+        .post('/api/v1/login', {
+          username: 'username',
+          password: 'password'
+        })
+        .then();
     }
   }
 };

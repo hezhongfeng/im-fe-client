@@ -49,9 +49,9 @@
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   },
+  "license": "MIT",
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "license": "MIT"
+  ]
 }
