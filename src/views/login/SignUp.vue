@@ -31,13 +31,18 @@ export default {
   watch: {},
   created() {},
   methods: {
-    onSubmit(values) {
+    onSubmit() {
       this.$http
-        .post('/api/v1/signup', {
+        .post(this.$urls.login.signup, {
           username: this.username,
           password: this.password
         })
-        .then();
+        .then(data => {
+          this.$toast.success('注册成功');
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
     }
   }
 };

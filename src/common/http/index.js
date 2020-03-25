@@ -5,8 +5,8 @@ import Promise from './promise-finally';
 const responseHandle = function(response) {
   return new Promise(function(resolve, reject) {
     const data = response.data;
-    if (data.resultCode === '100') {
-      resolve(data);
+    if (data.statusCode === '0') {
+      resolve(data.data);
     } else {
       reject(data);
     }
