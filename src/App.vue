@@ -37,10 +37,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  height: 100vh;
   .router-view-c {
     position: absolute;
     transition: opacity 0.5s, transform 0.5s;
     width: 100%;
+    height: 100%;
   }
   .forward-enter,
   .back-leave-active {
