@@ -42,6 +42,7 @@ export default {
         })
         .then(data => {
           this.$toast.success('登录成功');
+          this.$router.push('/');
         })
         .catch(error => {
           this.$toast(error.errorMessage);

@@ -20,8 +20,21 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
-  methods: {}
+  created() {
+    this.getSessionList();
+  },
+  methods: {
+    getSessionList() {
+      this.$http
+        .get('/api/v1/admin/users/2/sessions', {})
+        .then(data => {
+          this.sessionList = data;
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    }
+  }
 };
 </script>
 
