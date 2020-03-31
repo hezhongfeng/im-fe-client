@@ -27,4 +27,14 @@ const router = new VueRouter({
   routes
 });
 
+const routeList = ['/login', '/signup'];
+
+router.beforeEach((to, from, next) => {
+  if (routeList.indexOf(to.path) === -1) {
+    next('/login');
+  } else {
+    next();
+  }
+});
+
 export default router;
