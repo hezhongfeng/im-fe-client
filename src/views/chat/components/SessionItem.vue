@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import IoService from '@/services/io.js';
+
 export default {
   name: 'SessionItem',
   components: {},
@@ -19,6 +21,7 @@ export default {
   created() {
     if (this.session.type === '1') {
       this.getGroupInfo();
+      this.joinRoom();
     }
   },
   methods: {
@@ -31,6 +34,9 @@ export default {
         .catch(error => {
           this.$toast(error.errorMessage);
         });
+    },
+    joinRoom() {
+      IoService.joinRoom(this.session.targetId);
     }
   }
 };

@@ -6,7 +6,9 @@
 </template>
 
 <script>
+import IoService from '@/services/io.js';
 import SessionList from './components/SessionList';
+
 export default {
   name: 'session',
   components: {
@@ -18,7 +20,9 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    IoService.connect();
+  },
   methods: {}
 };
 </script>
