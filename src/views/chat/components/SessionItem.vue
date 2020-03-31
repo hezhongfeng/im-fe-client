@@ -1,19 +1,38 @@
 <template>
-  <div class="session-item"></div>
+  <div class="session-item">{{info.name}}</div>
 </template>
 
 <script>
 export default {
   name: 'SessionItem',
   components: {},
-  props: {},
+  props: {
+    session: Object
+  },
   data() {
-    return {};
+    return {
+      info: {}
+    };
   },
   computed: {},
   watch: {},
-  created() {},
-  methods: {}
+  created() {
+    if (this.session.type === '1') {
+      this.getGroupInfo();
+    }
+  },
+  methods: {
+    getGroupInfo() {
+      this.$http
+        .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
+        .then(data => {
+          this.info = data;
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    }
+  }
 };
 </script>
 

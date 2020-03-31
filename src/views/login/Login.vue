@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'Login',
   components: {},
@@ -34,6 +36,7 @@ export default {
   watch: {},
   created() {},
   methods: {
+    ...mapMutations(['updateUserId', 'updateUserInfo']),
     onSubmit() {
       this.$http
         .post(this.$urls.login.login, {
@@ -42,7 +45,15 @@ export default {
         })
         .then(data => {
           this.$toast.success('登录成功');
-          this.$router.push('/');
+          this.updateUserId({
+            userId: data.id
+          });
+          this.updateUserInfo({
+            userInfo: data.userInfo
+          });
+          this.$nextTick(() => {
+            this.$router.push('/');
+          });
         })
         .catch(error => {
           this.$toast(error.errorMessage);

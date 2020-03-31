@@ -1,6 +1,6 @@
 <template>
   <div class="session-list">
-    <session-item v-for="session of sessionList" :key="session.id"></session-item>
+    <session-item :session="session" v-for="session of sessionList" :key="session.id"></session-item>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   methods: {
     getSessionList() {
       this.$http
-        .get('/api/v1/admin/users/2/sessions', {})
+        .get(this.$urls.restful.sessions, {})
         .then(data => {
           this.sessionList = data;
         })
