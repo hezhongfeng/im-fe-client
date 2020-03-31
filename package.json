@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "socket.io-client": "^2.3.0",
     "vant": "^2.5.7",
     "vue": "^2.6.11",
     "vue-page-stack": "^1.4.1",
