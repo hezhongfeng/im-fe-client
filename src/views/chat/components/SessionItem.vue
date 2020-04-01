@@ -1,5 +1,5 @@
 <template>
-  <div class="session-item" @click="onClick">{{info.name}}</div>
+  <div class="session-item" @click="onClick">{{session.info.name}}</div>
 </template>
 
 <script>
@@ -13,9 +13,7 @@ export default {
     session: Object
   },
   data() {
-    return {
-      info: {}
-    };
+    return {};
   },
   computed: {},
   watch: {},
@@ -26,7 +24,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('im', ['activateSession']),
+    ...mapMutations('im', ['activateSession', 'updateSessionInfo']),
     onClick() {
       this.activateSession({
         type: this.session.type,
@@ -40,6 +38,11 @@ export default {
         .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
         .then(data => {
           this.info = data;
+          this.updateSessionInfo({
+            type: this.session.type,
+            targetId: this.session.targetId,
+            info: data
+          });
         })
         .catch(error => {
           this.$toast(error.errorMessage);

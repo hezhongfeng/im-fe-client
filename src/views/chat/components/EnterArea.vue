@@ -66,7 +66,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userId', 'userInfo'])
+    ...mapGetters(['userId', 'userInfo']),
+    ...mapGetters('im', ['activeSession'])
   },
   watch: {},
   created() {
@@ -146,12 +147,12 @@ export default {
       }
       // this.isEmoji = false;
       IoService.sendMessage({
-        to: { id: '' },
+        to: { id: this.activeSession.info.id.toString() },
         from: { id: this.userId },
-        chat_type: 'chat',
+        chat_type: this.activeSession.type === '0' ? 'chat' : 'groupchat',
         body: {
           msg: this.value,
-          type: 'txt'
+          type: 'text'
         }
       });
       this.value = '';

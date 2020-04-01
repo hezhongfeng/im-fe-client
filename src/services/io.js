@@ -30,7 +30,14 @@ export default {
 
     // 有新消息
     this.socket.on('/v1/im/new-message', message => {
-      // handleMessage(message);
+      console.log(message);
+      handleMessage(message);
+      store.commit('im/newMessage', {
+        type: message.chat_type === 'chat' ? '0' : '1',
+        targetId: message.isMyself ? message.to.id : message.from.id,
+        message
+      });
+      // store.getters('im').activeSession.messageList.push({});
       // newMessageSave(message);
     });
 
@@ -47,18 +54,17 @@ export default {
     // });
 
     // 处理消息体，封面和表情字符
-    // const handleMessage = message => {
-    //   if (message.payload.body.msg) {
-    //     message.payload.body.msg = emoji.transform(message.payload.body.msg);
-    //   }
+    const handleMessage = message => {
+      // if (message.payload.body.msg) {
+      //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
+      // }
 
-    //   if (message.payload.body.type === 'video') {
-    //     message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
-    //   }
+      // if (message.payload.body.type === 'video') {
+      //   message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
+      // }
 
-    //   message.isMyself = !message.from.id ? false : store.getters.current.userId === message.from.id;
-    //   message.isRobot = !message.from.id;
-    // };
+      message.isMyself = store.getters.userId === message.from.id;
+    };
 
     // 处理存储的消息
     // const handleSavedMessage = message => {
@@ -103,7 +109,7 @@ export default {
   // 发送消息
   sendMessage(message) {
     console.log(message);
-    // this.socket.emit('/v1/cs/new-message-from-client', message);
+    this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录
   getMessageList(params) {

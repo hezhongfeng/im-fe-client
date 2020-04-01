@@ -104,10 +104,11 @@ export default {
   },
   mounted() {},
   computed: {
+    ...mapGetters(['userInfo']),
     ...mapGetters('im', ['activeSession']),
     fromName() {
       if (this.message.isMyself) {
-        return this.activeSession.info.name + ' ' + this.formatDateTime(this.message.timestamp);
+        return this.userInfo.nickname + ' ' + this.formatDateTime(this.message.timestamp);
       }
       return this.formatDateTime(this.message.timestamp) + ' ' + this.activeSession.info.name;
     },

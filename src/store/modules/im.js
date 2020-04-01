@@ -1,41 +1,41 @@
 const state = {
   sessionList: [
-    {
-      id: 2,
-      type: '1',
-      isTop: false,
-      topTime: '2020-03-27 16:27:56',
-      targetId: '1',
-      createdAt: '2020-03-27 16:27:56',
-      updatedAt: '2020-03-27 16:27:56',
-      userId: 3,
-      isActive: true,
-      info: {
-        name: '澳际'
-      },
-      messageList: [
-        {
-          isMyself: true,
-          to: { id: '5645' },
-          from: { id: '123' },
-          chat_type: 'chat',
-          body: {
-            msg: '嘿嘿嘿',
-            type: 'text'
-          }
-        },
-        {
-          to: { id: '5645' },
-          from: { id: '123' },
-          isMyself: false,
-          chat_type: 'chat',
-          body: {
-            msg: '嘿哈哈哈嘿',
-            type: 'text'
-          }
-        }
-      ]
-    }
+    // {
+    //   id: 2,
+    //   type: '1',
+    //   isTop: false,
+    //   topTime: '2020-03-27 16:27:56',
+    //   targetId: '1',
+    //   createdAt: '2020-03-27 16:27:56',
+    //   updatedAt: '2020-03-27 16:27:56',
+    //   userId: 3,
+    //   isActive: true,
+    //   info: {
+    //     name: '澳际'
+    //   },
+    //   messageList: [
+    //     {
+    //       isMyself: true,
+    //       to: { id: '5645' },
+    //       from: { id: '123' },
+    //       chat_type: 'chat',
+    //       body: {
+    //         msg: '嘿嘿嘿',
+    //         type: 'text'
+    //       }
+    //     },
+    //     {
+    //       to: { id: '5645' },
+    //       from: { id: '123' },
+    //       isMyself: false,
+    //       chat_type: 'chat',
+    //       body: {
+    //         msg: '嘿哈哈哈嘿',
+    //         type: 'text'
+    //       }
+    //     }
+    //   ]
+    // }
   ]
 };
 
@@ -63,6 +63,11 @@ const mutations = {
   },
   updateSessionList(state, sessionList) {
     state.sessionList = sessionList;
+  },
+  updateSessionInfo(state, { type, targetId, info }) {
+    state.sessionList.find(session => {
+      return session.type === type && session.targetId === targetId;
+    }).info = info;
   },
   activateSession(state, { type, targetId, isActive }) {
     console.log({ type, targetId, isActive });

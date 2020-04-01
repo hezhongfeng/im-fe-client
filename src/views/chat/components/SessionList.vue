@@ -34,6 +34,9 @@ export default {
         .then(data => {
           for (const iterator of data) {
             iterator.isActive = false;
+            iterator.info = {
+              name: ''
+            };
             iterator.messageList = [];
           }
           this.updateSessionList(data);
