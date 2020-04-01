@@ -10,23 +10,28 @@ const state = {
       updatedAt: '2020-03-27 16:27:56',
       userId: 3,
       isActive: true,
+      info: {
+        name: '澳际'
+      },
       messageList: [
         {
+          isMyself: true,
           to: { id: '5645' },
           from: { id: '123' },
           chat_type: 'chat',
           body: {
             msg: '嘿嘿嘿',
-            type: 'txt'
+            type: 'text'
           }
         },
         {
           to: { id: '5645' },
           from: { id: '123' },
+          isMyself: false,
           chat_type: 'chat',
           body: {
             msg: '嘿哈哈哈嘿',
-            type: 'txt'
+            type: 'text'
           }
         }
       ]
@@ -38,6 +43,9 @@ const state = {
 const getters = {
   sessionList(state) {
     return state.sessionList;
+  },
+  activeSession(state) {
+    return state.sessionList.find(item => item.isActive === true);
   },
   messageList(state) {
     return state.sessionList.find(item => item.isActive === true).messageList;

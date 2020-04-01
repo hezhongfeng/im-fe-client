@@ -4,6 +4,7 @@ import store from '@/store';
 import Login from '@/views/login/Login.vue';
 import SignUp from '@/views/login/SignUp.vue';
 import Home from '@/views/home/Home.vue';
+import ChatWindow from '@/views/chat/ChatWindow.vue';
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,10 @@ const routes = [
   {
     path: '/signup',
     component: SignUp
+  },
+  {
+    path: '/chat',
+    component: ChatWindow
   }
 ];
 

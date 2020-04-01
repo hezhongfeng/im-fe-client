@@ -6,6 +6,7 @@
 
 <script>
 import SessionItem from './SessionItem';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   name: 'SessionList',
@@ -15,20 +16,27 @@ export default {
   props: {},
   data() {
     return {
-      sessionList: []
+      // sessionList: []
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters('im', ['sessionList'])
+  },
   watch: {},
   created() {
     this.getSessionList();
   },
   methods: {
+    ...mapMutations('im', ['updateSessionList']),
     getSessionList() {
       this.$http
         .get(this.$urls.restful.sessions, {})
         .then(data => {
-          this.sessionList = data;
+          for (const iterator of data) {
+            iterator.isActive = false;
+            iterator.messageList = [];
+          }
+          this.updateSessionList(data);
         })
         .catch(error => {
           this.$toast(error.errorMessage);

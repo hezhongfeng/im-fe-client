@@ -102,7 +102,8 @@ export default {
   },
   // 发送消息
   sendMessage(message) {
-    this.socket.emit('/v1/cs/new-message-from-client', message);
+    console.log(message);
+    // this.socket.emit('/v1/cs/new-message-from-client', message);
   },
   // 请求聊天记录
   getMessageList(params) {

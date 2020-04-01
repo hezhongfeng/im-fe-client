@@ -1,9 +1,10 @@
 <template>
-  <div class="session-item">{{info.name}}</div>
+  <div class="session-item" @click="onClick">{{info.name}}</div>
 </template>
 
 <script>
 import IoService from '@/services/io.js';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'SessionItem',
@@ -25,6 +26,15 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('im', ['activateSession']),
+    onClick() {
+      this.activateSession({
+        type: this.session.type,
+        targetId: this.session.targetId,
+        isActive: true
+      });
+      this.$router.push('/chat');
+    },
     getGroupInfo() {
       this.$http
         .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
