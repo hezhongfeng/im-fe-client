@@ -10,7 +10,8 @@
     <div ref="tool" class="tools">
       <div class="tool-item">
         <i class="iconfont iconi-sh-car-bf-f" @click="pickVideo"></i>
-        <!-- <hy-upload accept="video/*" style="display: none;" ref="videoUpload" :action="videoAction" @file-success="videoSuccess"></hy-upload> -->
+        <!-- <van-uploader accept="video/*" :after-read="afterReadVideo" /> -->
+        <hy-upload accept="video/*" style="display: none;" ref="videoUpload" @file-success="videoSuccess"></hy-upload>
       </div>
       <div class="tool-item">
         <i class="iconfont iconi-sh-man-dt" @click="onSendPosition"></i>
@@ -33,7 +34,7 @@
 // import { compress } from '@/components/hy-form';
 import { mapGetters } from 'vuex';
 // import EmojiPicker from './EmojiPicker';
-// import HyUpload from './HyUpload';
+import HyUpload from './HyUpload';
 import IoService from '@/services/io.js';
 // 引入baiduMap
 // import BaiduMap from '@/utils/getPosition.js';
@@ -41,7 +42,9 @@ import IoService from '@/services/io.js';
 
 export default {
   name: 'EnterArea',
-  components: {},
+  components: {
+    HyUpload
+  },
   props: {},
   data() {
     return {
@@ -67,12 +70,15 @@ export default {
   },
   computed: {
     ...mapGetters(['userId', 'userInfo']),
-    ...mapGetters('im', ['activeSession'])
+    ...mapGetters('im', ['activeSession']),
+    chatType() {
+      return this.activeSession.type === '0' ? 'chat' : 'groupchat';
+    }
   },
   watch: {},
   created() {
-    this.pictureAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
-    this.videoAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
+    // this.pictureAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
+    // this.videoAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
   },
   methods: {
     processFile(file, next) {
@@ -126,19 +132,18 @@ export default {
       //   }
       // });
     },
-    videoSuccess(data) {
-      // customService.sendMessage({
-      //   to: { id: '' },
-      //   from: { id: this.current.userId, name: this.userInfo.userNickname },
-      //   chat_type: 'chat',
-      //   chat_with: 'client',
-      //   payload: {
-      //     body: {
-      //       url: data.fis[0].url, // 视频地址
-      //       type: 'video'
-      //     }
-      //   }
-      // });
+    videoSuccess(urls) {
+      for (const iterator of urls) {
+        IoService.sendMessage({
+          to: { id: this.activeSession.info.id.toString() },
+          from: { id: this.userId },
+          chat_type: this.chatType,
+          body: {
+            url: iterator.url, // 视频地址
+            type: 'video'
+          }
+        });
+      }
     },
     onSend() {
       if (this.value.trim() === '') {
@@ -149,7 +154,7 @@ export default {
       IoService.sendMessage({
         to: { id: this.activeSession.info.id.toString() },
         from: { id: this.userId },
-        chat_type: this.activeSession.type === '0' ? 'chat' : 'groupchat',
+        chat_type: this.chatType,
         body: {
           msg: this.value,
           type: 'text'
