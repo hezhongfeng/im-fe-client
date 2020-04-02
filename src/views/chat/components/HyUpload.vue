@@ -16,7 +16,7 @@ export default {
     limit: Number,
     multiple: {
       type: Boolean,
-      default: true
+      default: false
     },
     accept: {
       type: String,

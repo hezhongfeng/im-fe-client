@@ -23,6 +23,9 @@ export default {
   created() {
     IoService.connect();
   },
+  beforeDestroy() {
+    IoService.disconnect();
+  },
   methods: {}
 };
 </script>

@@ -8,8 +8,6 @@
 </template>
 
 <script>
-// import { HyPage } from '@/components/hy-page';
-// import IoService from '@/services/io.js';
 import MessageItem from './components/MessageItem';
 import EnterArea from './components/EnterArea';
 import { mapGetters, mapMutations } from 'vuex';
@@ -23,15 +21,8 @@ export default {
   props: {},
   data() {
     return {
-      messageTip: {},
-      options: {
-        preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|VIDEO)$/ },
-        pullDownRefresh: {
-          txt: '刷新成功'
-        }
-      },
       enterHeight: '90',
-      messagePagination: {
+      pagination: {
         pageSize: '10',
         pageNumber: '1'
       }
@@ -47,31 +38,14 @@ export default {
     imgList() {
       const imgList = [];
       for (const element of this.messageList) {
-        if (element.body.type === 'img') {
+        if (element.body.type === 'image') {
           imgList.push(this.host + element.body.url);
         }
       }
       return imgList;
     }
   },
-  watch: {
-    // messageList(newVal) {
-    //   if (newVal[0] === this.messageTip) {
-    //     this.scrollToBottom();
-    //   }
-    //   this.messageTip = newVal[0];
-    // }
-  },
-  created() {
-    // this.clearMessage();
-  },
-  mounted() {
-    // customService.socket = null;
-    // customService.connect(this.$refs.scroll);
-  },
-  beforeDestroy() {
-    // customService.disconnect();
-  },
+  mounted() {},
   methods: {
     ...mapMutations('im', ['clearMessage']),
     changeHight(height) {
@@ -91,27 +65,21 @@ export default {
       this.getMessageList();
     },
     getMessageList() {
-      this.messagePagination.pageNumber++;
-      // customService.getMessageList({
-      //   shopId: this.current.shopId,
-      //   clientId: this.current.userId,
-      //   pageNumber: this.messagePagination.pageNumber,
-      //   pageSize: this.messagePagination.pageSize
-      // });
-    },
-    imgPreview(message) {
-      const index = this.imgList.indexOf(this.host + message.body.url);
-      this.$createImagePreview({
-        imgs: this.imgList,
-        initialIndex: index
-      }).show();
-    },
-    locPreview(message) {
-      this.$router.push({
-        path: '/custom-service/message-loc',
-        query: { addr: message.body.addr, lat: message.body.lat, lng: message.body.lng }
-      });
+      this.pagination.pageNumber++;
     }
+    // imgPreview(message) {
+    //   const index = this.imgList.indexOf(this.host + message.body.url);
+    //   this.$createImagePreview({
+    //     imgs: this.imgList,
+    //     initialIndex: index
+    //   }).show();
+    // },
+    // locPreview(message) {
+    //   this.$router.push({
+    //     path: '/custom-service/message-loc',
+    //     query: { addr: message.body.addr, lat: message.body.lat, lng: message.body.lng }
+    //   });
+    // }
   }
 };
 </script>

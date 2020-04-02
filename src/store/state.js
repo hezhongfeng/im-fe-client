@@ -1,5 +1,5 @@
 export default {
-  userId: '',
+  userId: '1',
   userInfo: {
     id: 3,
     nickname: 'hezf',

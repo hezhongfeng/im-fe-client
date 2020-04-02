@@ -1,7 +1,6 @@
 <template>
   <div class="enter-area">
     <div class="input-area">
-      <!-- <cube-input placeholder="请输入您要咨询的问题" v-model="value" @focus="inputFocus"></cube-input> -->
       <van-field type="text" v-model="value" placeholder="请输入" />
       <div class="send-btn" @click="onSend">
         <i class="iconfont iconi-sh-man-xy"></i>
@@ -10,7 +9,6 @@
     <div ref="tool" class="tools">
       <div class="tool-item">
         <i class="iconfont iconi-sh-car-bf-f" @click="pickVideo"></i>
-        <!-- <van-uploader accept="video/*" :after-read="afterReadVideo" /> -->
         <hy-upload accept="video/*" style="display: none;" ref="videoUpload" @file-success="videoSuccess"></hy-upload>
       </div>
       <div class="tool-item">
@@ -19,7 +17,6 @@
       <div class="tool-item">
         <i class="iconfont iconi-sh-man-zp" @click="pickPicture"></i>
         <hy-upload accept="image/*" style="display: none;" ref="imageUpload" @file-success="imageSuccess"></hy-upload>
-        <!-- <hy-upload accept="video/*" style="display: none;" ref="videoUpload" @file-success="videoSuccess"></hy-upload> -->
       </div>
       <div class="tool-item">
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
@@ -77,24 +74,7 @@ export default {
     }
   },
   watch: {},
-  created() {
-    // this.pictureAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
-    // this.videoAction.target = (this.host ? this.host : '') + '/rest/file/uploads.jhtml';
-  },
   methods: {
-    processFile(file, next) {
-      // compress(
-      //   file,
-      //   {
-      //     compress: {
-      //       width: 500,
-      //       height: 500,
-      //       quality: 1
-      //     }
-      //   },
-      //   next
-      // );
-    },
     pickEmoji() {
       this.isEmoji = !this.isEmoji;
       if (this.isEmoji) {
@@ -150,7 +130,6 @@ export default {
         this.$toast('不能发送空白信息');
         return;
       }
-      // this.isEmoji = false;
       IoService.sendMessage({
         to: { id: this.activeSession.info.id.toString() },
         from: { id: this.userId },
