@@ -11,6 +11,7 @@
 import MessageItem from './components/MessageItem';
 import EnterArea from './components/EnterArea';
 import { mapGetters, mapMutations } from 'vuex';
+import IoService from '@/services/io.js';
 
 export default {
   name: 'Chat',
@@ -23,13 +24,13 @@ export default {
     return {
       enterHeight: '90',
       pagination: {
-        pageSize: '10',
-        pageNumber: '1'
+        pageSize: 10,
+        pageNumber: 1
       }
     };
   },
   computed: {
-    ...mapGetters('im', ['messageList']),
+    ...mapGetters('im', ['messageList', 'activeSession']),
     handleStyle() {
       return {
         height: 'calc(100% - ' + this.enterHeight + 'px)'
@@ -45,7 +46,9 @@ export default {
       return imgList;
     }
   },
-  mounted() {},
+  created() {
+    this.getMessageList();
+  },
   methods: {
     ...mapMutations('im', ['clearMessage']),
     changeHight(height) {
@@ -65,6 +68,11 @@ export default {
       this.getMessageList();
     },
     getMessageList() {
+      IoService.getMessageList({
+        sessionId: this.activeSession.id,
+        pageSize: this.pagination.pageSize,
+        pageNumber: this.pagination.pageNumber
+      });
       this.pagination.pageNumber++;
     }
     // imgPreview(message) {

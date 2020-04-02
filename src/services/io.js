@@ -42,16 +42,9 @@ export default {
     });
 
     // 消息记录
-    // this.socket.on('/v1/cs/client/client-get-messages', payload => {
-    //   if (payload.dataList.length === 0) {
-    //     this.scroll.forceUpdate();
-    //   }
-    //   for (const message of payload.dataList) {
-    //     handleSavedMessage(message);
-    //     handleMessage(message);
-    //     saveSavedMessage(message);
-    //   }
-    // });
+    this.socket.on('/v1/im/get-messages', payload => {
+      console.log(payload);
+    });
 
     // 处理消息体，封面和表情字符
     // const handleMessage = message => {
@@ -112,7 +105,7 @@ export default {
   },
   // 请求聊天记录
   getMessageList(params) {
-    this.socket.emit('/v1/cs/client-get-messages', params);
+    this.socket.emit('/v1/im/get-messages', params);
   },
   // join room
   joinRoom(id) {
