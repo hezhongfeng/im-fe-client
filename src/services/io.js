@@ -108,7 +108,6 @@ export default {
   },
   // 发送消息
   sendMessage(message) {
-    console.log(message);
     this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录

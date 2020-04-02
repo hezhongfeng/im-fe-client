@@ -37,7 +37,6 @@ export default {
       this.$http
         .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
         .then(data => {
-          this.info = data;
           this.updateSessionInfo({
             type: this.session.type,
             targetId: this.session.targetId,
