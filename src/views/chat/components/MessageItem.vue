@@ -8,8 +8,8 @@
       <div class="container">
         <div class="container-text" v-if="message.body.type==='text'" v-html="bodyMessage"></div>
 
-        <div class="image" v-if="message.body.type==='img'">
-          <img :src="host+message.body.url" @load="imgOnload" @click="imgPreview" />
+        <div class="image" v-if="message.body.type==='image'">
+          <img :src="message.body.url" @load="imgOnload" @click="imgPreview" />
         </div>
 
         <div class="loc" v-if="message.body.type==='loc'">
@@ -18,25 +18,6 @@
 
         <div class="video" v-if="message.body.type==='video'">
           <Xgplayer :config="config" />
-        </div>
-
-        <div class="product" v-if="message.body.type==='product'" @click="onProduct">
-          <div class="p-image">
-            <img :src="productImg" mode="aspectFill" />
-          </div>
-          <div class="p-name">{{productBasicInfo.name}}</div>
-          <div class="price">￥{{productBasicInfo.marketPrice}}</div>
-        </div>
-
-        <div class="session-end" v-if="message.body.type==='session_end'">{{message.body.msg}}</div>
-
-        <div class="session-end" v-if="message.body.type==='roll-out'">{{message.body.msg}}</div>
-
-        <div class="upload-loading" v-if="message.body.type==='loading'">
-          <div class="back-g">
-            <!-- <img src="~@/assets/img/img_default.png" /> -->
-            <!-- <sector :progress="uploadProgress"></sector> -->
-          </div>
         </div>
       </div>
       <div class="avatar" v-if="message.isMyself">

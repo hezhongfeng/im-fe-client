@@ -18,7 +18,8 @@
       </div>
       <div class="tool-item">
         <i class="iconfont iconi-sh-man-zp" @click="pickPicture"></i>
-        <!-- <hy-upload style="display: none;" ref="imageUpload" @file-success="imageSuccess" :action="pictureAction"></hy-upload> -->
+        <hy-upload accept="image/*" style="display: none;" ref="imageUpload" @file-success="imageSuccess"></hy-upload>
+        <!-- <hy-upload accept="video/*" style="display: none;" ref="videoUpload" @file-success="videoSuccess"></hy-upload> -->
       </div>
       <div class="tool-item">
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
@@ -118,19 +119,18 @@ export default {
     pickVideo() {
       this.$refs.videoUpload.click();
     },
-    imageSuccess(data) {
-      // customService.sendMessage({
-      //   to: { id: '' },
-      //   from: { id: this.current.userId, name: this.userInfo.userNickname },
-      //   chat_type: 'chat',
-      //   chat_with: 'client',
-      //   payload: {
-      //     body: {
-      //       url: data.fis[0].url, // 图片地址
-      //       type: 'img'
-      //     }
-      //   }
-      // });
+    imageSuccess(urls) {
+      for (const iterator of urls) {
+        IoService.sendMessage({
+          to: { id: this.activeSession.info.id.toString() },
+          from: { id: this.userId },
+          chat_type: this.chatType,
+          body: {
+            url: iterator.url, // 图片地址
+            type: 'image'
+          }
+        });
+      }
     },
     videoSuccess(urls) {
       for (const iterator of urls) {
