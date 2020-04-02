@@ -17,7 +17,7 @@
         </div>
 
         <div class="video" v-if="message.body.type==='video'">
-          <!-- <Xgplayer :config="config" /> -->
+          <Xgplayer :config="config" />
         </div>
 
         <div class="product" v-if="message.body.type==='product'" @click="onProduct">
@@ -53,7 +53,7 @@ import defaultUser from '@/assets/images/default.png';
 // import csDefault from '@/assets/img/custom-service/csdefault.png';
 // import customService from '@/services/module/custom-service';
 // import Sector from './components/SectorProgress';
-// import Xgplayer from 'xgplayer-vue';
+import Xgplayer from 'xgplayer-vue';
 
 export default {
   name: 'MessageItem',
@@ -175,7 +175,7 @@ export default {
       return {
         width: 4,
         height: 3,
-        id: this._uid,
+        id: this.message.body.url,
         ignores: ['play', 'volume'],
         whitelist: [
           ua => {
@@ -184,9 +184,8 @@ export default {
         ],
         controlsList: [],
         videoInit: true,
-        poster: this.host + this.message.body.poster,
         fluid: true,
-        url: this.host + this.message.body.url
+        url: this.message.body.url
       };
     },
     csHead() {
@@ -202,7 +201,7 @@ export default {
     }
   },
   components: {
-    // Xgplayer,
+    Xgplayer
     // Sector,
     // BizLocationMap
   },
