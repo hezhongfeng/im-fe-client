@@ -68,10 +68,7 @@ export default {
   },
   computed: {
     ...mapGetters(['userId', 'userInfo']),
-    ...mapGetters('im', ['activeSession']),
-    chatType() {
-      return this.activeSession.type === '0' ? 'chat' : 'groupchat';
-    }
+    ...mapGetters('im', ['activeSession'])
   },
   watch: {},
   methods: {
@@ -102,9 +99,9 @@ export default {
     imageSuccess(urls) {
       for (const iterator of urls) {
         IoService.sendMessage({
-          to: { id: this.activeSession.info.id.toString() },
-          from: { id: this.userId },
-          chat_type: this.chatType,
+          toId: this.activeSession.info.id.toString(),
+          fromId: this.userId,
+          type: this.activeSession.type,
           body: {
             url: iterator.url, // 图片地址
             type: 'image'
@@ -115,9 +112,9 @@ export default {
     videoSuccess(urls) {
       for (const iterator of urls) {
         IoService.sendMessage({
-          to: { id: this.activeSession.info.id.toString() },
-          from: { id: this.userId },
-          chat_type: this.chatType,
+          toId: this.activeSession.info.id.toString(),
+          fromId: this.userId,
+          type: this.activeSession.type,
           body: {
             url: iterator.url, // 视频地址
             type: 'video'
@@ -131,9 +128,9 @@ export default {
         return;
       }
       IoService.sendMessage({
-        to: { id: this.activeSession.info.id.toString() },
-        from: { id: this.userId },
-        chat_type: this.chatType,
+        toId: this.activeSession.info.id.toString(),
+        fromId: this.userId,
+        type: this.activeSession.type,
         body: {
           msg: this.value,
           type: 'text'
@@ -153,9 +150,9 @@ export default {
       //     data.address.street +
       //     data.address.street_number;
       //   // customService.sendMessage({
-      //   //   to: { id: '' },
-      //   //   from: { id: this.current.userId, name: this.userInfo.userNickname },
-      //   //   chat_type: 'chat',
+      //   //   toId: '',
+      //   //   fromId: this.current.userId,
+      //   //   type: 'chat',
       //   //   chat_with: 'client',
       //   //   payload: {
       //   //     body: {
@@ -182,9 +179,9 @@ export default {
       //     currentPosition.address.street_number;
       //   console.log(currentPosition);
       //   customService.sendMessage({
-      //     to: { id: '' },
-      //     from: { id: this.current.userId, name: this.userInfo.userNickname },
-      //     chat_type: 'chat',
+      //     toId: '',
+      //     fromId: this.current.userId,
+      //     type: 'chat',
       //     chat_with: 'client',
       //     payload: {
       //       body: {

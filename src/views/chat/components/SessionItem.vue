@@ -18,7 +18,7 @@ export default {
   computed: {},
   watch: {},
   created() {
-    if (this.session.type === '1') {
+    if (this.session.type === 'groupchat') {
       this.getGroupInfo();
       this.joinRoom();
     }

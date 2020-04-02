@@ -33,8 +33,8 @@ export default {
       console.log(message);
       handleMessage(message);
       store.commit('im/newMessage', {
-        type: message.chat_type === 'chat' ? '0' : '1',
-        targetId: message.isMyself ? message.to.id : message.from.id,
+        type: message.type,
+        targetId: message.isMyself ? message.toId : message.fromId,
         message
       });
       // store.getters('im').activeSession.messageList.push({});
@@ -63,7 +63,7 @@ export default {
       //   message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
       // }
 
-      message.isMyself = store.getters.userId === message.from.id;
+      message.isMyself = store.getters.userId === message.fromId;
     };
 
     // 处理存储的消息
@@ -81,7 +81,7 @@ export default {
     // const newMessageSave = message => {
     //   store.commit('CustomService/newMessage', {
     //     message: {
-    //       id: message.isMyself ? message.to.id : message.from.id,
+    //       id: message.isMyself ? message.toId : message.fromId,
     //       fromName: message.from.name,
     //       head: message.isMyself ? userInfo.headerUrl || '' : message.from.head,
     //       timestamp: message.timestamp,
