@@ -98,27 +98,17 @@ export default {
     },
     imageSuccess(urls) {
       for (const iterator of urls) {
-        IoService.sendMessage({
-          toId: this.activeSession.info.id.toString(),
-          fromId: this.userId,
-          type: this.activeSession.type,
-          body: {
-            url: iterator.url, // 图片地址
-            type: 'image'
-          }
+        this.send({
+          url: iterator.url, // 视频地址
+          type: 'image'
         });
       }
     },
     videoSuccess(urls) {
       for (const iterator of urls) {
-        IoService.sendMessage({
-          toId: this.activeSession.info.id.toString(),
-          fromId: this.userId,
-          type: this.activeSession.type,
-          body: {
-            url: iterator.url, // 视频地址
-            type: 'video'
-          }
+        this.send({
+          url: iterator.url, // 视频地址
+          type: 'video'
         });
       }
     },
@@ -127,14 +117,9 @@ export default {
         this.$toast('不能发送空白信息');
         return;
       }
-      IoService.sendMessage({
-        toId: this.activeSession.info.id.toString(),
-        fromId: this.userId,
-        type: this.activeSession.type,
-        body: {
-          msg: this.value,
-          type: 'text'
-        }
+      this.send({
+        msg: this.value,
+        type: 'text'
       });
       this.value = '';
     },
@@ -198,6 +183,15 @@ export default {
     },
     onSendPosition() {
       this.nativeGetLocation();
+    },
+    send(body) {
+      IoService.sendMessage({
+        type: this.activeSession.type,
+        toId: this.activeSession.info.id.toString(),
+        fromId: this.userId,
+        sessionId: this.activeSession.id,
+        body
+      });
     }
   }
 };
