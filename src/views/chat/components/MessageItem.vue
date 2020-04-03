@@ -89,9 +89,9 @@ export default {
     ...mapGetters('im', ['activeSession']),
     fromName() {
       if (this.message.isMyself) {
-        return this.userInfo.nickname + ' ' + this.formatDateTime(this.message.timestamp);
+        return this.userInfo.nickname + ' ' + this.message.createdAt;
       }
-      return this.formatDateTime(this.message.timestamp) + ' ' + this.activeSession.info.name;
+      return this.message.createdAt + ' ' + this.activeSession.info.name;
     },
     productImg() {
       return this.host + this.productBasicInfo.image;
@@ -221,26 +221,6 @@ export default {
           console.log('调用成功');
         }
       );
-    },
-    formatDateTime(inputTime) {
-      let date;
-      if (inputTime) {
-        date = new Date(Number(inputTime));
-      } else {
-        date = new Date();
-      }
-      const y = date.getFullYear();
-      let m = date.getMonth() + 1;
-      m = m < 10 ? '0' + m : m;
-      let d = date.getDate();
-      d = d < 10 ? '0' + d : d;
-      let h = date.getHours();
-      h = h < 10 ? '0' + h : h;
-      let minute = date.getMinutes();
-      let second = date.getSeconds();
-      minute = minute < 10 ? '0' + minute : minute;
-      second = second < 10 ? '0' + second : second;
-      return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
     },
     loadeddata() {
       console.log('loadeddata', new Date());
