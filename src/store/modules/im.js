@@ -35,11 +35,16 @@ const mutations = {
       return session.id === sessionId;
     }).info = info;
   },
-  activateSession(state, { type, targetId, isActive }) {
-    console.log({ type, targetId, isActive });
+  activateSession(state, { sessionId }) {
+    const activeSession = state.sessionList.find(session => {
+      return session.isActive === true;
+    });
+    if (activeSession) {
+      activeSession.isActive = false;
+    }
     state.sessionList.find(session => {
-      return session.type === type && session.targetId === targetId;
-    }).isActive = isActive;
+      return session.id === sessionId;
+    }).isActive = true;
   }
 };
 
