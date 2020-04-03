@@ -1,5 +1,5 @@
 <template>
-  <div class="session-item" @click="onClick">{{session.info.name}}</div>
+  <div class="session-item" @click="onClick">{{session.info.name||session.info.nickname}}</div>
 </template>
 
 <script>
@@ -18,6 +18,10 @@ export default {
   computed: {},
   watch: {},
   created() {
+    if (this.session.type === 'chat') {
+      this.getUserInfo();
+      // this.joinRoom();
+    }
     if (this.session.type === 'groupchat') {
       this.getGroupInfo();
       this.joinRoom();
@@ -33,13 +37,25 @@ export default {
       });
       this.$router.push('/chat');
     },
+    getUserInfo() {
+      this.$http
+        .get(`${this.$urls.restful.userInfo}/${this.session.targetId}`, {})
+        .then(data => {
+          this.updateSessionInfo({
+            sessionId: this.session.id,
+            info: data
+          });
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    },
     getGroupInfo() {
       this.$http
         .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
         .then(data => {
           this.updateSessionInfo({
-            type: this.session.type,
-            targetId: this.session.targetId,
+            sessionId: this.session.id,
             info: data
           });
         })
