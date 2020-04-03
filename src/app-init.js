@@ -23,6 +23,7 @@ export default function() {
     }
     if (bridge === 'dev') {
       store.commit('updateUserId', { userId: devConfig.userId });
+      store.commit('updateUserInfo', { userInfo: devConfig.userInfo });
     }
     resolve();
   });
