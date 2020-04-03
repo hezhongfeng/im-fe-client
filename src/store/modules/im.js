@@ -18,14 +18,40 @@ const getters = {
 // mutations
 const mutations = {
   newMessage(state, { message, isPush = true }) {
-    const messageList = state.sessionList.find(session => {
+    const session = state.sessionList.find(session => {
       return session.id === message.sessionId;
-    }).messageList;
+    });
     if (isPush) {
-      messageList.push(message);
+      session.messageList.push(message);
     } else {
-      messageList.unshift(message);
+      session.messageList.unshift(message);
     }
+    console.log(session.messageList.length, session.messageCount);
+    if (session.messageList.length === session.messageCount) {
+      session.finished = true;
+    }
+  },
+  clearMessages(state, { sessionId }) {
+    const session = state.sessionList.find(session => {
+      return session.id === sessionId;
+    });
+    session.messageList = [];
+    session.pageNumber = 1;
+  },
+  updateMessageCount(state, { sessionId, messageCount }) {
+    state.sessionList.find(session => {
+      return session.id === sessionId;
+    }).messageCount = messageCount;
+  },
+  updateLoading(state, { sessionId, loading }) {
+    state.sessionList.find(session => {
+      return session.id === sessionId;
+    }).loading = loading;
+  },
+  updateRefreshing(state, { sessionId, refreshing }) {
+    state.sessionList.find(session => {
+      return session.id === sessionId;
+    }).refreshing = refreshing;
   },
   updateSessionList(state, sessionList) {
     state.sessionList = sessionList;

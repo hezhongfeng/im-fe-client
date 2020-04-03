@@ -29,7 +29,17 @@ const IoService = {
     });
 
     // 消息记录
-    this.socket.on('/v1/im/get-messages', ({ messages }) => {
+    this.socket.on('/v1/im/get-messages', ({ count, sessionId, messages }) => {
+      // 更新count
+      store.commit('im/updateMessageCount', { messageCount: count, sessionId });
+      store.commit('im/updateRefreshing', {
+        sessionId: sessionId,
+        refreshing: false
+      });
+      store.commit('im/updateLoading', {
+        sessionId: sessionId,
+        loading: false
+      });
       for (const message of messages) {
         handleMessage(message);
         store.commit('im/newMessage', { message, isPush: false });
@@ -94,8 +104,12 @@ const IoService = {
     this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录
-  getMessageList(params) {
-    this.socket.emit('/v1/im/get-messages', params);
+  getMessageList({ sessionId, pageSize, pageNumber }) {
+    this.socket.emit('/v1/im/get-messages', {
+      sessionId,
+      pageSize,
+      pageNumber
+    });
   },
   // join
   join(sessionId) {
@@ -108,21 +122,26 @@ const IoService = {
 const getSessionList = () => {
   http
     .get(urls.restful.sessions, {})
-    .then(data => {
-      for (const iterator of data) {
+    .then(sessionList => {
+      for (const iterator of sessionList) {
         iterator.isActive = false;
         iterator.info = {
           name: ''
         };
         iterator.messageList = [];
+        iterator.pageNumber = 2;
+        iterator.pageSize = 10;
+        iterator.refreshing = false;
+        iterator.loading = false;
+        iterator.finished = false;
       }
-      store.commit('im/updateSessionList', data);
+      store.commit('im/updateSessionList', sessionList);
       setTimeout(() => {
-        for (const message of data) {
+        for (const session of sessionList) {
           IoService.getMessageList({
-            sessionId: message.id,
-            pageSize: 1,
-            pageNumber: 10
+            sessionId: session.id,
+            pageSize: session.pageSize,
+            pageNumber: 1
           });
         }
       }, 20);
