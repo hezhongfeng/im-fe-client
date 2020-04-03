@@ -30,34 +30,30 @@ export default {
 
     // 有新消息
     this.socket.on('/v1/im/new-message', message => {
-      console.log(message);
-      // handleMessage(message);
-      // store.commit('im/newMessage', {
-      //   type: message.type,
-      //   targetId: message.isMyself ? message.toId : message.fromId,
-      //   message
-      // });
-      // store.getters('im').activeSession.messageList.push({});
-      // newMessageSave(message);
+      handleMessage(message);
+      store.commit('im/newMessage', { message });
     });
 
     // 消息记录
-    this.socket.on('/v1/im/get-messages', payload => {
-      console.log(payload);
+    this.socket.on('/v1/im/get-messages', ({ messages }) => {
+      for (const message of messages) {
+        handleMessage(message);
+        store.commit('im/newMessage', { message, isPush: false });
+      }
     });
 
-    // 处理消息体，封面和表情字符
-    // const handleMessage = message => {
-    //   // if (message.payload.body.msg) {
-    //   //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
-    //   // }
+    // 处理消息体
+    const handleMessage = message => {
+      // if (message.payload.body.msg) {
+      //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
+      // }
 
-    //   // if (message.payload.body.type === 'video') {
-    //   //   message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
-    //   // }
+      // if (message.payload.body.type === 'video') {
+      //   message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
+      // }
 
-    //   message.isMyself = store.getters.userId === message.fromId;
-    // };
+      message.isMyself = store.getters.userId === message.fromId;
+    };
 
     // 处理存储的消息
     // const handleSavedMessage = message => {

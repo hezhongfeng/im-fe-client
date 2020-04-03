@@ -17,19 +17,22 @@ const getters = {
 
 // mutations
 const mutations = {
-  newMessage(state, { type, targetId, message }) {
-    state.sessionList
-      .find(session => {
-        return session.type === type && session.targetId === targetId;
-      })
-      .messageList.push(message);
+  newMessage(state, { message, isPush = true }) {
+    const messageList = state.sessionList.find(session => {
+      return session.id === message.sessionId;
+    }).messageList;
+    if (isPush) {
+      messageList.push(message);
+    } else {
+      messageList.unshift(message);
+    }
   },
   updateSessionList(state, sessionList) {
     state.sessionList = sessionList;
   },
-  updateSessionInfo(state, { type, targetId, info }) {
+  updateSessionInfo(state, { sessionId, info }) {
     state.sessionList.find(session => {
-      return session.type === type && session.targetId === targetId;
+      return session.id === sessionId;
     }).info = info;
   },
   activateSession(state, { type, targetId, isActive }) {
