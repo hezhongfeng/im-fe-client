@@ -1,10 +1,10 @@
 // import emoji from '@/utils/emoji';
-// import http from '@/common/http';
+import http from '@/common/http';
 import io from 'socket.io-client';
 import store from '@/store';
-// import urls from '@/common/urls';
+import urls from '@/common/urls';
 
-export default {
+const IoService = {
   socket: null,
   scroll: null,
   async getSocket() {
@@ -19,13 +19,7 @@ export default {
 
     this.socket.on('connect', () => {
       console.log('socket连接成功！');
-      // let user = {
-      //   scene: 'cs',
-      //   id: userId,
-      //   shopId: shopId,
-      //   role: 'client'
-      // };
-      // this.socket.emit('/v1/cs/client-connected', user);
+      getSessionList();
     });
 
     // 有新消息
@@ -103,10 +97,39 @@ export default {
   getMessageList(params) {
     this.socket.emit('/v1/im/get-messages', params);
   },
-  // join room
-  joinRoom(id) {
-    this.socket.emit('/v1/im/join-room', {
-      roomId: id
+  // join
+  join(sessionId) {
+    this.socket.emit('/v1/im/join', {
+      sessionId
     });
   }
 };
+
+const getSessionList = () => {
+  http
+    .get(urls.restful.sessions, {})
+    .then(data => {
+      for (const iterator of data) {
+        iterator.isActive = false;
+        iterator.info = {
+          name: ''
+        };
+        iterator.messageList = [];
+      }
+      store.commit('im/updateSessionList', data);
+      setTimeout(() => {
+        for (const message of data) {
+          IoService.getMessageList({
+            sessionId: message.id,
+            pageSize: 1,
+            pageNumber: 10
+          });
+        }
+      }, 20);
+    })
+    .catch(error => {
+      this.$toast(error.errorMessage);
+    });
+};
+
+export default IoService;

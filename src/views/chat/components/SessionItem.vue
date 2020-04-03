@@ -20,20 +20,17 @@ export default {
   created() {
     if (this.session.type === 'chat') {
       this.getUserInfo();
-      // this.joinRoom();
     }
     if (this.session.type === 'groupchat') {
       this.getGroupInfo();
-      this.joinRoom();
     }
+    IoService.join(this.session.id);
   },
   methods: {
     ...mapMutations('im', ['activateSession', 'updateSessionInfo']),
     onClick() {
       this.activateSession({
-        type: this.session.type,
-        targetId: this.session.targetId,
-        isActive: true
+        sessionId: this.session.id
       });
       this.$router.push('/chat');
     },
@@ -62,9 +59,6 @@ export default {
         .catch(error => {
           this.$toast(error.errorMessage);
         });
-    },
-    joinRoom() {
-      IoService.joinRoom(this.session.targetId);
     }
   }
 };
