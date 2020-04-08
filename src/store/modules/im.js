@@ -26,9 +26,6 @@ const mutations = {
     } else {
       conversation.messageList.unshift(message);
     }
-    if (conversation.messageList.length === conversation.messageCount) {
-      conversation.finished = true;
-    }
   },
   clearMessages(state, { conversationId }) {
     const conversation = state.conversationList.find(conversation => {
@@ -38,9 +35,13 @@ const mutations = {
     conversation.pageNumber = 1;
   },
   updateMessageCount(state, { conversationId, messageCount }) {
-    state.conversationList.find(conversation => {
+    const conversation = state.conversationList.find(conversation => {
       return conversation.id === conversationId;
-    }).messageCount = messageCount;
+    });
+    conversation.messageCount = messageCount;
+    if (conversation.messageList.length >= conversation.messageCount) {
+      conversation.finished = true;
+    }
   },
   updateLoading(state, { conversationId, loading }) {
     state.conversationList.find(conversation => {

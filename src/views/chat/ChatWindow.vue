@@ -2,8 +2,7 @@
   <div title="客服" class="cs-chatbox">
     <div class="cs-chat" :style="handleStyle">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
+        <van-list v-model="loading" :finished="finished" @load="onLoad">
           <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
         </van-list>
       </van-pull-refresh>
@@ -105,8 +104,15 @@ export default {
 
 <style lang="scss">
 .cs-chatbox {
+  height: 100%;
   .cs-chat {
     overflow: auto;
+    .van-list {
+      min-height: 50vh;
+    }
+    .van-pull-refresh {
+      height: 100%;
+    }
   }
 }
 </style>

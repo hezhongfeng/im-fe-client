@@ -30,8 +30,6 @@ const IoService = {
 
     // 消息记录
     this.socket.on('/v1/im/get-messages', ({ count, conversationId, messages }) => {
-      // 更新count
-      store.commit('im/updateMessageCount', { messageCount: count, conversationId });
       store.commit('im/updateRefreshing', {
         conversationId: conversationId,
         refreshing: false
@@ -44,6 +42,11 @@ const IoService = {
         handleMessage(message);
         store.commit('im/newMessage', { message, isPush: false });
       }
+
+      // 更新count
+      setTimeout(() => {
+        store.commit('im/updateMessageCount', { messageCount: count, conversationId });
+      }, 50);
     });
 
     // 处理消息体
@@ -136,15 +139,15 @@ const getConversationList = () => {
         iterator.finished = false;
       }
       store.commit('im/updateConversationList', conversationList);
-      // setTimeout(() => {
-      //   for (const conversation of conversationList) {
-      //     IoService.getMessageList({
-      //       conversationId: conversation.id,
-      //       pageSize: conversation.pageSize,
-      //       pageNumber: 1
-      //     });
-      //   }
-      // }, 20);
+      setTimeout(() => {
+        for (const conversation of conversationList) {
+          IoService.getMessageList({
+            conversationId: conversation.id,
+            pageSize: conversation.pageSize,
+            pageNumber: 1
+          });
+        }
+      }, 20);
     })
     .catch(error => {
       this.$toast(error.errorMessage);
