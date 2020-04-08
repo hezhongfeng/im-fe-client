@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     ...mapGetters(['userId', 'userInfo']),
-    ...mapGetters('im', ['activeSession'])
+    ...mapGetters('im', ['activeConversation'])
   },
   watch: {},
   methods: {
@@ -186,10 +186,10 @@ export default {
     },
     send(body) {
       IoService.sendMessage({
-        type: this.activeSession.type,
-        toId: this.activeSession.info.id.toString(),
+        type: this.activeConversation.type,
+        toId: this.activeConversation.info.id.toString(),
         fromId: this.userId,
-        sessionId: this.activeSession.id,
+        conversationId: this.activeConversation.id,
         body
       });
     }

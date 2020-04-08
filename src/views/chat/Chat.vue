@@ -1,18 +1,18 @@
 <template>
   <div class="chat">
     chat
-    <session-list></session-list>
+    <conversation-list></conversation-list>
   </div>
 </template>
 
 <script>
 import IoService from '@/services/io.js';
-import SessionList from './components/SessionList';
+import ConversationList from './components/ConversationList';
 
 export default {
-  name: 'session',
+  name: 'Chat',
   components: {
-    SessionList
+    ConversationList
   },
   props: {},
   data() {

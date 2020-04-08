@@ -86,12 +86,12 @@ export default {
   mounted() {},
   computed: {
     ...mapGetters(['userInfo']),
-    ...mapGetters('im', ['activeSession']),
+    ...mapGetters('im', ['activeConversation']),
     fromName() {
       if (this.message.isMyself) {
         return this.userInfo.nickname + ' ' + this.message.createdAt;
       }
-      return this.message.createdAt + ' ' + this.activeSession.info.name;
+      return this.message.createdAt + ' ' + this.activeConversation.info.name;
     },
     productImg() {
       return this.host + this.productBasicInfo.image;
@@ -117,31 +117,11 @@ export default {
       return this.message.body.msg;
     },
     itemStyle() {
-      if (
-        this.message.body.type === 'session_end' ||
-        this.message.body.type === 'evaluation' ||
-        this.message.body.type === 'roll-out'
-      ) {
-        return {
-          'text-align': 'center',
-          color: '#ccc'
-        };
-      }
       return {
         'text-align': this.message.isMyself ? 'right' : 'left'
       };
     },
     containerStyle() {
-      if (
-        this.message.body.type === 'session_end' ||
-        this.message.body.type === 'evaluation' ||
-        this.message.body.type === 'roll-out'
-      ) {
-        return {
-          'background-color': '#eff1f5',
-          'font-size': '12px'
-        };
-      }
       return {
         'background-color': this.message.isMyself ? '#fef3e5' : '#acd8f6'
       };

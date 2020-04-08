@@ -4,7 +4,7 @@
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <!-- <van-cell v-for="item in list" :key="item" :title="item" /> -->
-          <message-item v-for="(message,index) of activeSession.messageList" :key="index" :message="message"></message-item>
+          <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
         </van-list>
       </van-pull-refresh>
     </div>
@@ -34,7 +34,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('im', ['activeSession']),
+    ...mapGetters('im', ['activeConversation']),
     handleStyle() {
       return {
         height: 'calc(100% - ' + this.enterHeight + 'px)'
@@ -42,17 +42,17 @@ export default {
     }
   },
   watch: {
-    'activeSession.refreshing': function(val) {
+    'activeConversation.refreshing': function(val) {
       if (!val) {
         this.refreshing = false;
       }
     },
-    'activeSession.loading': function(val) {
+    'activeConversation.loading': function(val) {
       if (!val) {
         this.loading = false;
       }
     },
-    'activeSession.finished': {
+    'activeConversation.finished': {
       handler: function(val) {
         if (val) {
           this.finished = true;
@@ -67,33 +67,33 @@ export default {
       // this.loading = false;
       // this.finished = true;
       // IoService.getMessageList({
-      //   sessionId: this.activeSession.id,
-      //   pageSize: this.activeSession.pageSize,
-      //   pageNumber: this.activeSession.pageNumber,
+      //   conversationId: this.activeConversation.id,
+      //   pageSize: this.activeConversation.pageSize,
+      //   pageNumber: this.activeConversation.pageNumber,
       //   instance: this
       // });
       this.updateLoading({
-        sessionId: this.activeSession.id,
+        conversationId: this.activeConversation.id,
         loading: true
       });
       IoService.getMessageList({
-        sessionId: this.activeSession.id,
-        pageSize: this.activeSession.pageSize,
-        pageNumber: this.activeSession.pageNumber
+        conversationId: this.activeConversation.id,
+        pageSize: this.activeConversation.pageSize,
+        pageNumber: this.activeConversation.pageNumber
       });
     },
     onRefresh() {
       this.updateRefreshing({
-        sessionId: this.activeSession.id,
+        conversationId: this.activeConversation.id,
         refreshing: true
       });
       this.clearMessages({
-        sessionId: this.activeSession.id
+        conversationId: this.activeConversation.id
       });
       IoService.getMessageList({
-        sessionId: this.activeSession.id,
-        pageSize: this.activeSession.pageSize,
-        pageNumber: this.activeSession.pageNumber
+        conversationId: this.activeConversation.id,
+        pageSize: this.activeConversation.pageSize,
+        pageNumber: this.activeConversation.pageNumber
       });
     },
     changeHight(height) {

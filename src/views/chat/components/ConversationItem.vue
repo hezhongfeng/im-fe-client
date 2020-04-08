@@ -1,5 +1,5 @@
 <template>
-  <div class="session-item" @click="onClick">{{session.info.name||session.info.nickname}}</div>
+  <div class="conversation-item" @click="onClick">{{conversation.info.name||conversation.info.nickname}}</div>
 </template>
 
 <script>
@@ -7,10 +7,10 @@ import IoService from '@/services/io.js';
 import { mapMutations } from 'vuex';
 
 export default {
-  name: 'SessionItem',
+  name: 'ConversationItem',
   components: {},
   props: {
-    session: Object
+    conversation: Object
   },
   data() {
     return {};
@@ -18,28 +18,28 @@ export default {
   computed: {},
   watch: {},
   created() {
-    if (this.session.type === 'chat') {
+    if (this.conversation.type === 'chat') {
       this.getUserInfo();
     }
-    if (this.session.type === 'groupchat') {
+    if (this.conversation.type === 'groupchat') {
       this.getGroupInfo();
     }
-    IoService.join(this.session.id);
+    IoService.join(this.conversation.id);
   },
   methods: {
-    ...mapMutations('im', ['activateSession', 'updateSessionInfo']),
+    ...mapMutations('im', ['activateConversation', 'updateConversationInfo']),
     onClick() {
-      this.activateSession({
-        sessionId: this.session.id
+      this.activateConversation({
+        conversationId: this.conversation.id
       });
       this.$router.push('/chat');
     },
     getUserInfo() {
       this.$http
-        .get(`${this.$urls.restful.userInfo}/${this.session.targetId}`, {})
+        .get(`${this.$urls.restful.userInfo}/${this.conversation.targetId}`, {})
         .then(data => {
-          this.updateSessionInfo({
-            sessionId: this.session.id,
+          this.updateConversationInfo({
+            conversationId: this.conversation.id,
             info: data
           });
         })
@@ -49,10 +49,10 @@ export default {
     },
     getGroupInfo() {
       this.$http
-        .get(`${this.$urls.restful.groups}/${this.session.targetId}`, {})
+        .get(`${this.$urls.restful.groups}/${this.conversation.targetId}`, {})
         .then(data => {
-          this.updateSessionInfo({
-            sessionId: this.session.id,
+          this.updateConversationInfo({
+            conversationId: this.conversation.id,
             info: data
           });
         })
@@ -65,6 +65,6 @@ export default {
 </script>
 
 <style lang="scss">
-.session-item {
+.conversation-item {
 }
 </style>

@@ -19,7 +19,7 @@ const IoService = {
 
     this.socket.on('connect', () => {
       console.log('socket连接成功！');
-      getSessionList();
+      getConversationList();
     });
 
     // 有新消息
@@ -29,15 +29,15 @@ const IoService = {
     });
 
     // 消息记录
-    this.socket.on('/v1/im/get-messages', ({ count, sessionId, messages }) => {
+    this.socket.on('/v1/im/get-messages', ({ count, conversationId, messages }) => {
       // 更新count
-      store.commit('im/updateMessageCount', { messageCount: count, sessionId });
+      store.commit('im/updateMessageCount', { messageCount: count, conversationId });
       store.commit('im/updateRefreshing', {
-        sessionId: sessionId,
+        conversationId: conversationId,
         refreshing: false
       });
       store.commit('im/updateLoading', {
-        sessionId: sessionId,
+        conversationId: conversationId,
         loading: false
       });
       for (const message of messages) {
@@ -104,26 +104,26 @@ const IoService = {
     this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录
-  getMessageList({ sessionId, pageSize, pageNumber }) {
+  getMessageList({ conversationId, pageSize, pageNumber }) {
     this.socket.emit('/v1/im/get-messages', {
-      sessionId,
+      conversationId,
       pageSize,
       pageNumber
     });
   },
   // join
-  join(sessionId) {
+  join(conversationId) {
     this.socket.emit('/v1/im/join', {
-      sessionId
+      conversationId
     });
   }
 };
 
-const getSessionList = () => {
+const getConversationList = () => {
   http
-    .get(urls.restful.sessions, {})
-    .then(sessionList => {
-      for (const iterator of sessionList) {
+    .get(urls.restful.conversations, {})
+    .then(conversationList => {
+      for (const iterator of conversationList) {
         iterator.isActive = false;
         iterator.info = {
           name: ''
@@ -135,16 +135,16 @@ const getSessionList = () => {
         iterator.loading = false;
         iterator.finished = false;
       }
-      store.commit('im/updateSessionList', sessionList);
-      setTimeout(() => {
-        for (const session of sessionList) {
-          IoService.getMessageList({
-            sessionId: session.id,
-            pageSize: session.pageSize,
-            pageNumber: 1
-          });
-        }
-      }, 20);
+      store.commit('im/updateConversationList', conversationList);
+      // setTimeout(() => {
+      //   for (const conversation of conversationList) {
+      //     IoService.getMessageList({
+      //       conversationId: conversation.id,
+      //       pageSize: conversation.pageSize,
+      //       pageNumber: 1
+      //     });
+      //   }
+      // }, 20);
     })
     .catch(error => {
       this.$toast(error.errorMessage);
