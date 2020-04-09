@@ -10,9 +10,6 @@ const getters = {
   activeConversation(state) {
     return state.conversationList.find(item => item.isActive === true);
   }
-  // messageList(state) {
-  //   return state.conversationList.find(item => item.isActive === true).messageList;
-  // }
 };
 
 // mutations
@@ -27,7 +24,7 @@ const mutations = {
       state.conversationList[index].messageList.unshift(message);
     }
 
-    // // 调序，将这个会话排序上调
+    // 调序，将这个会话排序上调
     const conversation = state.conversationList.splice(index, 1)[0];
     state.conversationList.unshift(conversation);
   },

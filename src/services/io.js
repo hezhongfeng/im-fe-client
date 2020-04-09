@@ -1,16 +1,15 @@
-// import emoji from '@/utils/emoji';
 import http from '@/common/http';
 import io from 'socket.io-client';
 import store from '@/store';
 import urls from '@/common/urls';
+import config from '@../config/config';
 
 const IoService = {
   socket: null,
   scroll: null,
   async getSocket() {
-    // const data = await http.get(urls.customService.storeInfo);
     const userId = store.getters.userId;
-    this.socket = io('http://127.0.0.1:7001', {
+    this.socket = io(config.ioioHost, {
       query: {
         scene: 'im',
         userId: userId
@@ -54,38 +53,9 @@ const IoService = {
       //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
       // }
 
-      // if (message.payload.body.type === 'video') {
-      //   message.payload.body.poster = message.payload.body.url.replace(/\.\w+$/, '') + '.jpg';
-      // }
-
+      // 在入口处直接添加isMyself
       message.isMyself = store.getters.userId === message.fromId;
     };
-
-    // 处理存储的消息
-    // const handleSavedMessage = message => {
-    //   message.from = {
-    //     id: message.fromId
-    //   };
-    //   message.to = {
-    //     id: message.toId
-    //   };
-    //   message.payload = { body: message.body };
-    // };
-
-    // 新消息
-    // const newMessageSave = message => {
-    //   store.commit('CustomService/newMessage', {
-    //     message: {
-    //       id: message.isMyself ? message.toId : message.fromId,
-    //       fromName: message.from.name,
-    //       head: message.isMyself ? userInfo.headerUrl || '' : message.from.head,
-    //       timestamp: message.timestamp,
-    //       body: message.payload.body,
-    //       isMyself: message.isMyself,
-    //       isRobot: message.isRobot
-    //     }
-    //   });
-    // };
   },
   connect() {
     if (this.socket) {
