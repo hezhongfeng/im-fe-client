@@ -52,7 +52,7 @@ export default {
             userInfo: data.userInfo
           });
           this.$nextTick(() => {
-            this.$router.push('/');
+            this.$router.replace('/');
           });
         })
         .catch(error => {

@@ -1,5 +1,5 @@
 module.exports = {
-  userId: 3,
+  userId: 6,
   userInfo: {
     id: 3,
     nickname: 'hezf',

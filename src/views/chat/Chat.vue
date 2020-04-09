@@ -1,6 +1,5 @@
 <template>
   <div class="chat">
-    chat
     <conversation-list></conversation-list>
   </div>
 </template>

@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'SignUp',
   components: {},
@@ -31,6 +33,7 @@ export default {
   watch: {},
   created() {},
   methods: {
+    ...mapMutations(['updateUserId']),
     onSubmit() {
       this.$http
         .post(this.$urls.login.signup, {
@@ -39,6 +42,12 @@ export default {
         })
         .then(data => {
           this.$toast.success('注册成功');
+          this.updateUserId({
+            userId: data.id
+          });
+          this.$nextTick(() => {
+            this.$router.replace('/');
+          });
         })
         .catch(error => {
           this.$toast(error.errorMessage);

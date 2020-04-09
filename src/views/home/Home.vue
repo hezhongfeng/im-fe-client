@@ -5,6 +5,12 @@
         <chat />
       </tab-item>
       <tab-item>
+        <div style="width: 100vw;">1</div>
+      </tab-item>
+      <tab-item>
+        <div style="width: 100vw;">1</div>
+      </tab-item>
+      <tab-item>
         <mine />
       </tab-item>
     </tab-switch>

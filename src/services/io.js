@@ -2,7 +2,7 @@ import http from '@/common/http';
 import io from 'socket.io-client';
 import store from '@/store';
 import urls from '@/common/urls';
-import config from '@../config/config';
+import config from '../../config/config';
 
 const IoService = {
   socket: null,
