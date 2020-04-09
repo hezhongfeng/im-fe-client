@@ -40,9 +40,8 @@ const IoService = {
       });
       for (const message of messages) {
         handleMessage(message);
-        store.commit('im/newMessage', { message, isPush: false });
       }
-
+      store.commit('im/newMessages', { conversationId, messages });
       // 更新count
       setTimeout(() => {
         store.commit('im/updateMessageCount', { messageCount: count, conversationId });

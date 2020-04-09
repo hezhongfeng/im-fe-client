@@ -91,7 +91,7 @@ export default {
       if (this.message.isMyself) {
         return this.userInfo.nickname + ' ' + this.message.createdAt;
       }
-      return this.message.createdAt + ' ' + this.activeConversation.info.name;
+      return this.message.createdAt + ' ' + this.activeConversation.info.name || this.activeConversation.info.nickname;
     },
     productImg() {
       return this.host + this.productBasicInfo.image;

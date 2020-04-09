@@ -9,21 +9,34 @@ const getters = {
   },
   activeConversation(state) {
     return state.conversationList.find(item => item.isActive === true);
-  },
-  messageList(state) {
-    return state.conversationList.find(item => item.isActive === true).messageList;
   }
+  // messageList(state) {
+  //   return state.conversationList.find(item => item.isActive === true).messageList;
+  // }
 };
 
 // mutations
 const mutations = {
+  // 单条新消息
   newMessage(state, { message, isPush = true }) {
-    const conversation = state.conversationList.find(conversation => {
-      return conversation.id === message.conversationId;
-    });
+    const index = state.conversationList.findIndex(conversation => conversation.id === message.conversationId);
+    console.log(index);
     if (isPush) {
-      conversation.messageList.push(message);
+      state.conversationList[index].messageList.push(message);
     } else {
+      state.conversationList[index].messageList.unshift(message);
+    }
+
+    // // 调序，将这个会话排序上调
+    const conversation = state.conversationList.splice(index, 1)[0];
+    state.conversationList.unshift(conversation);
+  },
+  // 批量消息
+  newMessages(state, { conversationId, messages }) {
+    const conversation = state.conversationList.find(conversation => {
+      return conversation.id === conversationId;
+    });
+    for (const message of messages) {
       conversation.messageList.unshift(message);
     }
   },
