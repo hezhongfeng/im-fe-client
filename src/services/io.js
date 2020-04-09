@@ -119,7 +119,7 @@ const getConversationList = () => {
       }, 20);
     })
     .catch(error => {
-      this.$toast(error.errorMessage);
+      console.log(error.errorMessage);
     });
 };
 

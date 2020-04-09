@@ -1,5 +1,5 @@
 <template>
-  <div title="客服" class="cs-chatbox">
+  <div class="cs-chatbox">
     <div class="cs-chat" :style="handleStyle">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" @load="onLoad">
