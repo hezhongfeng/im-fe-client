@@ -6,6 +6,7 @@ import SignUp from '@/views/login/SignUp.vue';
 import Home from '@/views/home/Home.vue';
 import ChatWindow from '@/views/chat/ChatWindow.vue';
 import AddFriend from '@/views/add/AddFriend.vue';
+import mine from './mine';
 
 Vue.use(VueRouter);
 
@@ -29,7 +30,12 @@ const routes = [
   {
     path: '/add-friend',
     component: AddFriend
-  }
+  },
+  {
+    path: '/add-friend',
+    component: AddFriend
+  },
+  ...mine
 ];
 
 const router = new VueRouter({

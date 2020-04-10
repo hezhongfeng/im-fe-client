@@ -9,7 +9,7 @@ const IoService = {
   scroll: null,
   async getSocket() {
     const userId = store.getters.userId;
-    this.socket = io(config.ioioHost, {
+    this.socket = io(config.ioHost, {
       query: {
         scene: 'im',
         userId: userId

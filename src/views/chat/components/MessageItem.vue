@@ -6,7 +6,7 @@
         <img :src="csHead" />
       </div>
       <div class="container">
-        <div class="container-text" v-if="message.body.type==='text'" v-html="bodyMessage"></div>
+        <div class="container-text" v-if="message.body.type==='text'" v-html="message.body.msg"></div>
 
         <div class="image" v-if="message.body.type==='image'">
           <img :src="message.body.url" @load="imgOnload" @click="imgPreview" />
@@ -31,9 +31,6 @@
 import { mapGetters, mapMutations } from 'vuex';
 // import { BizLocationMap } from '@/components/hy-location';
 import defaultUser from '@/assets/images/default.png';
-// import csDefault from '@/assets/img/custom-service/csdefault.png';
-// import customService from '@/services/module/custom-service';
-// import Sector from './components/SectorProgress';
 import Xgplayer from 'xgplayer-vue';
 
 export default {
@@ -79,42 +76,32 @@ export default {
     message: Object
   },
   created() {
-    if (this.message.body.type === 'product') {
-      this.getProductInfo();
+    if (
+      !this.message.isMyself &&
+      this.activeConversation.type === 'groupchat' &&
+      !this.userInfoList.some(item => item.userId === this.message.fromId)
+    ) {
+      this.getUserInfo();
     }
   },
   mounted() {},
   computed: {
     ...mapGetters(['userInfo']),
-    ...mapGetters('im', ['activeConversation']),
+    ...mapGetters('im', ['activeConversation', 'userInfoList']),
     fromName() {
       if (this.message.isMyself) {
         return this.userInfo.nickname + ' ' + this.message.createdAt;
       }
-      return this.message.createdAt + ' ' + this.activeConversation.info.name || this.activeConversation.info.nickname;
+      return this.message.createdAt + ' ' + this.fromUserInfo.nickname;
+    },
+    fromUserInfo() {
+      if (this.activeConversation.type === 'chat') {
+        return this.activeConversation.info;
+      }
+      return this.userInfoList.find(item => item.id === this.message.fromId) || { name: '' };
     },
     productImg() {
       return this.host + this.productBasicInfo.image;
-    },
-    bodyMessage() {
-      // let reg;
-      // let str = this.message.body.msg;
-      // reg = str.replace(/([(0-9\s\-)]{7,}|0\d{2}-\d{7,8})/g, '<a href="tel:$1">$1</a>');
-      // if (this.isNative) {
-      //   this.$nextTick(() => {
-      //     let telGroup = document.querySelectorAll('a[href^=tel]');
-      //     // console.log('tegGroup: ', telGroup);
-      //     telGroup.forEach(tel => {
-      //       if (!tel.onclick) {
-      //         tel.onclick = this.call;
-      //       }
-      //       // tel.addEventListener('click', this.call);
-      //     });
-      //   });
-      // }
-      // console.log('reg: ', reg);
-      // return reg;
-      return this.message.body.msg;
     },
     itemStyle() {
       return {
@@ -150,34 +137,26 @@ export default {
       };
     },
     csHead() {
-      // if (this.isMyself) {
-      //   return {};
-      // }
-      // // if (this.message.isRobot) {
-      // //   return this.csDefault;
-      // // }
-      // return this.message.head ? this.host + this.message.head : this.defaultUser;
+      if (this.message.isMyself && this.userInfo.photo) {
+        return this.userInfo.photo;
+      }
+      if (this.fromUserInfo.photo) {
+        return this.fromUserInfo.photo;
+      }
 
       return this.defaultUser;
     }
   },
   components: {
     Xgplayer
-    // Sector,
-    // BizLocationMap
   },
   methods: {
-    ...mapMutations('CustomService', ['updateEvaluateByTimestamp']),
-    getProductInfo() {
-      const params = {
-        clientType: this.clientType,
-        shopId: this.current.shopId,
-        productId: this.message.body.id
-      };
+    ...mapMutations('im', ['addUserInfo']),
+    getUserInfo() {
       this.$http
-        .get(this.$urls.vShop.goods, params)
+        .get(this.$urls.restful.userInfo + `/${this.message.fromId}`, {})
         .then(data => {
-          this.productBasicInfo = data.product;
+          this.addUserInfo(data);
         })
         .catch(err => {
           console.log(err);
@@ -187,42 +166,11 @@ export default {
     onProduct() {
       this.$router.push({ path: `/goods/${this.message.body.id}` });
     },
-    call(e) {
-      e.preventDefault();
-      let { href } = e.target;
-      href = href.replace('tel:', '');
-      // console.log('call: ', href);
-
-      this.$call(
-        {
-          phone: href
-        },
-        () => {
-          console.log('调用成功');
-        }
-      );
-    },
-    loadeddata() {
-      console.log('loadeddata', new Date());
-    },
     imgOnload(event) {
       this.$emit('img-onload');
     },
-    activeEvaluate(value) {
-      const num = Number(value);
-      return Number(this.activeOption.value) >= num;
-    },
-    seleckEvaluate(option) {
-      if (this.message.body.hasEvaluate) {
-        return;
-      }
-      this.activeOption = option;
-    },
     imgPreview() {
       this.$emit('img-preview');
-    },
-    openLoc() {
-      this.$emit('loc-preview');
     }
   }
 };

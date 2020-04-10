@@ -1,5 +1,6 @@
 const state = {
-  conversationList: []
+  conversationList: [],
+  userInfoList: []
 };
 
 // getters
@@ -9,6 +10,9 @@ const getters = {
   },
   activeConversation(state) {
     return state.conversationList.find(item => item.isActive === true);
+  },
+  userInfoList(state) {
+    return state.userInfoList;
   }
 };
 
@@ -81,6 +85,11 @@ const mutations = {
     state.conversationList.find(conversation => {
       return conversation.id === conversationId;
     }).isActive = true;
+  },
+  addUserInfo(state, userInfo) {
+    if (!state.userInfoList.some(item => item.userId === userInfo.userId)) {
+      state.userInfoList.push(userInfo);
+    }
   }
 };
 

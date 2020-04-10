@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import IoService from '@/services/io.js';
+import IoService from '@/services/io.js';
 import ConversationList from './components/ConversationList';
 
 export default {
@@ -32,10 +32,12 @@ export default {
   computed: {},
   watch: {},
   created() {
-    // IoService.connect();
+    if (this.$checkLogin()) {
+      IoService.connect();
+    }
   },
   beforeDestroy() {
-    // IoService.disconnect();
+    IoService.disconnect();
   },
   methods: {
     onAdd() {
