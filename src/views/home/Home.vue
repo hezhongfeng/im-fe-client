@@ -5,7 +5,8 @@
         <chat />
       </tab-item>
       <tab-item>
-        <div style="width: 100vw;">1</div>
+        <!-- <div style="width: 100vw;">1</div> -->
+        <mail-list></mail-list>
       </tab-item>
       <tab-item>
         <div style="width: 100vw;">1</div>
@@ -27,6 +28,7 @@
 import TabSwitch from './components/TabSwitch';
 import TabItem from './components/TabItem';
 import Chat from '@/views/chat/Chat';
+import MailList from '@/views/mail-list/MailList';
 import Mine from '@/views/mine/Mine';
 
 export default {
@@ -35,6 +37,7 @@ export default {
     TabSwitch,
     TabItem,
     Chat,
+    MailList,
     Mine
   },
   props: {},
