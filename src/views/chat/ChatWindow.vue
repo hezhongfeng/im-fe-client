@@ -110,9 +110,6 @@ export default {
     .van-list {
       min-height: 50vh;
     }
-    .van-pull-refresh {
-      height: 100%;
-    }
   }
 }
 </style>
