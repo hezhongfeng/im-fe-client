@@ -46,6 +46,7 @@ export default {
     transition: opacity 0.5s, transform 0.5s;
     width: 100%;
     height: 100%;
+    background-color: #ededed;
   }
   .forward-enter,
   .back-leave-active {
