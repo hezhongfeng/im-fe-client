@@ -32,5 +32,6 @@ export default {
 
 <style lang="scss">
 .mail-list {
+  width: 100vw;
 }
 </style>

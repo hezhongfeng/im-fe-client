@@ -16,7 +16,8 @@
 <script>
 import IoService from '@/services/io.js';
 import { mapMutations } from 'vuex';
-import defaultUser from '@/assets/images/default.png';
+import defaultHead from '@/assets/images/head.png';
+import defaultGroup from '@/assets/images/group.png';
 
 export default {
   name: 'ConversationItem',
@@ -26,18 +27,33 @@ export default {
   },
   data() {
     return {
-      defaultUser: defaultUser
+      defaultHead: defaultHead,
+      defaultGroup: defaultGroup
     };
   },
   computed: {
     head() {
-      return this.conversation.info.photo || this.defaultUser;
+      return this.conversation.info.photo || this.conversation.type === 'chat' ? this.defaultHead : defaultGroup;
     },
     lastMessage() {
-      if (this.conversation.messageList.length > 1) {
-        return this.conversation.messageList[this.conversation.messageList.length - 1].body.msg;
+      let lastMessage = null;
+      if (this.conversation.messageList.length > 0) {
+        lastMessage = this.conversation.messageList[this.conversation.messageList.length - 1];
       }
-      return '';
+      if (!lastMessage) {
+        return '';
+      }
+      switch (lastMessage.body.type) {
+        case 'text':
+          return lastMessage.body.msg;
+        case 'image':
+          return '图片消息';
+        case 'video':
+          return '视频消息';
+
+        default:
+          return '';
+      }
     }
   },
   watch: {},
@@ -92,6 +108,7 @@ export default {
 .conversation-item {
   display: flex;
   align-items: center;
+  min-height: 60px;
   .avator {
     margin-left: 10px;
     width: 40px;
@@ -108,7 +125,7 @@ export default {
     padding: 10px;
     display: flex;
     flex-direction: column;
-    flex-grow: 5;
+    width: calc(100% - 50px);
     position: relative;
     .name-time {
       display: flex;
@@ -125,6 +142,10 @@ export default {
     .last-message {
       color: #d8d8d8;
       font-size: 14px;
+      height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     &::after {
       position: absolute;

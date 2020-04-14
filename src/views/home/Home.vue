@@ -5,21 +5,20 @@
         <chat />
       </tab-item>
       <tab-item>
-        <!-- <div style="width: 100vw;">1</div> -->
         <mail-list></mail-list>
       </tab-item>
       <tab-item>
-        <div style="width: 100vw;">1</div>
+        <div style="width: 100vw;"></div>
       </tab-item>
       <tab-item>
         <mine />
       </tab-item>
     </tab-switch>
     <van-tabbar v-model="active">
-      <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="search">标签</van-tabbar-item>
+      <van-tabbar-item icon="chat-o">chat</van-tabbar-item>
+      <van-tabbar-item icon="friends-o">通讯录</van-tabbar-item>
       <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
