@@ -4,7 +4,7 @@
       <div class="avator">
         <img :src="avator" />
       </div>
-      <div class="info">
+      <div class="info" @click="onEditUserInfo">
         <div class="nickname">昵称：{{userInfo.nickname}}</div>
         <div class="account">签名：{{userInfo.sign}}</div>
       </div>
@@ -31,7 +31,11 @@ export default {
   },
   watch: {},
   created() {},
-  methods: {}
+  methods: {
+    onEditUserInfo() {
+      this.$router.push('/mine/userinfo');
+    }
+  }
 };
 </script>
 
