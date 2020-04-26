@@ -1,14 +1,22 @@
 <template>
-  <div class="mail-list"></div>
+  <div class="mail-list">
+    <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
+  </div>
 </template>
 
 <script>
+import MailItem from './compenents/MailItem';
+
 export default {
   name: 'MailList',
-  components: {},
+  components: {
+    MailItem
+  },
   props: {},
   data() {
-    return {};
+    return {
+      mailList: []
+    };
   },
   computed: {},
   watch: {},
@@ -21,7 +29,7 @@ export default {
       this.$http
         .get(this.$urls.mailList.mailList, {})
         .then(data => {
-          console.log(data);
+          this.mailList = data.filter(item => item.type === 'chat');
         })
         .catch(error => {
           this.$toast(error.errorMessage);

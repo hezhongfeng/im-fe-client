@@ -7,6 +7,7 @@ import Home from '@/views/home/Home.vue';
 import ChatWindow from '@/views/chat/ChatWindow.vue';
 import AddFriend from '@/views/add/AddFriend.vue';
 import mine from './mine';
+import GroupList from '@/views/mail-list/GroupList.vue';
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,10 @@ const routes = [
   {
     path: '/add-friend',
     component: AddFriend
+  },
+  {
+    path: '/group-list',
+    component: GroupList
   },
   ...mine
 ];
