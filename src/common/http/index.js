@@ -14,19 +14,19 @@ const responseHandle = function(response) {
 };
 
 export default {
-  async get(url, params) {
+  async get(url, params = {}) {
     const response = await axios.get(url, { params: params });
     return responseHandle(response);
   },
-  async post(url, params) {
+  async post(url, params = {}) {
     const response = await axios.post(url, params);
     return responseHandle(response);
   },
-  async put(url, params) {
+  async put(url, params = {}) {
     const response = await axios.put(url, params);
     return responseHandle(response);
   },
-  async delete(url, params) {
+  async delete(url, params = {}) {
     const response = await axios.delete(url, { data: params });
     return responseHandle(response);
   }
