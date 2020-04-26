@@ -1,6 +1,6 @@
 <template>
   <div class="user-info">
-    <van-cell title="头像" is-link class="avator-wrap">
+    <van-cell title="头像" is-link class="avator-wrap" to="/mine/edit-avator">
       <template #default>
         <div class="avator">
           <img :src="avator" />
@@ -8,7 +8,7 @@
       </template>
     </van-cell>
     <van-cell title="昵称" is-link :value="userInfo.nickname" />
-    <van-cell title="签名" is-link :value="userInfo.sign" to="/mine/editsign" />
+    <van-cell title="签名" is-link :value="userInfo.sign" to="/mine/edit-sign" />
   </div>
 </template>
 

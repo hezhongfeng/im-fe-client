@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     head() {
-      return this.conversation.info.photo || this.conversation.type === 'chat' ? this.defaultHead : defaultGroup;
+      return this.conversation.info.photo || (this.conversation.type === 'chat' ? this.defaultHead : this.defaultGroup);
     },
     lastMessage() {
       let lastMessage = null;
