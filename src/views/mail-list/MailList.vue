@@ -14,11 +14,22 @@ export default {
   watch: {},
   created() {
     this.getMailList();
+    this.getApplies();
   },
   methods: {
     getMailList() {
       this.$http
         .get(this.$urls.mailList.mailList, {})
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    },
+    getApplies() {
+      this.$http
+        .get(this.$urls.add.applies, {})
         .then(data => {
           console.log(data);
         })
