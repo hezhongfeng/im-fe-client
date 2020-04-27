@@ -1,6 +1,6 @@
 <template>
   <div class="mail-item">
-    <div class="avator"></div>
+    <div class="avatar"></div>
     <div class="name">{{mail.target.name}}</div>
   </div>
 </template>

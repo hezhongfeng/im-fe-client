@@ -1,6 +1,6 @@
 <template>
   <div class="conversation-item" @click="onClick">
-    <div class="avator">
+    <div class="avatar">
       <img :src="head" />
     </div>
     <div class="left">
@@ -109,7 +109,7 @@ export default {
   display: flex;
   align-items: center;
   min-height: 60px;
-  .avator {
+  .avatar {
     margin-left: 10px;
     width: 40px;
     height: 40px;

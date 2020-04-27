@@ -1,7 +1,7 @@
 import Setting from '@/views/mine/Setting.vue';
 import UserInfo from '@/views/mine/UserInfo.vue';
 import EditSign from '@/views/mine/EditSign.vue';
-import EditAvator from '@/views/mine/EditAvator.vue';
+import EditAvatar from '@/views/mine/EditAvatar.vue';
 
 export default [
   {
@@ -17,7 +17,7 @@ export default [
     component: EditSign
   },
   {
-    path: '/mine/edit-avator',
-    component: EditAvator
+    path: '/mine/edit-avatar',
+    component: EditAvatar
   }
 ];

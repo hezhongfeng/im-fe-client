@@ -1,6 +1,6 @@
 <template>
   <div class="group-item">
-    <div class="avator"></div>
+    <div class="avatar"></div>
     <div class="name">{{group.target.name}}</div>
   </div>
 </template>

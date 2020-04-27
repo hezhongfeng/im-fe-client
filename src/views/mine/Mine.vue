@@ -1,8 +1,8 @@
 <template>
   <div class="mine">
     <div class="user-info">
-      <div class="avator">
-        <img :src="avator" />
+      <div class="avatar">
+        <img :src="avatar" />
       </div>
       <div class="info" @click="onEditUserInfo">
         <div class="nickname">昵称：{{userInfo.nickname}}</div>
@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    avator() {
+    avatar() {
       return this.userInfo.photo || '/public/images/head.png';
     }
   },
@@ -48,7 +48,7 @@ export default {
     background-color: #fff;
     padding: 15px;
     margin-bottom: 10px;
-    .avator {
+    .avatar {
       width: 50px;
       height: 50px;
       margin-right: 15px;

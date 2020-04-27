@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-avator">
+  <div class="edit-avatar">
     <vue-cropper ref="cropper" autoCrop="true" :img="userInfo.photo"></vue-cropper>
     <div class="bottom">
       <van-button type="primary" block>选择图片</van-button>
@@ -12,7 +12,7 @@
 import { mapGetters } from 'vuex';
 import { VueCropper } from 'vue-cropper';
 export default {
-  name: 'EditAvator',
+  name: 'EditAvatar',
   components: {
     VueCropper
   },
@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-.edit-avator {
+.edit-avatar {
   position: relative;
   .vue-cropper {
     width: 100vw;

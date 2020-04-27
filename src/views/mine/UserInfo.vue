@@ -1,9 +1,9 @@
 <template>
   <div class="user-info">
-    <van-cell title="头像" is-link class="avator-wrap" to="/mine/edit-avator">
+    <van-cell title="头像" is-link class="avatar-wrap" to="/mine/edit-avatar">
       <template #default>
-        <div class="avator">
-          <img :src="avator" />
+        <div class="avatar">
+          <img :src="avatar" />
         </div>
       </template>
     </van-cell>
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    avator() {
+    avatar() {
       return this.userInfo.photo || '/public/images/head.png';
     }
   },
@@ -36,14 +36,14 @@ export default {
 
 <style lang="scss">
 .user-info {
-  .avator-wrap {
+  .avatar-wrap {
     line-height: 44px;
     .van-cell__left-icon,
     .van-cell__right-icon {
       height: 44px;
       line-height: 44px;
     }
-    .avator {
+    .avatar {
       width: 40px;
       height: 40px;
       position: absolute;
