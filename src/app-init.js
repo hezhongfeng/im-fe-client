@@ -2,6 +2,7 @@ import Vue from 'vue';
 import urls from '@/common/urls';
 import http from '@/common/http';
 import store from '@/store';
+import ViewPage from '@/compenents/ViewPage.vue';
 const devConfig = require('../config/dev-config');
 
 export default function() {
@@ -25,6 +26,10 @@ export default function() {
       store.commit('updateUserId', { userId: devConfig.userId });
       store.commit('updateUserInfo', { userInfo: devConfig.userInfo });
     }
+
+    // 注册全局组件
+    Vue.component('view-page', ViewPage);
+
     resolve();
   });
 }
