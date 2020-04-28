@@ -21,7 +21,18 @@ export default {
   computed: {},
   watch: {},
   created() {},
-  methods: {}
+  methods: {
+    getGroupList() {
+      this.$http
+        .get(this.$urls.mailList.groupList, {})
+        .then(data => {
+          this.groupList = data;
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    }
+  }
 };
 </script>
 

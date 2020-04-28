@@ -8,6 +8,7 @@ import ChatWindow from '@/views/chat/ChatWindow.vue';
 import AddFriend from '@/views/add/AddFriend.vue';
 import mine from './mine';
 import GroupList from '@/views/mail-list/GroupList.vue';
+import ApplyList from '@/views/mail-list/ApplyList.vue';
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,10 @@ const routes = [
   {
     path: '/group-list',
     component: GroupList
+  },
+  {
+    path: '/apply-list',
+    component: ApplyList
   },
   ...mine
 ];

@@ -1,5 +1,15 @@
 <template>
   <div class="mail-list">
+    <van-cell title="新的申请" is-link>
+      <template #icon>
+        <i class="iconfont iconqunliao"></i>
+      </template>
+    </van-cell>
+    <van-cell title="群组" is-link>
+      <template #icon>
+        <i class="iconfont iconqunliao"></i>
+      </template>
+    </van-cell>
     <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
   </div>
 </template>
@@ -27,9 +37,9 @@ export default {
   methods: {
     getMailList() {
       this.$http
-        .get(this.$urls.mailList.mailList, {})
+        .get(this.$urls.mailList.mailList)
         .then(data => {
-          this.mailList = data.filter(item => item.type === 'chat');
+          this.mailList = data;
         })
         .catch(error => {
           this.$toast(error.errorMessage);
@@ -37,7 +47,7 @@ export default {
     },
     getApplies() {
       this.$http
-        .get(this.$urls.add.applies, {})
+        .get(this.$urls.add.applies)
         .then(data => {
           console.log(data);
         })
