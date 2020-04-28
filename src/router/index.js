@@ -4,11 +4,10 @@ import store from '@/store';
 import Login from '@/views/login/Login.vue';
 import SignUp from '@/views/login/SignUp.vue';
 import Home from '@/views/home/Home.vue';
-import ChatWindow from '@/views/chat/ChatWindow.vue';
-import AddFriend from '@/views/add/AddFriend.vue';
+import addFriend from './add-friend';
+import chat from './chat';
 import mine from './mine';
-import GroupList from '@/views/mail-list/GroupList.vue';
-import ApplyList from '@/views/mail-list/ApplyList.vue';
+import mailList from './mail-list';
 
 Vue.use(VueRouter);
 
@@ -25,26 +24,9 @@ const routes = [
     path: '/signup',
     component: SignUp
   },
-  {
-    path: '/chat',
-    component: ChatWindow
-  },
-  {
-    path: '/add-friend',
-    component: AddFriend
-  },
-  {
-    path: '/add-friend',
-    component: AddFriend
-  },
-  {
-    path: '/group-list',
-    component: GroupList
-  },
-  {
-    path: '/apply-list',
-    component: ApplyList
-  },
+  ...addFriend,
+  ...chat,
+  ...mailList,
   ...mine
 ];
 
@@ -54,10 +36,11 @@ const router = new VueRouter({
   routes
 });
 
-const routeList = ['/login', '/signup'];
+// 白名单
+const routeWhiteList = ['/login', '/signup'];
 
 router.beforeEach((to, from, next) => {
-  if (routeList.indexOf(to.path) === -1 && !store.getters.userId) {
+  if (routeWhiteList.indexOf(to.path) === -1 && !store.getters.userId) {
     next('/login');
   } else {
     next();
