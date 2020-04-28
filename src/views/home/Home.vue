@@ -16,9 +16,24 @@
     </tab-switch>
     <van-tabbar v-model="active">
       <van-tabbar-item icon="chat-o">chat</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">通讯录</van-tabbar-item>
-      <van-tabbar-item icon="friends-o">ToDo</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">我的</van-tabbar-item>
+      <van-tabbar-item>
+        <template #icon>
+          <i class="iconfont icontongxunlu" style="font-size: 20px;"></i>
+        </template>
+        <template #default>通讯录</template>
+      </van-tabbar-item>
+      <van-tabbar-item>
+        <template #icon>
+          <i class="iconfont iconfaxian" style="font-size: 20px;"></i>
+        </template>
+        <template #default>ToDo</template>
+      </van-tabbar-item>
+      <van-tabbar-item icon="setting-o">
+        <template #icon>
+          <i class="iconfont iconwode" style="font-size: 20px;"></i>
+        </template>
+        <template #default>我的</template>
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

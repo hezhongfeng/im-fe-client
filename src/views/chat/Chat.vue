@@ -2,7 +2,8 @@
   <div class="chat">
     <van-nav-bar title="chat">
       <template #right>
-        <van-icon name="add-o" size="18" @click="onAdd" />
+        <van-icon name="plus" size="18" @click="onAdd" />
+        <!-- <van-icon name="plus" /> -->
       </template>
     </van-nav-bar>
     <div class="chat-menu" v-show="showMenu">

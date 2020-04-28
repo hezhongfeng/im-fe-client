@@ -106,6 +106,7 @@ export default {
 
 <style lang="scss">
 .conversation-item {
+  background-color: $color-white;
   display: flex;
   align-items: center;
   min-height: 60px;
