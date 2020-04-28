@@ -1,12 +1,12 @@
 <template>
-  <div class="edit-sign">
+  <view-page class="edit-sign">
     <van-form @submit="onSubmit">
       <van-field v-model="nickname" label="签名" :rules="[{ required: true, message: '请填写签名' }]" />
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">保存</van-button>
       </div>
     </van-form>
-  </div>
+  </view-page>
 </template>
 
 <script>

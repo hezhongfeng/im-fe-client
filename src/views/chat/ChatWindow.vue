@@ -1,5 +1,5 @@
 <template>
-  <div class="cs-chatbox">
+  <view-page class="cs-chatbox">
     <div class="cs-chat" :style="handleStyle">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" @load="onLoad">
@@ -8,7 +8,7 @@
       </van-pull-refresh>
     </div>
     <enter-area @change-hight="changeHight"></enter-area>
-  </div>
+  </view-page>
 </template>
 
 <script>

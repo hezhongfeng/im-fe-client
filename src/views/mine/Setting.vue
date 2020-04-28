@@ -1,8 +1,8 @@
 <template>
-  <div class="setting">
+  <view-page class="setting">
     <van-button type="default" block @click="onLogout">退出</van-button>
     <van-action-sheet v-model="showLogout" :actions="actions" description="是否确认" cancel-text="取消" @select="onSelect" @cancel="onCancel" />
-  </div>
+  </view-page>
 </template>
 
 <script>

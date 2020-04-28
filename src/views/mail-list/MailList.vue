@@ -1,17 +1,17 @@
 <template>
-  <div class="mail-list">
-    <van-cell title="新的申请" is-link>
+  <view-page class="mail-list">
+    <van-cell title="新的申请" is-link to="apply-list">
       <template #icon>
         <i class="iconfont iconqunliao"></i>
       </template>
     </van-cell>
-    <van-cell title="群组" is-link>
+    <van-cell title="群组" is-link to="group-list">
       <template #icon>
         <i class="iconfont iconqunliao"></i>
       </template>
     </van-cell>
     <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
-  </div>
+  </view-page>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-  <div class="group-list">
+  <view-page class="group-list">
     <group-item v-for="group of groupList" :group="group" :key="group.id"></group-item>
-  </div>
+  </view-page>
 </template>
 
 <script>
@@ -20,7 +20,9 @@ export default {
   },
   computed: {},
   watch: {},
-  created() {},
+  created() {
+    this.getGroupList();
+  },
   methods: {
     getGroupList() {
       this.$http

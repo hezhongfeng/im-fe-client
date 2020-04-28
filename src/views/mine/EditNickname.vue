@@ -1,6 +1,6 @@
 <template>
-  <div class="edit-nickname">
-  </div>
+  <view-page class="edit-nickname">
+  </view-page>
 </template>
 
 <script>

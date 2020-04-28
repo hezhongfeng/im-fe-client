@@ -1,5 +1,5 @@
 <template>
-  <div class="apply-list"></div>
+  <view-page class="apply-list"></view-page>
 </template>
 
 <script>

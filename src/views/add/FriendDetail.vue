@@ -1,12 +1,12 @@
 <template>
-  <div class="friend-detail">
+  <view-page class="friend-detail">
     <div class="info">
       <div class="avatar"></div>
       <div class="name"></div>
     </div>
     <div class="signature"></div>
     <van-button type="primary" block @click="addToMailList">添加到通讯录</van-button>
-  </div>
+  </view-page>
 </template>
 
 <script>

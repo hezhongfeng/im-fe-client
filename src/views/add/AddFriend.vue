@@ -1,5 +1,5 @@
 <template>
-  <div class="add-friend">
+  <view-page class="add-friend">
     <van-nav-bar title="标题" left-text="返回" left-arrow @click-left="onClickLeft" />
     <form action="/">
       <van-search v-model="searchValue" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
@@ -7,7 +7,7 @@
     <div class="f-list">
       <friend v-for="user of users" :key="user.id" :friend="user" type="user"></friend>
     </div>
-  </div>
+  </view-page>
 </template>
 
 <script>

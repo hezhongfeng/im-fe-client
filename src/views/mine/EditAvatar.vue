@@ -1,11 +1,11 @@
 <template>
-  <div class="edit-avatar">
+  <view-page class="edit-avatar">
     <vue-cropper ref="cropper" autoCrop="true" :img="userInfo.photo"></vue-cropper>
     <div class="bottom">
       <van-button type="primary" block>选择图片</van-button>
       <van-button type="primary" block>保存</van-button>
     </div>
-  </div>
+  </view-page>
 </template>
 
 <script>
