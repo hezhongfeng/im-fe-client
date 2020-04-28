@@ -1,5 +1,5 @@
 <template>
-  <view-page class="mail-list">
+  <div class="mail-list">
     <van-cell title="新的申请" is-link to="apply-list">
       <template #icon>
         <i class="iconfont iconqunliao"></i>
@@ -11,7 +11,7 @@
       </template>
     </van-cell>
     <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
-  </view-page>
+  </div>
 </template>
 
 <script>
