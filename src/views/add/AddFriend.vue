@@ -1,6 +1,5 @@
 <template>
-  <view-page class="add-friend">
-    <van-nav-bar title="标题" left-text="返回" left-arrow @click-left="onClickLeft" />
+  <view-page class="add-friend" title="添加">
     <form action="/">
       <van-search v-model="searchValue" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
     </form>

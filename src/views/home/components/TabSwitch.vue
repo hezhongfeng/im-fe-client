@@ -19,9 +19,7 @@ export default {
     }
   },
   data() {
-    return {
-      transitionName: 'forward'
-    };
+    return {};
   },
   computed: {
     styleObject() {

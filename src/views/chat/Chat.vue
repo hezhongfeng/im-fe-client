@@ -3,15 +3,22 @@
     <van-nav-bar title="chat">
       <template #right>
         <van-icon name="plus" size="18" @click="onAdd" />
-        <!-- <van-icon name="plus" /> -->
       </template>
     </van-nav-bar>
-    <div class="chat-menu" v-show="showMenu">
-      <div class="menu-item" @click="onAddFriend">
-        <van-icon name="add-o" size="18" />添加朋友
-      </div>
-    </div>
     <conversation-list></conversation-list>
+    <van-overlay :show="showOverlay" @click="showOverlay = false">
+      <div class="chat-menu">
+        <div class="menu-item" @click="onAddFriend">
+          <van-icon name="add-o" size="18" />添加朋友
+        </div>
+        <div class="menu-item" @click="onAddFriend">
+          <van-icon name="add-o" size="18" />添加朋友
+        </div>
+        <div class="menu-item" @click="onAddFriend">
+          <van-icon name="add-o" size="18" />添加朋友
+        </div>
+      </div>
+    </van-overlay>
   </div>
 </template>
 
@@ -27,7 +34,8 @@ export default {
   props: {},
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      showOverlay: false
     };
   },
   computed: {},
@@ -42,7 +50,7 @@ export default {
   },
   methods: {
     onAdd() {
-      this.showMenu = !this.showMenu;
+      this.showOverlay = true;
     },
     onAddFriend() {
       this.showMenu = false;
@@ -56,14 +64,25 @@ export default {
 .chat {
   width: 100vw;
   position: relative;
-  .chat-menu {
-    z-index: 2;
-    background-color: #666;
-    padding: 20px;
-    transition: all 0.8s;
-    position: absolute;
-    right: 20px;
-    top: 50px;
+  .van-overlay {
+    background-color: rgba(0, 0, 0, 0.2);
+    .chat-menu {
+      background-color: #fff;
+      padding: 20px;
+      position: absolute;
+      right: 0;
+      top: 46px;
+      .menu-item {
+        display: flex;
+        align-items: center;
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+        .van-icon {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
 </style>

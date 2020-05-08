@@ -1,13 +1,16 @@
 <template>
   <div class="mail-list">
+    <form action="/">
+      <van-search v-model="value" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
+    </form>
     <van-cell title="新的申请" is-link to="apply-list">
       <template #icon>
-        <i class="iconfont iconqunliao"></i>
+        <i class="iconfont iconqunliao" style="margin-right: 5px;"></i>
       </template>
     </van-cell>
     <van-cell title="群组" is-link to="group-list">
       <template #icon>
-        <i class="iconfont iconqunliao"></i>
+        <i class="iconfont iconqunliao" style="margin-right: 5px;"></i>
       </template>
     </van-cell>
     <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
@@ -25,6 +28,7 @@ export default {
   props: {},
   data() {
     return {
+      value: '',
       mailList: []
     };
   },
@@ -35,6 +39,8 @@ export default {
     this.getApplies();
   },
   methods: {
+    onSearch() {},
+    onCancel() {},
     getMailList() {
       this.$http
         .get(this.$urls.mailList.mailList)
