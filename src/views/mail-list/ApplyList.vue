@@ -1,11 +1,17 @@
 <template>
-  <view-page class="apply-list"></view-page>
+  <view-page class="apply-list">
+    <apply-item :apply="apply" v-for="apply of applyList" :key="apply.id"></apply-item>
+  </view-page>
 </template>
 
 <script>
+import ApplyItem from './compenents/ApplyItem';
+
 export default {
   name: 'ApplyList',
-  components: {},
+  components: {
+    ApplyItem
+  },
   props: {},
   data() {
     return {
@@ -22,7 +28,7 @@ export default {
       this.$http
         .get(this.$urls.add.applies)
         .then(data => {
-          this.applyList = data;
+          this.applyList = data.rows;
         })
         .catch(error => {
           this.$toast(error.errorMessage);

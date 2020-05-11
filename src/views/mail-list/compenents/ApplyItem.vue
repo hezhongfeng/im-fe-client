@@ -1,7 +1,7 @@
 <template>
   <div class="apply-item">
     <div class="avatar"></div>
-    <div class="name">{{apply.name}}</div>
+    <div class="name">{{apply.from.userInfo.nickname}}</div>
   </div>
 </template>
 
