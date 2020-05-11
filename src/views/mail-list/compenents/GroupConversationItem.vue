@@ -1,16 +1,16 @@
 <template>
   <div class="group-item">
     <div class="avatar"></div>
-    <div class="name">{{group.target.name}}</div>
+    <div class="name">{{conversation.target.name}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'group-item',
+  name: 'group-conversation-item',
   components: {},
   props: {
-    group: Object
+    conversation: Object
   },
   data() {
     return {};

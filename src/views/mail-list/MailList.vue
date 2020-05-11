@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       value: '',
+      appliesCount: 0,
       mailList: []
     };
   },
@@ -55,7 +56,7 @@ export default {
       this.$http
         .get(this.$urls.add.applies)
         .then(data => {
-          console.log(data);
+          this.appliesCount = data.count;
         })
         .catch(error => {
           this.$toast(error.errorMessage);

@@ -1,34 +1,47 @@
 <template>
   <view-page class="group-list">
-    <group-item v-for="group of groupList" :group="group" :key="group.id"></group-item>
+    <group-conversation-item
+      v-for="conversation of groupConversationList"
+      :conversation="conversation"
+      :key="conversation.id"
+      @click.native="onCLick(conversation)"
+    ></group-conversation-item>
   </view-page>
 </template>
 
 <script>
-import GroupItem from './compenents/GroupItem';
+import GroupConversationItem from './compenents/GroupConversationItem';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'group-list',
   components: {
-    GroupItem
+    GroupConversationItem
   },
   props: {},
   data() {
     return {
-      groupList: []
+      groupConversationList: []
     };
   },
   computed: {},
   watch: {},
   created() {
-    this.getGroupList();
+    this.getConversationGroupList();
   },
   methods: {
-    getGroupList() {
+    ...mapMutations('im', ['activateConversation']),
+    onCLick(conversation) {
+      this.activateConversation({
+        conversationId: conversation.target.id
+      });
+      this.$router.push('/chat');
+    },
+    getConversationGroupList() {
       this.$http
         .get(this.$urls.mailList.groupList, {})
         .then(data => {
-          this.groupList = data;
+          this.groupConversationList = data;
         })
         .catch(error => {
           this.$toast(error.errorMessage);
