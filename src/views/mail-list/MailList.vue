@@ -3,9 +3,15 @@
     <form action="/">
       <van-search v-model="value" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
     </form>
-    <van-cell title="新的申请" is-link to="apply-list">
+    <van-cell title="新的申请" to="apply-list">
       <template #icon>
         <i class="iconfont iconqunliao" style="margin-right: 5px;"></i>
+      </template>
+      <template #right-icon>
+        <div class="apply-count" v-show="applyCount">
+          <span class="count">{{applyCount}}</span>
+          <i class="van-icon van-icon-arrow"></i>
+        </div>
       </template>
     </van-cell>
     <van-cell title="群组" is-link to="group-list">
@@ -19,6 +25,7 @@
 
 <script>
 import MailItem from './compenents/MailItem';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'MailList',
@@ -29,17 +36,19 @@ export default {
   data() {
     return {
       value: '',
-      appliesCount: 0,
       mailList: []
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['applyCount'])
+  },
   watch: {},
   created() {
     this.getMailList();
     this.getApplies();
   },
   methods: {
+    ...mapMutations(['updateApplyCount']),
     onSearch() {},
     onCancel() {},
     getMailList() {
@@ -56,7 +65,7 @@ export default {
       this.$http
         .get(this.$urls.add.applies)
         .then(data => {
-          this.appliesCount = data.count;
+          this.updateApplyCount(data.count);
         })
         .catch(error => {
           this.$toast(error.errorMessage);
@@ -69,5 +78,14 @@ export default {
 <style lang="scss">
 .mail-list {
   width: 100vw;
+  .apply-count {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    .count {
+      color: rgba(255, 51, 0, 0.993);
+      margin-right: 5px;
+    }
+  }
 }
 </style>

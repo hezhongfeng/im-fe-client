@@ -1,4 +1,6 @@
 export default {
   userId: null,
-  userInfo: {}
+  userInfo: {},
+  // 申请数量
+  applyCount: 0
 };

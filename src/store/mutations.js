@@ -4,5 +4,8 @@ export default {
   },
   updateUserInfo(state, { userInfo }) {
     state.userInfo = userInfo;
+  },
+  updateApplyCount(state, applyCount) {
+    state.applyCount = applyCount;
   }
 };
