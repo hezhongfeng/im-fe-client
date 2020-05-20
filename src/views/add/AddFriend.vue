@@ -4,7 +4,7 @@
       <van-search v-model="searchValue" show-action placeholder="请输入搜索关键词" @search="onSearch" @cancel="onCancel" />
     </form>
     <div class="f-list">
-      <friend v-for="user of users" :key="user.id" :friend="user" type="user"></friend>
+      <friend v-for="user of users" :key="user.id" :friend="user" @add="onAdd" type="user"></friend>
     </div>
   </view-page>
 </template>
@@ -29,6 +29,20 @@ export default {
   watch: {},
   created() {},
   methods: {
+    onAdd({ type, toId }) {
+      const params = {
+        type,
+        toId
+      };
+      this.$http
+        .post(this.$urls.add.applies, params)
+        .then(data => {
+          this.$toast('已申请');
+        })
+        .catch(error => {
+          this.$toast(error.errorMessage);
+        });
+    },
     onSearch() {
       console.log('onSearch');
       this.$http

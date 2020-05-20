@@ -2,6 +2,9 @@
   <div class="friend">
     <div class="name">{{name}}</div>
     <div class="type">{{typeStr}}</div>
+    <div class="operation">
+      <van-button type="primary" size="small" @click="onAdd">添加</van-button>
+    </div>
   </div>
 </template>
 
@@ -33,7 +36,11 @@ export default {
   },
   watch: {},
   created() {},
-  methods: {}
+  methods: {
+    onAdd() {
+      this.$emit('add', { type: this.type, toId: this.friend.id });
+    }
+  }
 };
 </script>
 
