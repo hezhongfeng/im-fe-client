@@ -5,7 +5,7 @@
     </div>
     <div class="name-info">
       <div class="name">{{apply.from.userInfo.nickname}}</div>
-      <div class="info">对方请求添加你为朋友</div>
+      <div class="info">{{info}}</div>
     </div>
     <div class="operation">
       <van-button type="primary" size="small" @click="onClick">处理</van-button>
@@ -23,7 +23,18 @@ export default {
   data() {
     return {};
   },
-  computed: {},
+  computed: {
+    info() {
+      switch (this.apply.type) {
+        case 'user':
+          return '对方请求添加你为朋友';
+        case 'group':
+          return '对方请求入群';
+        default:
+          return '';
+      }
+    }
+  },
   watch: {},
   created() {},
   methods: {
