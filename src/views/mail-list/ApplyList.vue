@@ -3,12 +3,13 @@
     <div class="wrapper">
       <apply-item :apply="apply" v-for="apply of applyList" :key="apply.id" @click="onClick(apply)"></apply-item>
     </div>
-    <van-action-sheet v-model="show" :actions="actions" cancel-text="取消" @select="onSelect" @cancel="onCancel" />
+    <van-action-sheet v-model="show" :actions="actions" close-on-click-action cancel-text="取消" @select="onSelect" @cancel="onCancel" />
   </view-page>
 </template>
 
 <script>
 import ApplyItem from './compenents/ApplyItem';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'ApplyList',
@@ -34,6 +35,7 @@ export default {
     this.getApplies();
   },
   methods: {
+    ...mapMutations(['updateApplyCount']),
     onCancel() {
       this.show = false;
     },
@@ -58,10 +60,13 @@ export default {
       this.$http
         .post(this.$urls.add.applyFriend, params)
         .then(data => {
-          this.applyList = data.rows;
+          this.$toast('操作完成');
         })
         .catch(error => {
           this.$toast(error.errorMessage);
+        })
+        .finally(() => {
+          this.getApplies();
         });
     },
     applyGroup(approval) {
@@ -72,10 +77,13 @@ export default {
       this.$http
         .post(this.$urls.add.applyGroup, params)
         .then(data => {
-          this.applyList = data.rows;
+          this.$toast('操作完成');
         })
         .catch(error => {
           this.$toast(error.errorMessage);
+        })
+        .finally(() => {
+          this.getApplies();
         });
     },
     getApplies() {
@@ -83,6 +91,7 @@ export default {
         .get(this.$urls.add.applies)
         .then(data => {
           this.applyList = data.rows;
+          this.updateApplyCount(data.count);
         })
         .catch(error => {
           this.$toast(error.errorMessage);
