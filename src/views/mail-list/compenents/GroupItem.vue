@@ -1,7 +1,7 @@
 <template>
   <div class="group-item">
     <div class="avatar"></div>
-    <div class="name">{{conversation.target.name}}</div>
+    <div class="name">{{group.name}}</div>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'group-conversation-item',
   components: {},
   props: {
-    conversation: Object
+    group: Object
   },
   data() {
     return {};
