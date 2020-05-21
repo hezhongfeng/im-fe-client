@@ -55,7 +55,7 @@ export default {
       this.$http
         .get(this.$urls.mailList.mailList)
         .then(data => {
-          this.mailList = data;
+          // this.mailList = data;
         })
         .catch(error => {
           this.$toast(error.errorMessage);

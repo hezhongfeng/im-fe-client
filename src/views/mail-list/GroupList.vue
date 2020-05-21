@@ -39,7 +39,7 @@ export default {
     },
     getConversationGroupList() {
       this.$http
-        .get(this.$urls.mailList.groupList, {})
+        .get(this.$urls.restful.groups)
         .then(data => {
           this.groupConversationList = data;
         })
