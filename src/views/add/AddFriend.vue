@@ -5,6 +5,7 @@
     </form>
     <div class="f-list">
       <friend v-for="user of users" :key="user.id" :friend="user" @add="onAdd" type="user"></friend>
+      <friend v-for="group of groups" :key="group.id" :friend="group" @add="onAdd" type="group"></friend>
     </div>
   </view-page>
 </template>
@@ -69,5 +70,40 @@ export default {
 
 <style lang="scss">
 .add-friend {
+  display: flex;
+  position: relative;
+  background-color: #fff;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    flex-shrink: 0;
+    img {
+      background-color: #fff;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+  .name-info {
+    flex-grow: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .name {
+      color: #2f2f2f;
+      font-size: 18px;
+    }
+    .info {
+      color: #b1b1b1;
+      font-size: 16px;
+    }
+  }
+  .operation {
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
