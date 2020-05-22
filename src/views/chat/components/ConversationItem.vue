@@ -76,7 +76,7 @@ export default {
     },
     getUserInfo() {
       this.$http
-        .get(`${this.$urls.restful.userInfo}/${this.conversation.targetId}`, {})
+        .get(`${this.$urls.restful.userInfo}/${this.conversation.target.id}`, {})
         .then(data => {
           this.updateConversationInfo({
             conversationId: this.conversation.id,
@@ -89,7 +89,7 @@ export default {
     },
     getGroupInfo() {
       this.$http
-        .get(`${this.$urls.restful.groups}/${this.conversation.targetId}`, {})
+        .get(`${this.$urls.restful.groups}/${this.conversation.target.id}`, {})
         .then(data => {
           this.updateConversationInfo({
             conversationId: this.conversation.id,
