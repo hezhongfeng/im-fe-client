@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     ...mapMutations(['updateApplyCount']),
+    ...mapMutations('im', ['addConversation', 'activateConversation']),
     onCancel() {
       this.show = false;
     },
@@ -61,6 +62,25 @@ export default {
         .post(this.$urls.add.applyFriend, params)
         .then(data => {
           this.$toast('操作完成');
+          this.addConversation({
+            type: 'chat',
+            id: data.conversationId,
+            isActive: false,
+            info: {
+              name: ''
+            },
+            target: data.target,
+            messageList: [],
+            pageNumber: 2,
+            pageSize: 10,
+            refreshing: false,
+            loading: false,
+            finished: false
+          });
+          this.activateConversation({
+            conversationId: data.conversationId
+          });
+          this.$router.push('/chat');
         })
         .catch(error => {
           this.$toast(error.errorMessage);

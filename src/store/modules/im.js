@@ -70,6 +70,9 @@ const mutations = {
   updateConversationList(state, conversationList) {
     state.conversationList = conversationList;
   },
+  addConversation(state, conversation) {
+    state.conversationList.unshift(conversation);
+  },
   updateConversationInfo(state, { conversationId, info }) {
     state.conversationList.find(conversation => {
       return conversation.id === conversationId;
