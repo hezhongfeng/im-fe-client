@@ -3,7 +3,6 @@ import urls from '@/common/urls';
 import http from '@/common/http';
 import store from '@/store';
 import ViewPage from '@/compenents/ViewPage.vue';
-const devConfig = require('../config/dev-config');
 
 export default function() {
   return new Promise((resolve, reject) => {
@@ -16,16 +15,6 @@ export default function() {
       }
       return false;
     };
-
-    // 判断环境，此处可以扩展
-    let bridge = '';
-    if (process.env.NODE_ENV === 'development') {
-      bridge = 'dev';
-    }
-    if (bridge === 'dev') {
-      store.commit('updateUserId', { userId: devConfig.userId });
-      store.commit('updateUserInfo', { userInfo: devConfig.userInfo });
-    }
 
     // 注册全局组件
     Vue.component('view-page', ViewPage);
