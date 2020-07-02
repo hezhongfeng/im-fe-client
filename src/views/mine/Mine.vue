@@ -1,10 +1,10 @@
 <template>
   <div class="mine">
-    <div class="user-info">
+    <div class="user-info" @click="onEditUserInfo">
       <div class="avatar">
         <img :src="avatar" />
       </div>
-      <div class="info" @click="onEditUserInfo">
+      <div class="info">
         <div class="nickname">昵称：{{userInfo.nickname}}</div>
         <div class="account">签名：{{userInfo.sign}}</div>
       </div>

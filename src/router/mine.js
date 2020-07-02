@@ -2,6 +2,7 @@ import Setting from '@/views/mine/Setting.vue';
 import UserInfo from '@/views/mine/UserInfo.vue';
 import EditSign from '@/views/mine/EditSign.vue';
 import EditAvatar from '@/views/mine/EditAvatar.vue';
+import EditNickname from '@/views/mine/EditNickname.vue';
 
 export default [
   {
@@ -15,6 +16,10 @@ export default [
   {
     path: '/mine/edit-sign',
     component: EditSign
+  },
+  {
+    path: '/mine/edit-nickname',
+    component: EditNickname
   },
   {
     path: '/mine/edit-avatar',

@@ -7,7 +7,7 @@
         </div>
       </template>
     </van-cell>
-    <van-cell title="昵称" is-link :value="userInfo.nickname" />
+    <van-cell title="昵称" is-link :value="userInfo.nickname" to="/mine/edit-nickname" />
     <van-cell title="签名" is-link :value="userInfo.sign" to="/mine/edit-sign" />
   </view-page>
 </template>
