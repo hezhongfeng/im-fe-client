@@ -79,15 +79,15 @@ const mutations = {
     }).info = info;
   },
   activateConversation(state, { conversationId }) {
-    const activeConversation = state.conversationList.find(conversation => {
-      return conversation.isActive === true;
-    });
+    const activeConversation = state.conversationList.find(conversation => conversation.isActive === true);
     if (activeConversation) {
       activeConversation.isActive = false;
     }
-    state.conversationList.find(conversation => {
-      return conversation.id === conversationId;
-    }).isActive = true;
+    const conversationIndex = state.conversationList.findIndex(conversation => conversation.id === conversationId);
+    const conversation = state.conversationList[conversationIndex];
+    conversation.isActive = true;
+    state.conversationList.splice(conversationIndex, 1);
+    state.conversationList.unshift(conversation);
   },
   addUserInfo(state, userInfo) {
     if (!state.userInfoList.some(item => item.userId === userInfo.userId)) {

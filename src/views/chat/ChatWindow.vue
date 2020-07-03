@@ -40,6 +40,9 @@ export default {
       };
     }
   },
+  mounted() {
+    this.activedConversation();
+  },
   watch: {
     'activeConversation.refreshing': function(val) {
       if (!val) {
@@ -97,6 +100,11 @@ export default {
     },
     changeHight(height) {
       this.scrollRefresh();
+    },
+    activedConversation() {
+      this.$http.put('api/v1/conversations/active', {
+        id: this.activeConversation.id
+      });
     }
   }
 };
