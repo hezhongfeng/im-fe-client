@@ -5,10 +5,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
-import store from '@/store';
-// import throttle from 'lodash.throttle';
-
 export default {
   name: 'HyUpload',
   components: {},
@@ -73,20 +69,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-    addUploading(timestamp) {
-      store.commit('CustomService/newMessage', {
-        message: {
-          id: '',
-          fromName: this.userInfo.userNickname,
-          head: this.userInfo.headerUrl,
-          timestamp: timestamp,
-          body: {
-            type: 'loading'
-          },
-          isMyself: true
-        }
-      });
     }
   }
 };

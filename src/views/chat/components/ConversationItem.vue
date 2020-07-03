@@ -1,16 +1,21 @@
 <template>
-  <div class="conversation-item" @click="onClick">
-    <div class="avatar">
-      <img :src="head" />
-    </div>
-    <div class="left">
-      <div class="name-time">
-        <div class="name">{{conversation.info.name||conversation.info.nickname}}</div>
-        <div class="time">{{conversation.updatedAt}}</div>
+  <van-swipe-cell class="conversation-wrap">
+    <div class="conversation-item" @click="onClick">
+      <div class="avatar">
+        <img :src="head" />
       </div>
-      <div class="last-message">{{lastMessage}}</div>
+      <div class="left">
+        <div class="name-time">
+          <div class="name">{{conversation.info.name||conversation.info.nickname}}</div>
+          <div class="time">{{conversation.updatedAt}}</div>
+        </div>
+        <div class="last-message">{{lastMessage}}</div>
+      </div>
     </div>
-  </div>
+    <template #right>
+      <van-button square type="danger" text="删除" />
+    </template>
+  </van-swipe-cell>
 </template>
 
 <script>
@@ -105,63 +110,68 @@ export default {
 </script>
 
 <style lang="scss">
-.conversation-item {
-  background-color: $color-white;
-  display: flex;
-  align-items: center;
-  min-height: 60px;
-  .avatar {
-    margin-left: 10px;
-    width: 40px;
-    height: 40px;
-    flex-shrink: 0;
-    img {
-      background-color: #fff;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-    }
-  }
-  .left {
-    padding: 10px;
+.conversation-wrap {
+  .conversation-item {
+    background-color: $color-white;
     display: flex;
-    flex-direction: column;
-    width: calc(100% - 50px);
-    position: relative;
-    .name-time {
-      display: flex;
-      justify-content: space-between;
-      .name {
-        color: #2f2f2f;
-        font-size: 16px;
+    align-items: center;
+    min-height: 60px;
+    .avatar {
+      margin-left: 10px;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      img {
+        background-color: #fff;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
       }
-      .time {
+    }
+    .left {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      width: calc(100% - 50px);
+      position: relative;
+      .name-time {
+        display: flex;
+        justify-content: space-between;
+        .name {
+          color: #2f2f2f;
+          font-size: 16px;
+        }
+        .time {
+          color: #d8d8d8;
+          font-size: 14px;
+        }
+      }
+      .last-message {
         color: #d8d8d8;
         font-size: 14px;
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        top: -50%;
+        right: -50%;
+        bottom: -50%;
+        left: -50%;
+        border: 0 solid #ebedf0;
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+        border-bottom-width: 1px;
       }
     }
-    .last-message {
-      color: #d8d8d8;
-      font-size: 14px;
-      height: 20px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    &::after {
-      position: absolute;
-      box-sizing: border-box;
-      content: ' ';
-      pointer-events: none;
-      top: -50%;
-      right: -50%;
-      bottom: -50%;
-      left: -50%;
-      border: 0 solid #ebedf0;
-      -webkit-transform: scale(0.5);
-      transform: scale(0.5);
-      border-bottom-width: 1px;
-    }
+  }
+  .van-button {
+    height: 100%;
   }
 }
 </style>

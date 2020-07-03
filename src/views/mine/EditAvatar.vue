@@ -1,10 +1,12 @@
 <template>
   <view-page class="edit-avatar">
-    <vue-cropper ref="cropper" outputType="jpg" :autoCrop="autoCrop" :img="userInfo.photo"></vue-cropper>
+    <vue-cropper ref="cropper" outputType="jpg" :autoCrop="autoCrop" :img="img"></vue-cropper>
     <div class="bottom">
-      <van-button type="primary" block>选择图片</van-button>
+      <van-button type="primary" block @click="chooseImage">选择图片</van-button>
       <van-button type="primary" block @click="save">保存</van-button>
     </div>
+
+    <input type="file" id="uploads" style="display:none;" accept="image/*" @change="imgChange" ref="inputImg" />
   </view-page>
 </template>
 
@@ -21,15 +23,43 @@ export default {
   props: {},
   data() {
     return {
-      autoCrop: true
+      autoCrop: true,
+      img: null
     };
   },
   computed: {
     ...mapGetters(['userInfo'])
   },
   watch: {},
-  created() {},
+  created() {
+    this.img = this.userInfo.photo;
+  },
   methods: {
+    chooseImage() {
+      this.$refs.inputImg.click();
+    },
+    imgChange(e) {
+      var file = e.target.files[0];
+      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+        alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种');
+        return false;
+      }
+      var reader = new FileReader();
+      reader.onload = e => {
+        let data;
+        if (typeof e.target.result === 'object') {
+          // 把Array Buffer转化为blob 如果是base64不需要
+          data = window.URL.createObjectURL(new Blob([e.target.result]));
+        } else {
+          data = e.target.result;
+        }
+        this.img = data;
+        this.$refs.inputImg.value = '';
+      };
+      // 转化为blob
+      reader.readAsArrayBuffer(file);
+    },
+    imageSuccess() {},
     save() {
       // 获取截图的blob数据
       this.$refs.cropper.getCropBlob(data => {

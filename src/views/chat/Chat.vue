@@ -11,12 +11,6 @@
         <div class="menu-item" @click="onAddFriend">
           <van-icon name="add-o" size="18" />添加朋友
         </div>
-        <div class="menu-item" @click="onAddFriend">
-          <van-icon name="add-o" size="18" />添加朋友
-        </div>
-        <div class="menu-item" @click="onAddFriend">
-          <van-icon name="add-o" size="18" />添加朋友
-        </div>
       </div>
     </van-overlay>
   </div>

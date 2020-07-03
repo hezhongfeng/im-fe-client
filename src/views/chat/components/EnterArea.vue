@@ -22,21 +22,14 @@
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
       </div>
     </div>
-    <div class="hide-area">
-      <!-- <emoji-picker v-if="isEmoji" @emoji-select="emojiSelect"></emoji-picker> -->
-    </div>
+    <div class="hide-area"></div>
   </div>
 </template>
 
 <script>
-// import { compress } from '@/components/hy-form';
 import { mapGetters } from 'vuex';
-// import EmojiPicker from './EmojiPicker';
-import HyUpload from './HyUpload';
+import HyUpload from '@/compenents/HyUpload';
 import IoService from '@/services/io.js';
-// 引入baiduMap
-// import BaiduMap from '@/utils/getPosition.js';
-// import map from '@/utils/map';
 
 export default {
   name: 'EnterArea',
