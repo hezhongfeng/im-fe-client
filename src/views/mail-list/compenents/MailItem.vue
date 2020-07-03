@@ -1,7 +1,7 @@
 <template>
   <div class="mail-item" @click="enter">
     <div class="avatar">
-      <img :src="mail.userInfo.photo" />
+      <img :src="head" />
     </div>
     <div class="name">{{mail.userInfo.nickname}}</div>
   </div>
@@ -9,6 +9,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import defaultHead from '@/assets/images/head.png';
 
 export default {
   name: 'mail-item',
@@ -17,9 +18,15 @@ export default {
     mail: Object
   },
   data() {
-    return {};
+    return {
+      defaultHead: defaultHead
+    };
   },
-  computed: {},
+  computed: {
+    head() {
+      return this.mail.userInfo.photo || this.defaultHead;
+    }
+  },
   watch: {},
   created() {},
   methods: {

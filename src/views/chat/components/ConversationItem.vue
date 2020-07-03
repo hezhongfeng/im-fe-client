@@ -38,7 +38,13 @@ export default {
   },
   computed: {
     head() {
-      return this.conversation.info.photo || (this.conversation.type === 'chat' ? this.defaultHead : this.defaultGroup);
+      if (this.conversation.type === 'chat' && this.conversation.target.userInfo.photo) {
+        return this.conversation.target.userInfo.photo;
+      }
+      if (this.conversation.type === 'group' && this.conversation.target.photo) {
+        return this.conversation.target.photo;
+      }
+      return this.conversation.type === 'chat' ? this.defaultHead : this.defaultGroup;
     },
     lastMessage() {
       let lastMessage = null;

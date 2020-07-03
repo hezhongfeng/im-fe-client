@@ -1,13 +1,15 @@
 <template>
   <div class="group-item">
     <div class="avatar">
-      <img :src="group.photo" />
+      <img :src="head" />
     </div>
     <div class="name">{{group.name}}</div>
   </div>
 </template>
 
 <script>
+import defaultGroup from '@/assets/images/group.png';
+
 export default {
   name: 'group-conversation-item',
   components: {},
@@ -15,9 +17,15 @@ export default {
     group: Object
   },
   data() {
-    return {};
+    return {
+      defaultGroup: defaultGroup
+    };
   },
-  computed: {},
+  computed: {
+    head() {
+      return this.group.ptoto || this.defaultGroup;
+    }
+  },
   watch: {},
   created() {},
   methods: {}

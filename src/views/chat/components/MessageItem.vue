@@ -3,7 +3,7 @@
     <div class="from-name">{{fromName}}</div>
     <div class="c-frame" :class="{'self-c':message.isMyself,'other-c':!message.isMyself}">
       <div class="avatar" v-if="!message.isMyself">
-        <img :src="csHead" />
+        <img :src="friendHead" />
       </div>
       <div class="container">
         <div class="container-text" v-if="message.body.type==='text'" v-html="message.body.msg"></div>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="avatar" v-if="message.isMyself">
-        <img :src="defaultUser" />
+        <img :src="userInfo.photo" />
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 // import { BizLocationMap } from '@/components/hy-location';
-import defaultUser from '@/assets/images/default.png';
+import defaultUser from '@/assets/images/head.png';
 import Xgplayer from 'xgplayer-vue';
 
 export default {
@@ -136,14 +136,17 @@ export default {
         url: this.message.body.url
       };
     },
-    csHead() {
-      if (this.message.isMyself && this.userInfo.photo) {
-        return this.userInfo.photo;
-      }
+    friendHead() {
       if (this.fromUserInfo.photo) {
         return this.fromUserInfo.photo;
       }
 
+      return this.defaultUser;
+    },
+    myselfHead() {
+      if (this.userInfo.photo) {
+        return this.userInfo.photo;
+      }
       return this.defaultUser;
     }
   },
