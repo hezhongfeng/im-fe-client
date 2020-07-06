@@ -11,7 +11,6 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
          "semi": [
         "error",
@@ -23,6 +22,7 @@ module.exports = {
         "as-needed"
       ],
       "generator-star-spacing": "off",
-      "no-debugger": "error"
+      "no-debugger": "error",
+      "no-console": 0
   }
 }
