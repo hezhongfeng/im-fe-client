@@ -64,7 +64,6 @@ const IoService = {
       this.getSocket();
     }
   },
-
   disconnect() {
     if (this.socket) {
       this.socket.disconnect();
