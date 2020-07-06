@@ -39,6 +39,7 @@ export default {
   overflow: hidden;
   height: calc(100vh - 50px);
   .trans-zone {
+    height: 100%;
     display: flex;
     transition-duration: 0.3s;
   }

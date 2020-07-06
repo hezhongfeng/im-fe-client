@@ -4,8 +4,5 @@ export default {
   },
   userInfo(state) {
     return state.userInfo;
-  },
-  applyCount(state) {
-    return state.applyCount;
   }
 };

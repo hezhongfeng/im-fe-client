@@ -9,7 +9,27 @@
 
 <script>
 import ApplyItem from './compenents/ApplyItem';
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
+
+function dateFormat(fmt, date) {
+  let ret;
+  const opt = {
+    'Y+': date.getFullYear().toString(), // 年
+    'm+': (date.getMonth() + 1).toString(), // 月
+    'd+': date.getDate().toString(), // 日
+    'H+': date.getHours().toString(), // 时
+    'M+': date.getMinutes().toString(), // 分
+    'S+': date.getSeconds().toString() // 秒
+    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+  };
+  for (const k in opt) {
+    ret = new RegExp('(' + k + ')').exec(fmt);
+    if (ret) {
+      fmt = fmt.replace(ret[1], ret[1].length === 1 ? opt[k] : opt[k].padStart(ret[1].length, '0'));
+    }
+  }
+  return fmt;
+}
 
 export default {
   name: 'ApplyList',
@@ -35,8 +55,9 @@ export default {
     this.getApplies();
   },
   methods: {
-    ...mapMutations(['updateApplyCount']),
+    ...mapMutations('mail', ['updateApplyCount']),
     ...mapMutations('im', ['addConversation', 'activateConversation']),
+    ...mapActions('mail', ['getMailList']),
     onCancel() {
       this.show = false;
     },
@@ -70,6 +91,8 @@ export default {
               name: ''
             },
             target: data.target,
+            updatedAt: dateFormat('YYYY-mm-dd HH:MM:SS', new Date()),
+            messageCount: 0,
             messageList: [],
             pageNumber: 2,
             pageSize: 10,
@@ -80,7 +103,7 @@ export default {
           this.activateConversation({
             conversationId: data.conversationId
           });
-          this.$router.push('/chat');
+          this.$router.replace('/chat');
         })
         .catch(error => {
           this.$toast(error.errorMessage);
@@ -98,6 +121,8 @@ export default {
         .post(this.$urls.add.applyGroup, params)
         .then(data => {
           this.$toast('操作完成');
+          this.$router.back();
+          this.getMailList();
         })
         .catch(error => {
           this.$toast(error.errorMessage);

@@ -38,11 +38,8 @@ export default {
   },
   computed: {
     head() {
-      if (this.conversation.type === 'chat' && this.conversation.target.userInfo.photo) {
-        return this.conversation.target.userInfo.photo;
-      }
-      if (this.conversation.type === 'group' && this.conversation.target.photo) {
-        return this.conversation.target.photo;
+      if (this.conversation.info && this.conversation.info.photo) {
+        return this.conversation.info.photo;
       }
       return this.conversation.type === 'chat' ? this.defaultHead : this.defaultGroup;
     },

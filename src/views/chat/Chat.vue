@@ -57,6 +57,8 @@ export default {
 <style lang="scss">
 .chat {
   width: 100vw;
+  height: 100%;
+  overflow-y: auto;
   position: relative;
   .van-overlay {
     background-color: rgba(0, 0, 0, 0.2);

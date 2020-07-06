@@ -5,6 +5,7 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import im from './modules/im';
+import mail from './modules/mail';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   getters,
   mutations,
   modules: {
-    im
+    im,
+    mail
   }
 });

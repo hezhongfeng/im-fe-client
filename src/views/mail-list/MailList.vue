@@ -25,7 +25,7 @@
 
 <script>
 import MailItem from './compenents/MailItem';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   name: 'MailList',
@@ -35,12 +35,11 @@ export default {
   props: {},
   data() {
     return {
-      value: '',
-      mailList: []
+      value: ''
     };
   },
   computed: {
-    ...mapGetters(['applyCount'])
+    ...mapGetters('mail', ['applyCount', 'mailList'])
   },
   watch: {},
   created() {
@@ -48,19 +47,10 @@ export default {
     this.getApplies();
   },
   methods: {
-    ...mapMutations(['updateApplyCount']),
+    ...mapMutations('mail', ['updateApplyCount']),
+    ...mapActions('mail', ['getMailList']),
     onSearch() {},
     onCancel() {},
-    getMailList() {
-      this.$http
-        .get(this.$urls.mailList.mailList)
-        .then(data => {
-          this.mailList = data;
-        })
-        .catch(error => {
-          this.$toast(error.errorMessage);
-        });
-    },
     getApplies() {
       this.$http
         .get(this.$urls.add.applies)
@@ -78,6 +68,8 @@ export default {
 <style lang="scss">
 .mail-list {
   width: 100vw;
+  height: 100%;
+  overflow-y: auto;
   .apply-count {
     height: 100%;
     display: flex;

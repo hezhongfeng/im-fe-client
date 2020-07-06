@@ -42,7 +42,8 @@ export default {
 <style lang="scss">
 .mine {
   width: 100vw;
-  height: calc(100vh - 60px);
+  height: 100%;
+  overflow-y: auto;
   .user-info {
     display: flex;
     background-color: #fff;
