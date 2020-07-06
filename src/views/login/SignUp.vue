@@ -33,7 +33,7 @@ export default {
   watch: {},
   created() {},
   methods: {
-    ...mapMutations(['updateUserId']),
+    ...mapMutations(['updateUserId', 'updateUserInfo']),
     onSubmit() {
       this.$http
         .post(this.$urls.login.signup, {
@@ -42,12 +42,16 @@ export default {
         })
         .then(data => {
           this.$toast.success('注册成功');
+          this.$router.back();
           this.updateUserId({
             userId: data.id
           });
-          this.$nextTick(() => {
-            this.$router.replace('/');
+          this.updateUserInfo({
+            userInfo: data.userInfo
           });
+          setTimeout(() => {
+            this.$router.replace('/');
+          }, 10);
         })
         .catch(error => {
           this.$toast(error.errorMessage);

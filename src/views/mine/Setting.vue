@@ -7,7 +7,6 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import IoService from '@/services/io.js';
 
 export default {
   name: 'Setting',
@@ -24,6 +23,8 @@ export default {
   created() {},
   methods: {
     ...mapMutations(['updateUserId', 'updateUserInfo']),
+    ...mapMutations('im', ['updateConversationList']),
+    ...mapMutations('mail', ['updateApplyCount', 'updateMailList']),
     onCancel() {
       this.showLogout = false;
     },
@@ -33,6 +34,7 @@ export default {
         .post(this.$urls.login.logout, {})
         .then(data => {
           this.$toast.success('退出登录成功');
+          this.$router.back();
           setTimeout(() => {
             this.updateUserId({
               userId: ''
@@ -40,11 +42,11 @@ export default {
             this.updateUserInfo({
               userInfo: {}
             });
-            IoService.disconnect();
-            this.$nextTick(() => {
-              this.$router.replace('/login');
-            });
-          }, 900);
+            this.updateApplyCount(0);
+            this.updateMailList([]);
+            this.updateConversationList([]);
+            this.$router.replace('/login');
+          }, 100);
         })
         .catch(error => {
           this.$toast(error.errorMessage);
