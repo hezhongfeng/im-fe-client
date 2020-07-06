@@ -9,7 +9,7 @@
         <div class="container-text" v-if="message.body.type==='text'" v-html="message.body.msg"></div>
 
         <div class="image" v-if="message.body.type==='image'">
-          <img :src="message.body.url" @load="imgOnload" @click="imgPreview" />
+          <img :src="message.body.url" @click="imgPreview" />
         </div>
 
         <div class="loc" v-if="message.body.type==='loc'">
@@ -30,6 +30,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 // import { BizLocationMap } from '@/components/hy-location';
+import { ImagePreview } from 'vant';
 import defaultUser from '@/assets/images/head.png';
 import Xgplayer from 'xgplayer-vue';
 
@@ -169,11 +170,8 @@ export default {
     onProduct() {
       this.$router.push({ path: `/goods/${this.message.body.id}` });
     },
-    imgOnload(event) {
-      this.$emit('img-onload');
-    },
     imgPreview() {
-      this.$emit('img-preview');
+      ImagePreview([this.message.body.url]);
     }
   }
 };

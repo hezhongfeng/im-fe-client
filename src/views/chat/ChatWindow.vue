@@ -99,7 +99,7 @@ export default {
       });
     },
     changeHight(height) {
-      this.scrollRefresh();
+      // this.scrollRefresh();
     },
     activedConversation() {
       this.$http.put('api/v1/conversations/active', {

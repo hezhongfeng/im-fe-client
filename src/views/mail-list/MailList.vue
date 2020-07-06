@@ -19,7 +19,7 @@
         <i class="iconfont iconqunliao" style="margin-right: 5px;"></i>
       </template>
     </van-cell>
-    <mail-item v-for="mail of mailList" :key="mail.id" :mail="mail"></mail-item>
+    <mail-item v-for="mail of filterMailList" :key="mail.id" :mail="mail"></mail-item>
   </div>
 </template>
 
@@ -39,7 +39,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('mail', ['applyCount', 'mailList'])
+    ...mapGetters('mail', ['applyCount', 'mailList']),
+    filterMailList() {
+      if (!this.value) {
+        return this.mailList;
+      }
+      return this.mailList.filter(mail => !(mail.userInfo.nickname.indexOf(this.value) === -1));
+    }
   },
   watch: {},
   created() {

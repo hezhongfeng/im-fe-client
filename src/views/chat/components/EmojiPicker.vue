@@ -1,23 +1,124 @@
 <template>
   <div class="emoji-picker">
-    <div class="e-body">
-      <cube-slide ref="slide" :data="emojiGroups" :autoPlay="false">
-        <cube-slide-item v-for="(group, index) in emojiGroups" :key="index">
-          <div class="e-group">
-            <div class="line" v-for="(line,_index) of group" :key="_index">
-              <div class="emoji" v-for="(emoji,__index) of line" :key="__index" @click="choose(emoji.key)">
-                <img :src="emoji.value">
-              </div>
-            </div>
+    <van-swipe class="my-swipe" indicator-color="white">
+      <van-swipe-item>
+        <div class="emoji-wrap">
+          <div class="row">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-astonished" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-angel" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-astonished-" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-cool" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-confused" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-angry" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-cool-" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-dizzy" />
+            </svg>
           </div>
-        </cube-slide-item>
-      </cube-slide>
-    </div>
+          <div class="row">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-cry" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-cry-" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-expressionless" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-devil" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-flushed" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-happy-" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-happy-1" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-happy" />
+            </svg>
+          </div>
+        </div>
+      </van-swipe-item>
+      <van-swipe-item>
+        <div class="emoji-wrap">
+          <div class="row">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-injury" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-joy" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-in-love" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-kiss" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-mask" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-secret" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-scared-" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-sick" />
+            </svg>
+          </div>
+          <div class="row">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-smiling" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-sweat" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-surprised" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-smirking" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-thinking" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-tired" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-zombie" />
+            </svg>
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconbiaoqing" />
+            </svg>
+          </div>
+        </div>
+      </van-swipe-item>
+    </van-swipe>
   </div>
 </template>
 
 <script>
-import emoji from '@/utils/emoji';
+// import emoji from '@/utils/emoji';
 
 export default {
   name: 'EmojiPicker',
@@ -25,34 +126,13 @@ export default {
     return {
       pageNumber: 24,
       total: 109,
-      index: 0,
-      emojis: emoji.emojis
+      index: 0
+      // emojis: emoji.emojis
     };
   },
   computed: {
     currentEmojis() {
       return this.emojis.slice(this.index, 109);
-    },
-    emojiGroups() {
-      let array = [];
-      let groupSize = Math.ceil(this.total / this.pageNumber);
-      for (let index = 0; index < groupSize; index++) {
-        let group = [];
-        let tempGroup = this.currentEmojis.slice(index * this.pageNumber, (index + 1) * this.pageNumber);
-        let line = [];
-        for (let j = 0; j < 3; j++) {
-          line = tempGroup.slice(j * 8, (j + 1) * 8);
-          while (line.length < 8) {
-            line.push({
-              key: '',
-              value: ''
-            });
-          }
-          group.push(line);
-        }
-        array.push(group);
-      }
-      return array;
     }
   },
   methods: {
@@ -67,30 +147,20 @@ export default {
 
 <style lang="scss">
 .emoji-picker {
-  .e-group {
+  height: 80px;
+  .emoji-wrap {
+    height: 80px;
+    width: 100vw;
     display: flex;
-    flex-direction: column;
-    height: 100px;
-    .line {
+    flex-wrap: wrap;
+    align-items: center;
+    .row {
+      width: 100%;
       display: flex;
       justify-content: space-around;
-      .emoji {
-        width: 32px;
-        height: 32px;
-        border: 1px solid rgba(249, 135, 0, 0);
-        opacity: 1;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.2s;
-        img {
-          width: 25px;
-        }
-        &:hover {
-          border-color: rgba(249, 135, 0, 0.9);
-        }
-      }
+    }
+    .icon {
+      font-size: 26px;
     }
   }
 }

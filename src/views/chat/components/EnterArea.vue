@@ -1,7 +1,7 @@
 <template>
   <div class="enter-area">
     <div class="input-area">
-      <van-field type="text" v-model="value" placeholder="请输入" />
+      <van-field type="text" v-model="value" placeholder="请输入" v-on:keyup.enter="onSend" />
       <div class="send-btn" @click="onSend">
         <i class="iconfont iconi-sh-man-xy"></i>
       </div>
@@ -22,7 +22,8 @@
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
       </div>
     </div>
-    <div class="hide-area"></div>
+    <!-- <div class="hide-area"></div> -->
+    <emoji-picker v-show="isEmoji"></emoji-picker>
   </div>
 </template>
 
@@ -30,11 +31,13 @@
 import { mapGetters } from 'vuex';
 import HyUpload from '@/compenents/HyUpload';
 import IoService from '@/services/io.js';
+import EmojiPicker from './EmojiPicker';
 
 export default {
   name: 'EnterArea',
   components: {
-    HyUpload
+    HyUpload,
+    EmojiPicker
   },
   props: {},
   data() {
@@ -202,12 +205,11 @@ export default {
     .send-btn {
       width: 40px;
       text-align: center;
-      // background-color: #f98700;
       display: flex;
       align-items: center;
       justify-content: center;
       i {
-        color: #fff;
+        color: #1989fa;
         font-size: 22px;
       }
     }
@@ -220,7 +222,7 @@ export default {
     .tool-item {
       i {
         font-size: 24px;
-        color: #8e9398;
+        color: #1989fa;
       }
     }
   }
