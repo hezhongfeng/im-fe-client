@@ -1,7 +1,7 @@
 <template>
   <div class="enter-area">
     <div class="input-area">
-      <van-field type="text" v-model="value" placeholder="请输入" v-on:keyup.enter="onSend" />
+      <van-field type="text" v-model="value" placeholder="请输入" v-on:keyup.enter="onSend" @focus="onFocus" />
       <div class="send-btn" @click="onSend">
         <i class="iconfont iconi-sh-man-xy"></i>
       </div>
@@ -22,8 +22,7 @@
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
       </div>
     </div>
-    <!-- <div class="hide-area"></div> -->
-    <emoji-picker v-show="isEmoji"></emoji-picker>
+    <emoji-picker v-show="isEmoji" @emoji-select="emojiSelect"></emoji-picker>
   </div>
 </template>
 
@@ -70,11 +69,14 @@ export default {
   methods: {
     pickEmoji() {
       this.isEmoji = !this.isEmoji;
-      if (this.isEmoji) {
-        this.$emit('change-hight', '164');
-      } else {
-        this.$emit('change-hight', '64');
-      }
+      // if (this.isEmoji) {
+      //   this.$emit('change-hight', '164');
+      // } else {
+      //   this.$emit('change-hight', '64');
+      // }
+    },
+    onFocus() {
+      this.isEmoji = false;
     },
     emojiSelect(key) {
       this.value = this.value + key;
