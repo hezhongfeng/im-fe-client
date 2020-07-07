@@ -116,6 +116,7 @@ export default {
 
 <style lang="scss">
 .conversation-wrap {
+  height: 62px;
   .conversation-item {
     background-color: $color-white;
     display: flex;

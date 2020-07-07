@@ -901,6 +901,18 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@better-scroll/core@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/core/-/core-2.0.0-beta.10.tgz#d76eb4b11e599b4c5b91e64d496f630d74f1ad84"
+  integrity sha512-rVnw+VNit+o4rU5tn8NzasMGvuFSQOrZIKttzaCC1KY+RgCYNRw3mcaCWjW06rWRXXaBIcV+AsiviKGRteJF2g==
+  dependencies:
+    "@better-scroll/shared-utils" "^2.0.0-beta.10"
+
+"@better-scroll/shared-utils@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/shared-utils/-/shared-utils-2.0.0-beta.10.tgz#077a245926ddcdbf5493aeda6724e2bf3bebf42f"
+  integrity sha512-47JP+4Of++oD7V0oGhZ2adFRMydMAfcsz1Xp+gqeGpPwULWVpDUoFj5yZwz58MBoGmawZKw0diPyjPEvAGJ1cg==
+
 "@commitlint/cli@^8.2.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-8.2.0.tgz#fbf9969e04e2162d985eaa644fdad6ce807aadb6"

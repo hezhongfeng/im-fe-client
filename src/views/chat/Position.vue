@@ -28,6 +28,7 @@ export default {
     });
     marker.setLabel(label);
     map.centerAndZoom(point, 14);
+    map.enableScrollWheelZoom(true);
   },
   methods: {}
 };
