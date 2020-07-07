@@ -1,13 +1,16 @@
 <template>
   <view-page class="cs-chatbox">
-    <div class="cs-chat" :style="handleStyle">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <div class="cs-chat" ref="wrapper">
+      <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list v-model="loading" :finished="finished" @load="onLoad">
           <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
         </van-list>
-      </van-pull-refresh>
+      </van-pull-refresh>-->
+      <div class="conntennt">
+        <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
+      </div>
     </div>
-    <enter-area @change-hight="changeHight"></enter-area>
+    <enter-area></enter-area>
   </view-page>
 </template>
 
@@ -16,6 +19,16 @@ import MessageItem from './components/MessageItem';
 import EnterArea from './components/EnterArea';
 import { mapGetters, mapMutations } from 'vuex';
 import IoService from '@/services/io.js';
+import BScroll from '@better-scroll/core';
+import ObserveDOM from '@better-scroll/observe-dom';
+import MouseWheel from '@better-scroll/mouse-wheel';
+import PullDown from '@better-scroll/pull-down';
+import Pullup from '@better-scroll/pull-up';
+
+BScroll.use(ObserveDOM);
+BScroll.use(MouseWheel);
+BScroll.use(PullDown);
+BScroll.use(Pullup);
 
 export default {
   name: 'Chat',
@@ -26,80 +39,63 @@ export default {
   props: {},
   data() {
     return {
-      enterHeight: '90',
-      refreshing: false,
-      loading: false,
-      finished: false
+      scroll: null
     };
   },
   computed: {
-    ...mapGetters('im', ['activeConversation']),
-    handleStyle() {
-      return {
-        height: 'calc(100% - ' + this.enterHeight + 'px)'
-      };
-    }
+    ...mapGetters('im', ['activeConversation'])
   },
   mounted() {
     this.activedConversation();
-  },
-  watch: {
-    'activeConversation.refreshing': function(val) {
-      if (!val) {
-        this.refreshing = false;
-      }
-    },
-    'activeConversation.loading': function(val) {
-      if (!val) {
-        this.loading = false;
-      }
-    },
-    'activeConversation.finished': {
-      handler: function(val) {
-        if (val) {
-          this.finished = true;
-        }
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      scrollY: true,
+      click: true,
+      observeDOM: true,
+      pullUpLoad: {
+        threshold: -90
       },
-      immediate: true
-    }
+      pullDownRefresh: {
+        threshold: -30,
+        stop: 0
+      },
+      mouseWheel: {}
+    });
+    this.scroll.on('pullingUp', this.onRefresh);
+    this.scroll.on('pullingDown', this.onLoad);
+  },
+  destroyed() {
+    this.scroll = null;
   },
   methods: {
-    ...mapMutations('im', ['clearMessage', 'updateRefreshing', 'updateLoading', 'clearMessages']),
+    ...mapMutations('im', ['clearMessage', 'clearMessages', 'increaseConversationPageNumber']),
     onLoad() {
-      // this.loading = false;
-      // this.finished = true;
-      // IoService.getMessageList({
-      //   conversationId: this.activeConversation.id,
-      //   pageSize: this.activeConversation.pageSize,
-      //   pageNumber: this.activeConversation.pageNumber,
-      //   instance: this
-      // });
-      this.updateLoading({
-        conversationId: this.activeConversation.id,
-        loading: true
+      if (this.activeConversation.messageCount <= this.activeConversation.messageList.length) {
+        this.scroll.finishPullUp();
+        return;
+      }
+      this.increaseConversationPageNumber({
+        conversationId: this.activeConversation.id
       });
-      IoService.getMessageList({
-        conversationId: this.activeConversation.id,
-        pageSize: this.activeConversation.pageSize,
-        pageNumber: this.activeConversation.pageNumber
+      this.$nextTick(() => {
+        IoService.getMessageList({
+          conversationId: this.activeConversation.id,
+          pageSize: this.activeConversation.pageSize,
+          pageNumber: this.activeConversation.pageNumber,
+          scroll: this.scroll
+        });
       });
     },
     onRefresh() {
-      this.updateRefreshing({
-        conversationId: this.activeConversation.id,
-        refreshing: true
-      });
+      console.log('onRefresh');
       this.clearMessages({
         conversationId: this.activeConversation.id
       });
       IoService.getMessageList({
         conversationId: this.activeConversation.id,
         pageSize: this.activeConversation.pageSize,
-        pageNumber: this.activeConversation.pageNumber
+        pageNumber: this.activeConversation.pageNumber,
+        scroll: this.scroll
       });
-    },
-    changeHight(height) {
-      // this.scrollRefresh();
     },
     activedConversation() {
       this.$http.put('api/v1/conversations/active', {
@@ -114,7 +110,8 @@ export default {
 .cs-chatbox {
   height: 100%;
   .cs-chat {
-    overflow: auto;
+    overflow: hidden;
+    height: calc(100% - 90px);
     .van-list {
       min-height: 50vh;
     }

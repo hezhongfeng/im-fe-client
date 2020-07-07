@@ -29,14 +29,13 @@ const IoService = {
 
     // 消息记录
     this.socket.on('/v1/im/get-messages', ({ count, conversationId, messages }) => {
-      store.commit('im/updateRefreshing', {
-        conversationId: conversationId,
-        refreshing: false
-      });
-      store.commit('im/updateLoading', {
-        conversationId: conversationId,
-        loading: false
-      });
+      if (this.scroll) {
+        console.log(this.scroll);
+        this.scroll.finishPullDown();
+        this.scroll.finishPullUp();
+        this.scroll = null;
+      }
+
       for (const message of messages) {
         handleMessage(message);
       }
@@ -75,7 +74,9 @@ const IoService = {
     this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录
-  getMessageList({ conversationId, pageSize, pageNumber }) {
+  getMessageList({ conversationId, pageSize, pageNumber, scroll }) {
+    console.log(scroll);
+    this.scroll = scroll;
     this.socket.emit('/v1/im/get-messages', {
       conversationId,
       pageSize,
@@ -102,9 +103,6 @@ const getConversationList = () => {
         iterator.messageList = [];
         iterator.pageNumber = 2;
         iterator.pageSize = 10;
-        iterator.refreshing = false;
-        iterator.loading = false;
-        iterator.finished = false;
       }
       store.commit('im/updateConversationList', conversationList);
       setTimeout(() => {

@@ -10,6 +10,11 @@
 import ConversationItem from './ConversationItem';
 import { mapGetters } from 'vuex';
 import BScroll from '@better-scroll/core';
+import ObserveDOM from '@better-scroll/observe-dom';
+import MouseWheel from '@better-scroll/mouse-wheel';
+
+BScroll.use(ObserveDOM);
+BScroll.use(MouseWheel);
 
 export default {
   name: 'ConversationList',
@@ -25,23 +30,12 @@ export default {
   computed: {
     ...mapGetters('im', ['conversationList'])
   },
-  watch: {
-    conversationList: {
-      immediate: true,
-      handler() {
-        console.log('conversationList');
-        if (this.bs) {
-          setTimeout(() => {
-            this.bs.refresh();
-          }, 20);
-        }
-      }
-    }
-  },
   mounted() {
     this.bs = new BScroll(this.$refs.wrapper, {
       scrollY: true,
-      click: true
+      click: true,
+      observeDOM: true,
+      mouseWheel: {}
     });
   },
   methods: {}

@@ -908,6 +908,34 @@
   dependencies:
     "@better-scroll/shared-utils" "^2.0.0-beta.10"
 
+"@better-scroll/mouse-wheel@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/mouse-wheel/-/mouse-wheel-2.0.0-beta.10.tgz#f690268b27b75b6fddcf1531a198977e8fd6bc31"
+  integrity sha512-6nJZdkPmccsgmcnyRiQavrIgTyAvHUyRNjGbTVsc02UI8MVanOlFZiFaAEOfLv/s6Td8CQvFE0wNaSuSGYo5dA==
+  dependencies:
+    "@better-scroll/core" "^2.0.0-beta.10"
+
+"@better-scroll/observe-dom@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/observe-dom/-/observe-dom-2.0.0-beta.10.tgz#2291b12727dbd5ddabc1d45fa259898e47c00904"
+  integrity sha512-SXEx+n/080lfVzrKdPJ7gHuZNi72Mq1tql/HlSowFZvp50fauSyggZigezkHxUugCDVC/5bqxOJ55aBeJ0UF4A==
+  dependencies:
+    "@better-scroll/core" "^2.0.0-beta.10"
+
+"@better-scroll/pull-down@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/pull-down/-/pull-down-2.0.0-beta.10.tgz#57a3b3b3784aa265ad26dfec48dccb658db36941"
+  integrity sha512-8HSqOOFaKf6B2+5c9NeD034ULE2ku4bqqtAFtPz+JgtdtGj8+XPQfJqPGUGxpeF8u/hfEBccJPKnFBymGMufGw==
+  dependencies:
+    "@better-scroll/core" "^2.0.0-beta.10"
+
+"@better-scroll/pull-up@^2.0.0-beta.10":
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@better-scroll/pull-up/-/pull-up-2.0.0-beta.10.tgz#09d88697693f96ea18b51f545124f3b4937c9a76"
+  integrity sha512-grKyDC3MCC+JYaTD7a7JFBYuoPODXfl44WzvkarENXPL35tslSDoY/ti2Dgmd4HRvazLUpnHZqfgNUJLTbMF1Q==
+  dependencies:
+    "@better-scroll/core" "^2.0.0-beta.10"
+
 "@better-scroll/shared-utils@^2.0.0-beta.10":
   version "2.0.0-beta.10"
   resolved "https://registry.yarnpkg.com/@better-scroll/shared-utils/-/shared-utils-2.0.0-beta.10.tgz#077a245926ddcdbf5493aeda6724e2bf3bebf42f"

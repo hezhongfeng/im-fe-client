@@ -151,8 +151,7 @@ export default {
         })
         .catch(err => {
           console.log(err);
-        })
-        .finally(() => {});
+        });
     },
     imgPreview() {
       ImagePreview([this.message.body.url]);
