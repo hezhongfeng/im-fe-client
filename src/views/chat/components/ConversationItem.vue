@@ -58,6 +58,8 @@ export default {
           return '图片消息';
         case 'video':
           return '视频消息';
+        case 'loc':
+          return '定位消息';
 
         default:
           return '';

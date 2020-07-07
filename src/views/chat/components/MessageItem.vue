@@ -13,7 +13,8 @@
         </div>
 
         <div class="loc" v-if="message.body.type==='loc'">
-          <!-- <biz-location-map :value="message.body" @map-click="openLoc"></biz-location-map> -->
+          <div class="label">{{message.body.addr}}</div>
+          <div ref="allmap" class="allmap"></div>
         </div>
 
         <div class="video" v-if="message.body.type==='video'">
@@ -29,49 +30,17 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-// import { BizLocationMap } from '@/components/hy-location';
 import { ImagePreview } from 'vant';
 import defaultUser from '@/assets/images/head.png';
 import Xgplayer from 'xgplayer-vue';
 import emoji from '@/services/emoji.js';
+import BMap from 'BMap';
 
 export default {
   name: 'MessageItem',
   data() {
     return {
-      productBasicInfo: {
-        image: '',
-        name: '',
-        marketPrice: ''
-      },
-      activeOption: {
-        label: '一般',
-        value: '6'
-      },
-      options: [
-        {
-          label: '非常不满意',
-          value: '2'
-        },
-        {
-          label: '不满意',
-          value: '4'
-        },
-        {
-          label: '一般',
-          value: '6'
-        },
-        {
-          label: '满意',
-          value: '8'
-        },
-        {
-          label: '非常满意',
-          value: '10'
-        }
-      ],
       defaultUser: defaultUser
-      // csDefault: csDefault
     };
   },
   props: {
@@ -86,7 +55,11 @@ export default {
       this.getUserInfo();
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.message.body.type === 'loc') {
+      this.initMap();
+    }
+  },
   computed: {
     ...mapGetters(['userInfo']),
     ...mapGetters('im', ['activeConversation', 'userInfoList']),
@@ -152,6 +125,24 @@ export default {
   },
   methods: {
     ...mapMutations('im', ['addUserInfo']),
+    ...mapMutations('position', ['updatePosition']),
+    initMap() {
+      const map = new BMap.Map(this.$refs.allmap);
+      const point = new BMap.Point(this.message.body.lng, this.message.body.lat);
+      const marker = new BMap.Marker(point);
+      map.addOverlay(marker);
+      map.centerAndZoom(point, 14);
+      map.addEventListener('click', () => {
+        this.updatePosition({
+          lng: this.message.body.lng,
+          lat: this.message.body.lat,
+          addr: this.message.body.addr
+        });
+        this.$nextTick(() => {
+          this.$router.push('position');
+        });
+      });
+    },
     getUserInfo() {
       this.$http
         .get(this.$urls.restful.userInfo + `/${this.message.fromId}`, {})
@@ -162,9 +153,6 @@ export default {
           console.log(err);
         })
         .finally(() => {});
-    },
-    onProduct() {
-      this.$router.push({ path: `/goods/${this.message.body.id}` });
     },
     imgPreview() {
       ImagePreview([this.message.body.url]);
@@ -268,65 +256,20 @@ $other-b: #fff;
       > .video {
         width: 65vw;
       }
-      > .product {
-        width: 150px;
-        .p-image {
-          width: 150px;
-          height: 150px;
-          margin-bottom: 6px;
-          img {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-          }
-        }
-        .p-name {
-          margin-left: 5px;
-          margin-right: 5px;
-          margin-bottom: 5px;
-          line-height: 1.2;
-        }
-        .price {
-          margin-left: 5px;
-          color: #f02b2b;
-          font-size: 14px;
-        }
-      }
-      > .upload-loading {
-        height: 120px;
-        width: 200px;
-        .back-g {
-          position: relative;
-          height: 100%;
-          background-color: #cccccc;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          img {
-            width: 80px;
-          }
-          .circle {
-            // position: absolute;
-            // border-radius: 35px;
-            // height: 70px;
-            // width: 70px;
-            // background-color: rgba(255,255,255,.4);
-          }
-          .progress {
-            border: #fff 3px solid;
-            background-color: #fff;
-            position: absolute;
-            height: 60px;
-            width: 60px;
-            border-radius: 30px;
-          }
-        }
-      }
       > .loc {
-        width: 150px;
-        height: 100px;
+        width: 200px;
+        height: 150px;
+        .label {
+          font-size: 12px;
+          line-height: 2;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        .allmap {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }

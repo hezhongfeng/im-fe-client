@@ -4,6 +4,12 @@ module.exports = {
     proxy: 'http://127.0.0.1:7001',
     port: 3000
   },
+  configureWebpack: {
+    plugins: [],
+    externals: {
+      BMap: 'BMap'
+    }
+  },
   css: {
     loaderOptions: {
       sass: {

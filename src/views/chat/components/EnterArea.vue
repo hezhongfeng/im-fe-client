@@ -31,6 +31,7 @@ import { mapGetters } from 'vuex';
 import HyUpload from '@/compenents/HyUpload';
 import IoService from '@/services/io.js';
 import EmojiPicker from './EmojiPicker';
+import BMap from 'BMap';
 
 export default {
   name: 'EnterArea',
@@ -41,24 +42,8 @@ export default {
   props: {},
   data() {
     return {
-      accept: 'video/*',
-      BaiduMap: null,
       value: '',
-      isEmoji: false,
-      pictureAction: {
-        fileName: 'file',
-        data: {
-          type: '0'
-        },
-        target: ''
-      },
-      videoAction: {
-        fileName: 'file',
-        data: {
-          type: '2'
-        },
-        target: ''
-      }
+      isEmoji: false
     };
   },
   computed: {
@@ -121,66 +106,18 @@ export default {
       });
       this.value = '';
     },
-    // 原生获取经纬度
-    nativeGetLocation() {
-      // map.getCurrentPosition().then(data => {
-      //   console.log('getCurrentPosition');
-      //   console.log(data);
-      //   let addr =
-      //     data.address.province +
-      //     data.address.city +
-      //     data.address.district +
-      //     data.address.street +
-      //     data.address.street_number;
-      //   // customService.sendMessage({
-      //   //   toId: '',
-      //   //   fromId: this.current.userId,
-      //   //   type: 'chat',
-      //   //   chat_with: 'client',
-      //   //   payload: {
-      //   //     body: {
-      //   //       type: 'loc',
-      //   //       addr: addr,
-      //   //       lat: data.latitude,
-      //   //       lng: data.longitude
-      //   //     }
-      //   //   }
-      //   // });
-      // });
-    },
-    // 获取当前位置信息
-    async getPosition() {
-      // this.BaiduMap = new BaiduMap();
-      // try {
-      //   let currentPosition = null;
-      //   currentPosition = await this.BaiduMap.getCurrentLocation();
-      //   let addr =
-      //     currentPosition.address.province +
-      //     currentPosition.address.city +
-      //     currentPosition.address.district +
-      //     currentPosition.address.street +
-      //     currentPosition.address.street_number;
-      //   console.log(currentPosition);
-      //   customService.sendMessage({
-      //     toId: '',
-      //     fromId: this.current.userId,
-      //     type: 'chat',
-      //     chat_with: 'client',
-      //     payload: {
-      //       body: {
-      //         type: 'loc',
-      //         addr: addr,
-      //         lat: currentPosition.latitude,
-      //         lng: currentPosition.longitude
-      //       }
-      //     }
-      //   });
-      // } catch (e) {
-      //   console.log('ERR: ', e);
-      // }
-    },
     onSendPosition() {
-      this.nativeGetLocation();
+      var geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(data => {
+        const addr =
+          data.address.province + data.address.city + data.address.district + data.address.street + data.address.street_number;
+        this.send({
+          type: 'loc',
+          addr: addr,
+          lat: data.latitude,
+          lng: data.longitude
+        });
+      });
     },
     send(body) {
       IoService.sendMessage({
