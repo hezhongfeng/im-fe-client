@@ -6,7 +6,7 @@
         <img :src="friendHead" />
       </div>
       <div class="container">
-        <div class="container-text" v-if="message.body.type==='text'" v-html="message.body.msg"></div>
+        <div class="container-text" v-if="message.body.type==='text'" v-html="textMessage"></div>
 
         <div class="image" v-if="message.body.type==='image'">
           <img :src="message.body.url" @click="imgPreview" />
@@ -33,6 +33,7 @@ import { mapGetters, mapMutations } from 'vuex';
 import { ImagePreview } from 'vant';
 import defaultUser from '@/assets/images/head.png';
 import Xgplayer from 'xgplayer-vue';
+import emoji from '@/services/emoji.js';
 
 export default {
   name: 'MessageItem',
@@ -89,6 +90,12 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     ...mapGetters('im', ['activeConversation', 'userInfoList']),
+    textMessage() {
+      if (this.message.body.type === 'text') {
+        return emoji.transform(this.message.body.msg);
+      }
+      return '';
+    },
     fromName() {
       if (this.message.isMyself) {
         return this.userInfo.nickname + ' ' + this.message.createdAt;
@@ -101,21 +108,10 @@ export default {
       }
       return this.userInfoList.find(item => item.id === this.message.fromId) || { name: '' };
     },
-    productImg() {
-      return this.host + this.productBasicInfo.image;
-    },
     itemStyle() {
       return {
         'text-align': this.message.isMyself ? 'right' : 'left'
       };
-    },
-    containerStyle() {
-      return {
-        'background-color': this.message.isMyself ? '#fef3e5' : '#acd8f6'
-      };
-    },
-    uploadProgress() {
-      return parseInt(this.message.progress) || 0;
     },
     config() {
       if (this.message.body.type !== 'video') {
@@ -242,7 +238,7 @@ $other-b: #fff;
     }
 
     > .container {
-      font-size: 13px;
+      font-size: 14px;
       padding: 1px;
       display: flex;
       flex-wrap: wrap;
@@ -253,6 +249,7 @@ $other-b: #fff;
       position: relative;
       .container-text {
         line-height: 20px;
+        padding: 0 5px;
         display: inline-block;
         img {
           width: 16px;

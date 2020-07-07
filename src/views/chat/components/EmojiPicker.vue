@@ -1,6 +1,6 @@
 <template>
   <div class="emoji-picker">
-    <van-swipe class="my-swipe" indicator-color="white">
+    <van-swipe indicator-color="white">
       <van-swipe-item>
         <div class="emoji-wrap">
           <div class="row">
@@ -118,23 +118,10 @@
 </template>
 
 <script>
-// import emoji from '@/utils/emoji';
-
 export default {
   name: 'EmojiPicker',
-  data() {
-    return {
-      pageNumber: 24,
-      total: 109,
-      index: 0
-      // emojis: emoji.emojis
-    };
-  },
-  computed: {
-    currentEmojis() {
-      return this.emojis.slice(this.index, 109);
-    }
-  },
+  data() {},
+  computed: {},
   methods: {
     choose(key) {
       if (key) {

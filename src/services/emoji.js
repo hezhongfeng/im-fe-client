@@ -1,4 +1,4 @@
-export default {
+const emoji = {
   emojis: [
     {
       key: '[中毒]',
@@ -132,7 +132,7 @@ export default {
   replaceEmoji(emojiStr) {
     for (const emoji of this.emojis) {
       if (emojiStr === emoji.key) {
-        return '<img style="margin: 0 2px;" src="' + emoji.value + '">';
+        return `<svg class="icon" style="margin: 0 2px;" aria-hidden="true"><use xlink:href="#${emoji.value}" /></svg>`;
       }
     }
     return emojiStr;
@@ -145,17 +145,6 @@ export default {
     }
     return false;
   },
-  // 替换字符串
-  replaceStr(str) {
-    let strs = Array.from(new Set(str.split(/<img.*?(?:>|\/>)/gi)));
-    strs = strs.filter(str => {
-      return str !== '';
-    });
-    for (const strItem of strs) {
-      str = str.split(strItem).join('<span>' + strItem + '</span>');
-    }
-    return str;
-  },
   transform(str) {
     const eArray = Array.from(new Set(str.match(/\[.+?\]/g)));
     for (const estr of eArray) {
@@ -166,3 +155,5 @@ export default {
     return str;
   }
 };
+
+export default emoji;
