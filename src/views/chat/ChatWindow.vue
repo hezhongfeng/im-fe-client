@@ -6,8 +6,8 @@
           <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
         </van-list>
       </van-pull-refresh>-->
-      <div class="conntennt">
-        <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
+      <div class="conntennt" ref="conntent">
+        <message-item ref="messages" v-for="message of activeConversation.messageList" :key="message.id" :message="message"></message-item>
       </div>
     </div>
     <enter-area></enter-area>
@@ -39,11 +39,22 @@ export default {
   props: {},
   data() {
     return {
+      topMessage: null,
       scroll: null
     };
   },
   computed: {
     ...mapGetters('im', ['activeConversation'])
+  },
+  watch: {
+    'activeConversation.messageList'() {
+      if (this.topMessage) {
+        setTimeout(() => {
+          this.scroll.scrollToElement(this.topMessage);
+          this.topMessage = null;
+        }, 1000);
+      }
+    }
   },
   mounted() {
     this.activedConversation();
@@ -60,7 +71,7 @@ export default {
       },
       mouseWheel: {}
     });
-    this.scroll.on('pullingUp', this.onRefresh);
+    // this.scroll.on('pullingUp', this.onRefresh);
     this.scroll.on('pullingDown', this.onLoad);
   },
   destroyed() {
@@ -69,6 +80,7 @@ export default {
   methods: {
     ...mapMutations('im', ['clearMessage', 'clearMessages', 'increaseConversationPageNumber']),
     onLoad() {
+      this.topMessage = this.$refs.conntent.firstElementChild || null;
       if (this.activeConversation.messageCount <= this.activeConversation.messageList.length) {
         this.scroll.finishPullUp();
         return;
