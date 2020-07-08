@@ -36,25 +36,6 @@ const IoService = {
       handleMessage(message);
       store.commit('im/newMessage', { message });
     });
-
-    // 消息记录
-    this.socket.on('/v1/im/get-messages', ({ count, conversationId, messages }) => {
-      // if (this.scroll) {
-      //   console.log(this.scroll);
-      //   this.scroll.finishPullDown();
-      //   this.scroll.finishPullUp();
-      //   this.scroll = null;
-      // }
-
-      for (const message of messages) {
-        handleMessage(message);
-      }
-      store.commit('im/newMessages', { conversationId, messages });
-      // 更新count
-      setTimeout(() => {
-        store.commit('im/updateMessageCount', { messageCount: count, conversationId });
-      }, 50);
-    });
   },
   connect() {
     if (this.socket) {
@@ -83,7 +64,6 @@ const IoService = {
         pageNumber
       },
       ({ count, conversationId, messages }) => {
-        // console.log('getMessageList', data);
         for (const message of messages) {
           handleMessage(message);
         }
@@ -91,10 +71,6 @@ const IoService = {
           messages[0].shouldScroll = true;
         }
         store.commit('im/newMessages', { conversationId, messages, messageCount: count });
-        // 更新count
-        // setTimeout(() => {
-        //   store.commit('im/updateMessageCount', { messageCount: count, conversationId });
-        // }, 50);
       }
     );
   },

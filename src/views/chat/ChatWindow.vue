@@ -13,6 +13,7 @@
           :key="message.id"
           :message="message"
           :scroll="scroll"
+          :conversationId="activeConversation.id"
         ></message-item>
       </div>
     </div>
@@ -29,12 +30,10 @@ import BScroll from '@better-scroll/core';
 import ObserveDOM from '@better-scroll/observe-dom';
 import MouseWheel from '@better-scroll/mouse-wheel';
 import PullDown from '@better-scroll/pull-down';
-import Pullup from '@better-scroll/pull-up';
 
 BScroll.use(ObserveDOM);
 BScroll.use(MouseWheel);
 BScroll.use(PullDown);
-BScroll.use(Pullup);
 
 export default {
   name: 'Chat',
@@ -52,35 +51,23 @@ export default {
   computed: {
     ...mapGetters('im', ['activeConversation'])
   },
-  watch: {
-    // 'activeConversation.messageList'() {
-    //   if (this.topMessage) {
-    //     setTimeout(() => {
-    //       this.scroll.scrollToElement(this.topMessage);
-    //       this.topMessage = null;
-    //     }, 1000);
-    //   }
-    // }
-  },
   mounted() {
     this.activedConversation();
     const scroll = new BScroll(this.$refs.wrapper, {
       scrollY: true,
       click: true,
       observeDOM: true,
-      pullUpLoad: {
-        threshold: -90
-      },
       pullDownRefresh: {
-        threshold: -30,
-        stop: 0
+        threshold: -30
       },
       mouseWheel: {}
     });
 
-    // this.scroll.on('pullingUp', this.onRefresh);
-    // this.scroll.on('pullingDown', this.onLoad);
+    scroll.on('pullingDown', this.onLoad);
     this.scroll = scroll;
+    setTimeout(() => {
+      this.scroll.scrollTo(0, this.scroll.maxScrollY);
+    }, 50);
   },
   destroyed() {
     this.scroll = null;
@@ -88,9 +75,7 @@ export default {
   methods: {
     ...mapMutations('im', ['clearMessage', 'clearMessages', 'increaseConversationPageNumber']),
     onLoad() {
-      // this.topMessage = this.$refs.conntent.firstElementChild || null;
-      if (this.activeConversation.messageCount <= this.activeConversation.messageList.length) {
-        this.scroll.finishPullUp();
+      if (this.activeConversation.messageList.length >= this.activeConversation.messageCount) {
         return;
       }
       this.increaseConversationPageNumber({
@@ -102,18 +87,6 @@ export default {
           pageSize: this.activeConversation.pageSize,
           pageNumber: this.activeConversation.pageNumber
         });
-      });
-    },
-    onRefresh() {
-      console.log('onRefresh');
-      this.clearMessages({
-        conversationId: this.activeConversation.id
-      });
-      IoService.getMessageList({
-        conversationId: this.activeConversation.id,
-        pageSize: this.activeConversation.pageSize,
-        pageNumber: this.activeConversation.pageNumber,
-        scroll: this.scroll
       });
     },
     activedConversation() {

@@ -44,6 +44,7 @@ export default {
     };
   },
   props: {
+    conversationId: Number,
     scroll: Object,
     message: Object
   },
@@ -60,10 +61,12 @@ export default {
     if (this.message.body.type === 'loc') {
       this.initMap();
     }
-    // console.log(this.scroll);
-    // if (this.message.shouldScroll) {
-    //   this.scroll.scrollToElement(this.$el);
-    // }
+    if (this.message.shouldScroll) {
+      this.scroll.refresh();
+      this.scroll.scrollToElement(this.$el);
+      this.scroll.finishPullDown();
+      this.updateMessageScroll({ conversationId: this.conversationId });
+    }
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -129,7 +132,7 @@ export default {
     Xgplayer
   },
   methods: {
-    ...mapMutations('im', ['addUserInfo']),
+    ...mapMutations('im', ['addUserInfo', 'updateMessageScroll']),
     ...mapMutations('position', ['updatePosition']),
     initMap() {
       const map = new BMap.Map(this.$refs.allmap);

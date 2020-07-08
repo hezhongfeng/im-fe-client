@@ -41,13 +41,12 @@ const mutations = {
       conversation.messageList.unshift(message);
     }
     conversation.messageCount = messageCount;
-    if (conversation.messageList.length >= conversation.messageCount) {
-      conversation.finished = true;
-    }
-    // if (conversation.scroll) {
-    //   conversation.scroll.finishPullDown();
-    //   conversation.scroll.finishPullUp();
-    // }
+  },
+  updateMessageScroll(state, { conversationId }) {
+    const conversation = state.conversationList.find(conversation => {
+      return conversation.id === conversationId;
+    });
+    conversation.messageList.find(message => message.shouldScroll).shouldScroll = false;
   },
   clearMessages(state, { conversationId }) {
     const conversation = state.conversationList.find(conversation => {
@@ -55,15 +54,6 @@ const mutations = {
     });
     conversation.messageList = [];
     conversation.pageNumber = 1;
-  },
-  updateMessageCount(state, { conversationId, messageCount }) {
-    const conversation = state.conversationList.find(conversation => {
-      return conversation.id === conversationId;
-    });
-    conversation.messageCount = messageCount;
-    if (conversation.messageList.length >= conversation.messageCount) {
-      conversation.finished = true;
-    }
   },
   updateConversationList(state, conversationList) {
     state.conversationList = conversationList;
