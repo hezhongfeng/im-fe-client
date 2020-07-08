@@ -4,6 +4,16 @@ import store from '@/store';
 import urls from '@/common/urls';
 import config from '../../config/config';
 
+// 处理消息体
+const handleMessage = message => {
+  // if (message.payload.body.msg) {
+  //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
+  // }
+
+  // 在入口处直接添加isMyself
+  message.isMyself = store.getters.userId === message.fromId;
+};
+
 const IoService = {
   socket: null,
   scroll: null,
@@ -29,12 +39,12 @@ const IoService = {
 
     // 消息记录
     this.socket.on('/v1/im/get-messages', ({ count, conversationId, messages }) => {
-      if (this.scroll) {
-        console.log(this.scroll);
-        this.scroll.finishPullDown();
-        this.scroll.finishPullUp();
-        this.scroll = null;
-      }
+      // if (this.scroll) {
+      //   console.log(this.scroll);
+      //   this.scroll.finishPullDown();
+      //   this.scroll.finishPullUp();
+      //   this.scroll = null;
+      // }
 
       for (const message of messages) {
         handleMessage(message);
@@ -45,16 +55,6 @@ const IoService = {
         store.commit('im/updateMessageCount', { messageCount: count, conversationId });
       }, 50);
     });
-
-    // 处理消息体
-    const handleMessage = message => {
-      // if (message.payload.body.msg) {
-      //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
-      // }
-
-      // 在入口处直接添加isMyself
-      message.isMyself = store.getters.userId === message.fromId;
-    };
   },
   connect() {
     if (this.socket) {
@@ -74,14 +74,29 @@ const IoService = {
     this.socket.emit('/v1/im/new-message', message);
   },
   // 请求聊天记录
-  getMessageList({ conversationId, pageSize, pageNumber, scroll }) {
-    console.log(scroll);
-    this.scroll = scroll;
-    this.socket.emit('/v1/im/get-messages', {
-      conversationId,
-      pageSize,
-      pageNumber
-    });
+  getMessageList({ conversationId, pageSize, pageNumber, init }) {
+    this.socket.emit(
+      '/v1/im/get-messages',
+      {
+        conversationId,
+        pageSize,
+        pageNumber
+      },
+      ({ count, conversationId, messages }) => {
+        // console.log('getMessageList', data);
+        for (const message of messages) {
+          handleMessage(message);
+        }
+        if (!init && messages[0]) {
+          messages[0].shouldScroll = true;
+        }
+        store.commit('im/newMessages', { conversationId, messages, messageCount: count });
+        // 更新count
+        // setTimeout(() => {
+        //   store.commit('im/updateMessageCount', { messageCount: count, conversationId });
+        // }, 50);
+      }
+    );
   },
   // join
   join(conversationId) {
@@ -110,7 +125,8 @@ const getConversationList = () => {
           IoService.getMessageList({
             conversationId: conversation.id,
             pageSize: conversation.pageSize,
-            pageNumber: 1
+            pageNumber: 1,
+            init: true
           });
         }
       }, 20);

@@ -33,17 +33,21 @@ const mutations = {
     state.conversationList.unshift(conversation);
   },
   // 批量消息
-  newMessages(state, { conversationId, messages }) {
+  newMessages(state, { conversationId, messages, messageCount }) {
     const conversation = state.conversationList.find(conversation => {
       return conversation.id === conversationId;
     });
     for (const message of messages) {
       conversation.messageList.unshift(message);
     }
-    if (conversation.scroll) {
-      conversation.scroll.finishPullDown();
-      conversation.scroll.finishPullUp();
+    conversation.messageCount = messageCount;
+    if (conversation.messageList.length >= conversation.messageCount) {
+      conversation.finished = true;
     }
+    // if (conversation.scroll) {
+    //   conversation.scroll.finishPullDown();
+    //   conversation.scroll.finishPullUp();
+    // }
   },
   clearMessages(state, { conversationId }) {
     const conversation = state.conversationList.find(conversation => {

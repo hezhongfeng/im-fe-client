@@ -7,7 +7,13 @@
         </van-list>
       </van-pull-refresh>-->
       <div class="conntennt" ref="conntent">
-        <message-item ref="messages" v-for="message of activeConversation.messageList" :key="message.id" :message="message"></message-item>
+        <message-item
+          ref="messages"
+          v-for="message of activeConversation.messageList"
+          :key="message.id"
+          :message="message"
+          :scroll="scroll"
+        ></message-item>
       </div>
     </div>
     <enter-area></enter-area>
@@ -47,18 +53,18 @@ export default {
     ...mapGetters('im', ['activeConversation'])
   },
   watch: {
-    'activeConversation.messageList'() {
-      if (this.topMessage) {
-        setTimeout(() => {
-          this.scroll.scrollToElement(this.topMessage);
-          this.topMessage = null;
-        }, 1000);
-      }
-    }
+    // 'activeConversation.messageList'() {
+    //   if (this.topMessage) {
+    //     setTimeout(() => {
+    //       this.scroll.scrollToElement(this.topMessage);
+    //       this.topMessage = null;
+    //     }, 1000);
+    //   }
+    // }
   },
   mounted() {
     this.activedConversation();
-    this.scroll = new BScroll(this.$refs.wrapper, {
+    const scroll = new BScroll(this.$refs.wrapper, {
       scrollY: true,
       click: true,
       observeDOM: true,
@@ -71,8 +77,10 @@ export default {
       },
       mouseWheel: {}
     });
+
     // this.scroll.on('pullingUp', this.onRefresh);
-    this.scroll.on('pullingDown', this.onLoad);
+    // this.scroll.on('pullingDown', this.onLoad);
+    this.scroll = scroll;
   },
   destroyed() {
     this.scroll = null;
@@ -80,7 +88,7 @@ export default {
   methods: {
     ...mapMutations('im', ['clearMessage', 'clearMessages', 'increaseConversationPageNumber']),
     onLoad() {
-      this.topMessage = this.$refs.conntent.firstElementChild || null;
+      // this.topMessage = this.$refs.conntent.firstElementChild || null;
       if (this.activeConversation.messageCount <= this.activeConversation.messageList.length) {
         this.scroll.finishPullUp();
         return;
@@ -92,8 +100,7 @@ export default {
         IoService.getMessageList({
           conversationId: this.activeConversation.id,
           pageSize: this.activeConversation.pageSize,
-          pageNumber: this.activeConversation.pageNumber,
-          scroll: this.scroll
+          pageNumber: this.activeConversation.pageNumber
         });
       });
     },

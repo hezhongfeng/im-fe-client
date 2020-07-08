@@ -44,6 +44,7 @@ export default {
     };
   },
   props: {
+    scroll: Object,
     message: Object
   },
   created() {
@@ -59,6 +60,10 @@ export default {
     if (this.message.body.type === 'loc') {
       this.initMap();
     }
+    // console.log(this.scroll);
+    // if (this.message.shouldScroll) {
+    //   this.scroll.scrollToElement(this.$el);
+    // }
   },
   computed: {
     ...mapGetters(['userInfo']),
