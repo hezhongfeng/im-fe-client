@@ -1,7 +1,7 @@
 module.exports = {
+  assetsDir: 'static',
   devServer: {
     open: true,
-    // proxy: 'http://127.0.0.1:7001',
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:7001'
@@ -19,7 +19,11 @@ module.exports = {
   configureWebpack: {
     plugins: [],
     externals: {
-      BMap: 'BMap'
+      BMap: 'BMap',
+      vue: 'Vue',
+      'vue-router': 'VueRouter',
+      vuex: 'Vuex',
+      vant: 'vant'
     }
   },
   css: {

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store';
 import http from '@/common/http';
@@ -9,8 +8,6 @@ import addFriend from './add-friend';
 import chat from './chat';
 import mine from './mine';
 import mailList from './mail-list';
-
-Vue.use(VueRouter);
 
 const routes = [
   {

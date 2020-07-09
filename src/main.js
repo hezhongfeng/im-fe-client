@@ -5,7 +5,6 @@ import store from './store';
 import Vant from 'vant';
 import VuePageStack from 'vue-page-stack';
 import AppInit from './app-init.js';
-import 'vant/lib/index.css';
 
 Vue.config.productionTip = false;
 
