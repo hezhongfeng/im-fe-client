@@ -32,7 +32,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 import { ImagePreview } from 'vant';
 import defaultUser from '@/assets/images/head.png';
-import Xgplayer from 'xgplayer-vue';
+import Xgplayer from '@/compenents/XgPlayer';
 import emoji from '@/services/emoji.js';
 import BMap from 'BMap';
 

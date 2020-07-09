@@ -23,7 +23,8 @@ module.exports = {
       vue: 'Vue',
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
-      vant: 'vant'
+      vant: 'vant',
+      xgplayer: 'Player'
     }
   },
   css: {
