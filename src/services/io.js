@@ -34,6 +34,7 @@ const IoService = {
     // 有新消息
     this.socket.on('/v1/im/new-message', message => {
       handleMessage(message);
+      message.shouldScroll = true;
       store.commit('im/newMessage', { message });
     });
   },
