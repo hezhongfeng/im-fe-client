@@ -148,7 +148,7 @@ server {
       add_header  Cache-Control  no-store;
     }
 
-    location ~* \.(css|js)$ {
+    location static/ {
       access_log off;
       root   /data/static/im-client;
       gzip on;
