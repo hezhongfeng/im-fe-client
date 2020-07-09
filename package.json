@@ -9,8 +9,6 @@
     "cz": "git-cz"
   },
   "dependencies": {
-    "@better-scroll/core": "^2.0.0-beta.10",
-    "@better-scroll/mouse-wheel": "^2.0.0-beta.10",
     "@better-scroll/observe-dom": "^2.0.0-beta.10",
     "@better-scroll/pull-down": "^2.0.0-beta.10",
     "core-js": "^3.6.5",

@@ -1129,13 +1129,6 @@
   dependencies:
     "@better-scroll/shared-utils" "^2.0.0-beta.10"
 
-"@better-scroll/mouse-wheel@^2.0.0-beta.10":
-  version "2.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@better-scroll/mouse-wheel/-/mouse-wheel-2.0.0-beta.10.tgz#f690268b27b75b6fddcf1531a198977e8fd6bc31"
-  integrity sha512-6nJZdkPmccsgmcnyRiQavrIgTyAvHUyRNjGbTVsc02UI8MVanOlFZiFaAEOfLv/s6Td8CQvFE0wNaSuSGYo5dA==
-  dependencies:
-    "@better-scroll/core" "^2.0.0-beta.10"
-
 "@better-scroll/observe-dom@^2.0.0-beta.10":
   version "2.0.0-beta.10"
   resolved "https://registry.yarnpkg.com/@better-scroll/observe-dom/-/observe-dom-2.0.0-beta.10.tgz#2291b12727dbd5ddabc1d45fa259898e47c00904"

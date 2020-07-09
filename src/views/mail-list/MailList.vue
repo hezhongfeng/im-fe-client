@@ -30,10 +30,8 @@ import MailItem from './compenents/MailItem';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 import BScroll from '@better-scroll/core';
 import ObserveDOM from '@better-scroll/observe-dom';
-import MouseWheel from '@better-scroll/mouse-wheel';
 
 BScroll.use(ObserveDOM);
-BScroll.use(MouseWheel);
 
 export default {
   name: 'MailList',
@@ -64,8 +62,7 @@ export default {
     this.bs = new BScroll(this.$refs.wrapper, {
       scrollY: true,
       click: true,
-      observeDOM: true,
-      mouseWheel: {}
+      observeDOM: true
     });
   },
   methods: {

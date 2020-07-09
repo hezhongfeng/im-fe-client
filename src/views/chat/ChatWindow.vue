@@ -23,11 +23,9 @@ import { mapGetters, mapMutations } from 'vuex';
 import IoService from '@/services/io.js';
 import BScroll from '@better-scroll/core';
 import ObserveDOM from '@better-scroll/observe-dom';
-import MouseWheel from '@better-scroll/mouse-wheel';
 import PullDown from '@better-scroll/pull-down';
 
 BScroll.use(ObserveDOM);
-BScroll.use(MouseWheel);
 BScroll.use(PullDown);
 
 export default {
@@ -54,8 +52,7 @@ export default {
       observeDOM: true,
       pullDownRefresh: {
         threshold: -30
-      },
-      mouseWheel: {}
+      }
     });
 
     scroll.on('pullingDown', this.onLoad);

@@ -27,7 +27,8 @@ module.exports = {
       xgplayer: 'Player',
       'socket.io-client': 'io',
       axios: 'axios',
-      'vue-page-stack': 'VuePageStack'
+      'vue-page-stack': 'VuePageStack',
+      '@better-scroll/core': 'BScroll'
     }
   },
   css: {
