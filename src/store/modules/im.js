@@ -21,7 +21,6 @@ const mutations = {
   // 单条新消息
   newMessage(state, { message, isPush = true }) {
     const index = state.conversationList.findIndex(conversation => conversation.id === message.conversationId);
-    console.log(index);
     if (isPush) {
       state.conversationList[index].messageList.push(message);
     } else {

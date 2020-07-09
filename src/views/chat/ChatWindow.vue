@@ -1,12 +1,7 @@
 <template>
   <view-page class="cs-chatbox">
     <div class="cs-chat" ref="wrapper">
-      <!-- <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list v-model="loading" :finished="finished" @load="onLoad">
-          <message-item v-for="(message,index) of activeConversation.messageList" :key="index" :message="message"></message-item>
-        </van-list>
-      </van-pull-refresh>-->
-      <div class="conntennt" ref="conntent">
+      <div>
         <message-item
           ref="messages"
           v-for="message of activeConversation.messageList"

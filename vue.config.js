@@ -24,7 +24,10 @@ module.exports = {
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
       vant: 'vant',
-      xgplayer: 'Player'
+      xgplayer: 'Player',
+      'socket.io-client': 'io',
+      axios: 'axios',
+      'vue-page-stack': 'VuePageStack'
     }
   },
   css: {
