@@ -22,7 +22,7 @@
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
       </div>
     </div>
-    <emoji-picker v-if="isEmoji" @emoji-select="emojiSelect"></emoji-picker>
+    <emoji-picker v-show="isEmoji" @emoji-select="emojiSelect"></emoji-picker>
   </div>
 </template>
 

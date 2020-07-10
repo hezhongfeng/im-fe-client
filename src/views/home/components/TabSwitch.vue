@@ -37,7 +37,7 @@ export default {
 <style lang="scss">
 .tab-switch {
   overflow: hidden;
-  height: calc(100vh - 50px);
+  height: calc(100% - 50px);
   .trans-zone {
     height: 100%;
     display: flex;
