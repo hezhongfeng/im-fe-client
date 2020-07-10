@@ -45,9 +45,11 @@ export default {
         return;
       }
 
-      if (files.some(file => file.size / 1024 / 1024 > 5)) {
-        this.$toast('最大上传文件为5M');
-        return;
+      for (const file of files) {
+        if (file.size / 1024 / 1024 > 3) {
+          this.$toast('最大上传文件为3M');
+          return;
+        }
       }
 
       let postFiles = Array.prototype.slice.call(files);
