@@ -22,7 +22,7 @@
         <i class="iconfont iconi-sh-man-bq" @click="pickEmoji"></i>
       </div>
     </div>
-    <emoji-picker v-show="isEmoji" @emoji-select="emojiSelect"></emoji-picker>
+    <emoji-picker v-if="isEmoji" @emoji-select="emojiSelect"></emoji-picker>
   </div>
 </template>
 
@@ -120,6 +120,7 @@ export default {
       });
     },
     send(body) {
+      this.isEmoji = false;
       IoService.sendMessage({
         type: this.activeConversation.type,
         toId: this.activeConversation.info.id.toString(),

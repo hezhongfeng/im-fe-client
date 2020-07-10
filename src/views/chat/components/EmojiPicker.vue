@@ -120,8 +120,6 @@
 <script>
 export default {
   name: 'EmojiPicker',
-  data() {},
-  computed: {},
   methods: {
     choose(key) {
       if (key) {
