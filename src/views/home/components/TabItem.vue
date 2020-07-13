@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss">
 .tab-item {
-  width: 100vw;
+  width: 25%;
   height: 100%;
 }
 </style>

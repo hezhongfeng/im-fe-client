@@ -24,7 +24,7 @@ export default {
   computed: {
     styleObject() {
       return {
-        transform: `translateX(-${this.index}00vw)`
+        transform: `translateX(-${this.index * 25}%)`
       };
     }
   },
@@ -40,6 +40,7 @@ export default {
   height: calc(100% - 50px);
   .trans-zone {
     height: 100%;
+    width: 400%;
     display: flex;
     transition-duration: 0.3s;
   }

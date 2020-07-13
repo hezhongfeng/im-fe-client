@@ -261,7 +261,7 @@ $other-b: #fff;
         }
       }
       > .video {
-        width: 65vw;
+        width: 65%;
       }
       > .loc {
         width: 200px;

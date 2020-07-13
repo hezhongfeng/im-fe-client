@@ -86,7 +86,7 @@ export default {
 
 <style lang="scss">
 .mail-list {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   .apply-count {

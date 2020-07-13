@@ -24,6 +24,19 @@
         margin: 0;
       }
 
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #262626;
+      }
+      .app-wrap {
+        height: 100%;
+        width: 100%;
+        max-width: 600px;
+        max-height: 800px;
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -46,7 +59,9 @@
         to continue.</strong
       >
     </noscript>
-    <div id="app"></div>
+    <div class="app-wrap">
+      <div id="app"></div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>

@@ -8,7 +8,7 @@
         <mail-list></mail-list>
       </tab-item>
       <tab-item>
-        <div style="width: 100vw; height: 100%;overflow-y: auto;">Todo...</div>
+        <div style="width: 100%; height: 100%;overflow-y: auto;">Todo...</div>
       </tab-item>
       <tab-item>
         <mine />
@@ -69,5 +69,8 @@ export default {
 
 <style lang="scss">
 .home {
+  .van-tabbar--fixed {
+    position: absolute;
+  }
 }
 </style>

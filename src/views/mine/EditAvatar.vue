@@ -92,8 +92,8 @@ export default {
 .edit-avatar {
   position: relative;
   .vue-cropper {
-    width: 100vw;
-    height: 100vw;
+    width: 100%;
+    height: 100%;
   }
   .bottom {
     width: 100%;

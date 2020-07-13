@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss">
 .mine {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   .user-info {
