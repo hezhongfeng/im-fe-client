@@ -1,6 +1,6 @@
 <img width="464" src="https://i.loli.net/2020/07/01/AmsnawZ29RbUqk8.png">
 
-即时通讯应用, 包含[服务端](https://github.com/hezhongfeng/im-server)、[管理端](https://github.com/hezhongfeng/im-fe-admin)和[客户端](https://github.com/hezhongfeng/im-fe-vue)
+即时通讯应用, 包含[服务端](https://github.com/hezhongfeng/im-server)、[管理端](https://github.com/hezhongfeng/im-fe-admin)和[客户端](https://github.com/hezhongfeng/im-fe-client)
 
 ## 介绍
 
