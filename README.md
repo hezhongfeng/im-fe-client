@@ -6,6 +6,10 @@
 
 使用 @vue/cli 搭建，IM 服务的客户端，UI 部分使用了 Vant
 
+<img width="300" src="https://i.loli.net/2020/07/15/fO2naUmPluYRsBd.png">
+
+<img width="300" src="https://i.loli.net/2020/07/15/5lvZtFBsPrUnHgN.png">
+
 ## 整体功能简介
 
 1. 注册，登录，个人、群组聊天，个人信息编辑等基础功能
