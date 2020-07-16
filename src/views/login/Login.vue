@@ -6,6 +6,12 @@
       <van-button round block type="info" native-type="submit">登录</van-button>
     </div>
     <div class="bottom-action">
+      <a href="/api/v1/passport/github" class="github">
+        <svg class="icon" aria-hidden="true" @click="choose('[中毒]')">
+          <use xlink:href="#icongithub" />
+        </svg>
+        一键登录
+      </a>
       <div class="sign-up" @click="onSignup">注册</div>
     </div>
   </van-form>
@@ -73,7 +79,12 @@ export default {
   }
   .bottom-action {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: space-between;
+    .github {
+      margin-left: 10px;
+      color: #222;
+      opacity: 0;
+    }
     .sign-up {
       margin-right: 10px;
     }
