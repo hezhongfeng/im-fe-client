@@ -45,7 +45,10 @@ export default {
     ...mapGetters('im', ['activeConversation'])
   },
   mounted() {
-    this.activedConversation();
+    if (!this.activedConversation.type === 'robot') {
+      this.activedConversation();
+    }
+
     const scroll = new BScroll(this.$refs.wrapper, {
       scrollY: true,
       click: true,

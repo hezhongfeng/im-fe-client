@@ -1,6 +1,14 @@
+import robotHead from '@/assets/images/robot.png';
+
 const state = {
   conversationList: [],
-  userInfoList: []
+  userInfoList: [
+    {
+      id: 'robot',
+      photo: robotHead,
+      nickname: 'robot'
+    }
+  ]
 };
 
 // getters

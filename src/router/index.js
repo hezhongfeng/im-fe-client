@@ -63,6 +63,8 @@ function getCurrent(next) {
 router.beforeEach((to, from, next) => {
   if (routeWhiteList.indexOf(to.path) === -1 && !store.getters.userId) {
     getCurrent(next);
+  } else if (!routeWhiteList.indexOf(to.path) === -1 && store.getters.userId) {
+    next('/');
   } else {
     next();
   }

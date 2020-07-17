@@ -3,13 +3,10 @@ import io from 'socket.io-client';
 import store from '@/store';
 import urls from '@/common/urls';
 import config from '../../config/config';
+import robotHead from '@/assets/images/robot.png';
 
 // 处理消息体
 const handleMessage = message => {
-  // if (message.payload.body.msg) {
-  //   message.payload.body.msg = emoji.transform(message.payload.body.msg);
-  // }
-
   // 在入口处直接添加isMyself
   message.isMyself = store.getters.userId === message.fromId;
 };
@@ -96,17 +93,36 @@ const getConversationList = () => {
         iterator.pageNumber = 2;
         iterator.pageSize = 10;
       }
+      for (const conversation of conversationList) {
+        IoService.getMessageList({
+          conversationId: conversation.id,
+          pageSize: conversation.pageSize,
+          pageNumber: 1,
+          init: true
+        });
+      }
+      conversationList.unshift({
+        info: {
+          id: 'robot',
+          name: 'robot',
+          photo: robotHead
+        },
+        id: 'robot',
+        isActive: false,
+        type: 'robot',
+        photo: '',
+        messageList: [
+          {
+            body: { msg: '你好，我是智能机器人，我们聊天吧', type: 'text' },
+            conversationId: 'robot',
+            createdAt: '2020-07-17 15:11:04',
+            fromId: 'robot',
+            id: 0,
+            toId: 2
+          }
+        ]
+      });
       store.commit('im/updateConversationList', conversationList);
-      setTimeout(() => {
-        for (const conversation of conversationList) {
-          IoService.getMessageList({
-            conversationId: conversation.id,
-            pageSize: conversation.pageSize,
-            pageNumber: 1,
-            init: true
-          });
-        }
-      }, 20);
     })
     .catch(error => {
       console.log(error.errorMessage);
