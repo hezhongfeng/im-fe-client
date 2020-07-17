@@ -101,6 +101,7 @@ const getConversationList = () => {
           init: true
         });
       }
+      // 机器人的处理
       conversationList.unshift({
         info: {
           id: 'robot',
