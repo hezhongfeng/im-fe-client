@@ -83,7 +83,6 @@ export default {
     .github {
       margin-left: 10px;
       color: #222;
-      opacity: 0;
     }
     .sign-up {
       margin-right: 10px;
