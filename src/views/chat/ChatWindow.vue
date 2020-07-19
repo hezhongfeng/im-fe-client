@@ -45,7 +45,7 @@ export default {
     ...mapGetters('im', ['activeConversation'])
   },
   mounted() {
-    if (!this.activedConversation.type === 'robot') {
+    if (!(this.activedConversation.type === 'robot')) {
       this.activedConversation();
     }
 
@@ -85,8 +85,9 @@ export default {
       });
     },
     activedConversation() {
-      this.$http.put('api/v1/conversations/active', {
-        id: this.activeConversation.id
+      this.$http.put('/api/v1/conversations/active', {
+        id: this.activeConversation.id,
+        active: true
       });
     }
   }

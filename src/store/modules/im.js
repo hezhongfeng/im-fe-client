@@ -68,6 +68,10 @@ const mutations = {
   addConversation(state, conversation) {
     state.conversationList.unshift(conversation);
   },
+  removeConversation(state, { conversationId }) {
+    const conversationIndex = state.conversationList.findIndex(conversation => conversation.id === conversationId);
+    state.conversationList.splice(conversationIndex, 1);
+  },
   updateConversationInfo(state, { conversationId, info }) {
     state.conversationList.find(conversation => {
       return conversation.id === conversationId;
@@ -79,10 +83,13 @@ const mutations = {
       activeConversation.isActive = false;
     }
     const conversationIndex = state.conversationList.findIndex(conversation => conversation.id === conversationId);
-    const conversation = state.conversationList[conversationIndex];
-    conversation.isActive = true;
-    state.conversationList.splice(conversationIndex, 1);
-    state.conversationList.unshift(conversation);
+    // 存在于会话列表
+    if (!(conversationIndex === -1)) {
+      const conversation = state.conversationList[conversationIndex];
+      conversation.isActive = true;
+      state.conversationList.splice(conversationIndex, 1);
+      state.conversationList.unshift(conversation);
+    }
   },
   addUserInfo(state, userInfo) {
     if (!state.userInfoList.some(item => item.userId === userInfo.userId)) {

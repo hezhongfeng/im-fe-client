@@ -13,7 +13,7 @@
       </div>
     </div>
     <template #right>
-      <van-button square type="danger" text="删除" />
+      <van-button :disabled="conversation.type === 'robot'" square type="danger" text="删除" @click="disabledConversation" />
     </template>
   </van-swipe-cell>
 </template>
@@ -77,7 +77,19 @@ export default {
     IoService.join(this.conversation.id);
   },
   methods: {
-    ...mapMutations('im', ['activateConversation', 'updateConversationInfo']),
+    ...mapMutations('im', ['activateConversation', 'updateConversationInfo', 'removeConversation']),
+    disabledConversation() {
+      this.$http
+        .put('/api/v1/conversations/active', {
+          id: this.conversation.id,
+          active: false
+        })
+        .then(() => {
+          this.removeConversation({
+            conversationId: this.conversation.id
+          });
+        });
+    },
     onClick() {
       this.activateConversation({
         conversationId: this.conversation.id

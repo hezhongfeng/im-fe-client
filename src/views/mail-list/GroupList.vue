@@ -7,6 +7,7 @@
 <script>
 import GroupItem from './compenents/GroupItem';
 import { mapMutations } from 'vuex';
+import { dateFormat } from '@/utils/format.js';
 
 export default {
   name: 'group-list',
@@ -25,8 +26,25 @@ export default {
     this.getGroupList();
   },
   methods: {
-    ...mapMutations('im', ['activateConversation']),
+    ...mapMutations('im', ['addConversation', 'activateConversation']),
     onCLick(group) {
+      this.addConversation({
+        type: 'groupchat',
+        id: group.conversationId,
+        isActive: false,
+        info: {
+          name: ''
+        },
+        target: group,
+        updatedAt: dateFormat('YYYY-mm-dd HH:MM:SS', new Date()),
+        messageCount: 0,
+        messageList: [],
+        pageNumber: 2,
+        pageSize: 10,
+        refreshing: false,
+        loading: false,
+        finished: false
+      });
       this.activateConversation({
         conversationId: group.conversationId
       });

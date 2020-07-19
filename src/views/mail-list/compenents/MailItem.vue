@@ -10,6 +10,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import defaultHead from '@/assets/images/head.png';
+import { dateFormat } from '@/utils/format.js';
 
 export default {
   name: 'mail-item',
@@ -30,8 +31,25 @@ export default {
   watch: {},
   created() {},
   methods: {
-    ...mapMutations('im', ['activateConversation']),
+    ...mapMutations('im', ['addConversation', 'activateConversation']),
     enter() {
+      this.addConversation({
+        type: this.mail.conversation.type,
+        id: this.mail.conversation.id,
+        isActive: false,
+        info: {
+          name: ''
+        },
+        target: this.mail.userInfo,
+        updatedAt: dateFormat('YYYY-mm-dd HH:MM:SS', new Date()),
+        messageCount: 0,
+        messageList: [],
+        pageNumber: 2,
+        pageSize: 10,
+        refreshing: false,
+        loading: false,
+        finished: false
+      });
       this.activateConversation({
         conversationId: this.mail.conversation.id
       });
