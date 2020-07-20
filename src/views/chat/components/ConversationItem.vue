@@ -6,10 +6,10 @@
       </div>
       <div class="left">
         <div class="name-time">
-          <div class="name">{{conversation.info.name||conversation.info.nickname}}</div>
-          <div class="time">{{conversation.updatedAt}}</div>
+          <div class="name">{{ conversation.info.name || conversation.info.nickname }}</div>
+          <div class="time">{{ conversation.updatedAt }}</div>
         </div>
-        <div class="last-message">{{lastMessage}}</div>
+        <div class="last-message">{{ lastMessage }}</div>
       </div>
     </div>
     <template #right>
@@ -79,16 +79,16 @@ export default {
   methods: {
     ...mapMutations('im', ['activateConversation', 'updateConversationInfo', 'removeConversation']),
     disabledConversation() {
-      this.$http
-        .put('/api/v1/conversations/active', {
-          id: this.conversation.id,
-          active: false
-        })
-        .then(() => {
-          this.removeConversation({
-            conversationId: this.conversation.id
-          });
-        });
+      // this.$http
+      //   .put('/api/v1/conversations/active', {
+      //     id: this.conversation.id,
+      //     active: false
+      //   })
+      //   .then(() => {
+      //   });
+      this.removeConversation({
+        conversationId: this.conversation.id
+      });
     },
     onClick() {
       this.activateConversation({
