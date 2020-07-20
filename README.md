@@ -35,7 +35,7 @@ Vue 全家桶的项目大家很熟悉的了（这点我觉得比 React 好一些
 1. 封装了一个 http 插件，主要目的是统一参数的传递和对后端反馈的统一响应
 2. 自定义全局 scss 变量，不需要在使用的时候手动引用
 3. 将常用的$urls,$http 和 \$checkLogin 注入到 Vue 原型上，方便使用
-4. 使用 vue-page-stack 做页面的栈管理工具
+4. 使用 vue-page-stack 做页面的栈管理工具，使用黄老师的[better-scroll](https://github.com/ustbhuangyi/better-scroll)做滚动处理（这个很重要）
 5. 在路由的全局守卫 beforeEach 上面添加了对目前登录状态的确认，这点做法和原生 App 不一致，需要注意
 
 ## IM 功能简介
@@ -104,17 +104,21 @@ this.socket.on('/v1/im/new-message', message => {
 
 ## 滚动
 
-说下怎么存储的滚动条，当我们从滚动页面进入到会话详情再回退的时候，可以发现滚动条是被保存了的，UI 栈管理使用了我自己的插件 vue-page-stack，滚动处理使用了黄老师的 better-scroll2.0，插件的介绍可以移步，bs 是自己记录了滚动的位置，否则原生的滚动是无法被记录的。
+说下怎么存储的前一页的滚动条，在 github 上也经常会有人询问如何保持滚动条的位置和状态，当我们从某一可滚动页面（例如这里的会话列表页面）进入到会话详情再回退的时候，可以发现滚动条状态是被保存了的。
+
+页面使用了我自己的 UI 栈管理插件 vue-page-stack，回退的时候恢复了 Vue 的虚拟 dom，但是并不能记住原生 dom 的滚动条状态，这时候需要辅助工具出马了。滚动处理使用了黄老师的 better-scroll 2.0，bs 在内部记录了滚动的状态，所以在恢复虚拟 dom 的时候 bs 也一并被恢复了，滚动自然也恢复了。
 
 ### 会话消息记录的滚动
 
-这个滚动是耗费了我不少心思的，因为首先，绝大多数滚动都是上拉加载，但是咱们这个场景下是下拉加载，这就导致了一个很严重的问题：上拉加载的时候，加载的内容在滚动区域的下方出现，加载之后，我们继续上拉就可以继续查看；但是下拉加载不一样，下拉加载后出现的内容在滚动区域的上方，不做任何处理的话会直接跳到新加载内容的最上方，而不是一点一点划上来的。
+这个滚动耗费了我不少心思，因为绝大多数滚动都是上拉加载，但是咱们这个场景下是下拉加载，这就导致了一个很严重的问题：上拉加载的时候，加载的内容在滚动区域的下方出现，加载之后，我们将数据添加到列表，由 Vue 等负责渲染新加载的内容，我们继续上拉就可以继续查看
+
+但是下拉加载不一样，下拉加载后出现的内容在滚动区域的上方，不做任何处理的话会直接跳到新加载内容的最上方，这就出问题了。
 
 我的处理办法就是：
 
 1. 通过接口获取到加载信息后首先标记（shouldScroll）第一条信息，也就是最终我们的视角要看到的内容
 2. messageList 更新后，Vue 会更新数据和视图
-3. MessageItem 组件 mounted 后，这时候已经完成了视图的渲染，通过检查标记（shouldScroll）,通知父容器把自己滚动到可视范围
+3. MessageItem 组件 mounted 后，这时候已经完成了视图的渲染，通过检查标记（shouldScroll）,通知父容器滚动到刚才标记的位置，也就是加载的第一条信息处，这样也就把渲染和滚动做到一起了
 
 效果还可以，如下：
 
@@ -122,15 +126,14 @@ this.socket.on('/v1/im/new-message', message => {
 
 ## 优化 build 体积
 
-由于我的服务器太弱，所以想着尽可能的使用 CDN，使用了一些扩展，这样对服务器压力小了很多
+由于我的服务器带宽太弱，所以想着尽可能的使用 CDN，使用了一些扩展，这样对服务器压力小了很多，这部分内容属于 webpack 部分
 
 ```
-
 // index.html
 <script src="https://api.map.baidu.com/getscript?v=3.0&ak=ZHjk59sSOpM1eNWgNWyj9zpyAFTHdL5z"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vuex@3.5.1/dist/vuex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-router@3.3.4/dist/vue-router.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex@3.5.1/dist/vuex.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vant@2.9/lib/vant.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xgplayer@2.9.8/browser/index.js"></script>
 
@@ -149,78 +152,165 @@ externals: {
 
 ## 部署
 
-前端资源使用 nginx 管理，由 nginx 做反向代理，index.html 在前端不做缓存，js 和 css 做了一个月的强缓存和 gzip 压缩，剩下的/api、/public 和/socket.io 是需要转发到服务器的，需要设置 http 升级为 websocket
+前端资源使用 nginx 管理，由 nginx 做反向代理，index.html 在前端不做缓存，js 和 css 等静态文件做了一个月的强缓存和 gzip 压缩，剩下的/api、/public 和/socket.io 是需要转发到服务器的，我的服务器就运行在 http://127.0.0.1:7001 ，这里需要注意设置 http 可升级为 websocket
+
+https 的证书是在 https://freessl.cn/ 上面免费申请的证书，在 nginx 上进行了配置
 
 ```
 server {
-    listen       80;
-    server_name  im-client.hezf.online;
+  listen 80;
+  server_name im-client.hezf.online;
 
-    include /etc/nginx/default.d/*.conf;
+  # Load configuration files for the default server block.
+  include /etc/nginx/default.d/*.conf;
 
-    location / {
-      root   /data/static/im-client;
-      index  index.html;
-      try_files $uri $uri/ /index.html;
-    }
+  location / {
+    root /data/static/im-client;
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
 
-    location ~* \.(html)$ {
-      root   /data/static/im-client;
-      access_log off;
-      add_header  Cache-Control  no-store;
-    }
+  location ~* \.(html)$ {
+    root /data/static/im-client;
+    access_log off;
+    add_header Cache-Control no-store;
+  }
 
-    location static/ {
-      access_log off;
-      root   /data/static/im-client;
-      gzip on;
-      gzip_buffers 32 8K;
-      gzip_comp_level 6;
-      gzip_min_length 100;
-      gzip_types application/javascript text/css text/xml;
-      gzip_disable "MSIE [1-6]\."; #配置禁用gzip条件，支持正则。此处表示ie6及以下不启用gzip（因为ie低版本不支持）
-      gzip_vary on;
-      add_header Cache-Control max-age=2592000;
-    }
+  location /static {
+    access_log off;
+    root /data/static/im-client;
+    gzip on;
+    gzip_buffers 32 8K;
+    gzip_comp_level 6;
+    gzip_min_length 100;
+    gzip_types application/javascript text/css text/xml;
+    gzip_disable "MSIE [1-6]\."; #配置禁用gzip条件，支持正则。此处表示ie6及以下不启用gzip（因为ie低版本不支持）
+    gzip_vary on;
+    add_header Cache-Control max-age=2592000;
+  }
 
-    location /api {
-      proxy_pass http://127.0.0.1:7001;
-      proxy_connect_timeout	3;
-      proxy_send_timeout		30;
-      proxy_read_timeout		30;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Server $host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      client_max_body_size	100m;
-    }
+  location /api {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto http;
+    proxy_set_header X-NginX-Proxy true;
+    client_max_body_size	100m;
+  }
 
-    location /public {
-      proxy_pass http://127.0.0.1:7001;
-      proxy_connect_timeout	3;
-      proxy_send_timeout		30;
-      proxy_read_timeout		30;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Server $host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      client_max_body_size	100m;
-    }
+  location /public {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size	100m;
+  }
 
-    location /socket.io {
-      proxy_pass http://127.0.0.1:7001;
-      proxy_connect_timeout	3;
-      proxy_send_timeout		30;
-      proxy_read_timeout		30;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Server $host;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      client_max_body_size	100m;
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-    }
+  location /socket.io {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size	100m;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
 
-    error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-    }
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+  }
+}
+
+server {
+  listen 443 ssl;
+  server_name im-client.hezf.online;
+  ssl_certificate /etc/nginx/conf.d/hezf-online/im-client.hezf.online_chain.crt;
+  ssl_certificate_key /etc/nginx/conf.d/hezf-online/im-client.hezf.online_key.key;
+  ssl_session_timeout 5m;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4:!DH:!DHE;
+  ssl_prefer_server_ciphers on;
+
+  # Load configuration files for the default server block.
+  include /etc/nginx/default.d/*.conf;
+
+  location / {
+    root /data/static/im-client;
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
+
+  location ~* \.(html)$ {
+    root /data/static/im-client;
+    access_log off;
+    add_header Cache-Control no-store;
+  }
+
+  location /static {
+    access_log off;
+    root /data/static/im-client;
+    gzip on;
+    gzip_buffers 32 8K;
+    gzip_comp_level 6;
+    gzip_min_length 100;
+    gzip_types application/javascript text/css text/xml;
+    gzip_disable "MSIE [1-6]\."; #配置禁用gzip条件，支持正则。此处表示ie6及以下不启用gzip（因为ie低版本不支持）
+    gzip_vary on;
+    add_header Cache-Control max-age=2592000;
+  }
+
+  location /api {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-NginX-Proxy true;
+    proxy_redirect off;
+    client_max_body_size	100m;
+  }
+
+  location /public {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size	100m;
+  }
+
+  location /socket.io {
+    proxy_pass http://127.0.0.1:7001;
+    proxy_connect_timeout	3;
+    proxy_send_timeout 30;
+    proxy_read_timeout 30;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Server $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    client_max_body_size	100m;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+  }
 }
 ```
