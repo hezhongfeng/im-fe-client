@@ -87,7 +87,7 @@ export default {
       if (this.activeConversation.type === 'chat') {
         return this.activeConversation.info;
       }
-      return this.userInfoList.find(item => item.id === this.message.fromId) || { name: '' };
+      return this.userInfoList.find(item => item.userId === this.message.fromId) || { name: '' };
     },
     itemStyle() {
       return {
@@ -162,7 +162,7 @@ export default {
         });
     },
     imgPreview() {
-      ImagePreview([this.message.body.url]);
+      ImagePreview({ images: [this.message.body.url], closeable: true });
     }
   }
 };
