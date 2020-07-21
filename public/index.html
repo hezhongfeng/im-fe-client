@@ -32,6 +32,10 @@
         background: url(//res.wx.qq.com/a/wx_fed/webwx/res/static/img/2zrdI1g.jpg) no-repeat 50%;
         background-size: cover;
       }
+      .body-info {
+        position: fixed;
+        top: 2vh;
+      }
       .app-wrap {
         height: 100%;
         width: 100%;
@@ -56,6 +60,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@better-scroll/core@2.0.0-beta.10/dist/core.min.js"></script>
   </head>
   <body>
+    <div class="body-info">
+      整套即时通讯应用服务,包含
+      <a href="https://github.com/hezhongfeng/im-server" target="_blank">服务端</a>、
+      <a href="https://github.com/hezhongfeng/im-fe-client" target="_blank">客户端</a>和
+      <a href="https://github.com/hezhongfeng/im-fe-admin" target="_blank">管理端</a> ，欢迎Star支持下
+    </div>
     <noscript>
       <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it
