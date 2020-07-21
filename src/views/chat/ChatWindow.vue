@@ -45,7 +45,7 @@ export default {
     ...mapGetters('im', ['activeConversation'])
   },
   mounted() {
-    if (!(this.activedConversation.type === 'robot')) {
+    if (!(this.activeConversation.type === 'robot')) {
       this.activedConversation();
     }
 

@@ -79,13 +79,6 @@ export default {
   methods: {
     ...mapMutations('im', ['activateConversation', 'updateConversationInfo', 'removeConversation']),
     disabledConversation() {
-      // this.$http
-      //   .put('/api/v1/conversations/active', {
-      //     id: this.conversation.id,
-      //     active: false
-      //   })
-      //   .then(() => {
-      //   });
       this.removeConversation({
         conversationId: this.conversation.id
       });
@@ -94,7 +87,9 @@ export default {
       this.activateConversation({
         conversationId: this.conversation.id
       });
-      this.$router.push('/chat');
+      setTimeout(() => {
+        this.$router.push('/chat');
+      }, 60);
     },
     getUserInfo() {
       this.$http

@@ -1,23 +1,23 @@
 <template>
   <div class="cs-message-item" :style="itemStyle">
-    <div class="from-name">{{fromName}}</div>
-    <div class="c-frame" :class="{'self-c':message.isMyself,'other-c':!message.isMyself}">
+    <div class="from-name">{{ fromName }}</div>
+    <div class="c-frame" :class="{ 'self-c': message.isMyself, 'other-c': !message.isMyself }">
       <div class="avatar" v-if="!message.isMyself">
         <img :src="friendHead" />
       </div>
       <div class="container">
-        <div class="container-text" v-if="message.body.type==='text'" v-html="textMessage"></div>
+        <div class="container-text" v-if="message.body.type === 'text'" v-html="textMessage"></div>
 
-        <div class="image" v-if="message.body.type==='image'">
+        <div class="image" v-if="message.body.type === 'image'">
           <img :src="message.body.url" @click="imgPreview" />
         </div>
 
-        <div class="loc" v-if="message.body.type==='loc'">
-          <div class="label">{{message.body.addr}}</div>
+        <div class="loc" v-if="message.body.type === 'loc'">
+          <div class="label">{{ message.body.addr }}</div>
           <div ref="allmap" class="allmap"></div>
         </div>
 
-        <div class="video" v-if="message.body.type==='video'">
+        <div class="video" v-if="message.body.type === 'video'">
           <Xgplayer :config="config" />
         </div>
       </div>
@@ -44,7 +44,7 @@ export default {
     };
   },
   props: {
-    conversationId: Number,
+    conversationId: [Number, String],
     scroll: Object,
     message: Object
   },
