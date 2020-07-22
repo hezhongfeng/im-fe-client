@@ -1,7 +1,7 @@
 <template>
   <van-form @submit="onSubmit" class="login">
-    <van-field v-model="username" label="用户名" placeholder="请填写用户名" :rules="usernameRules" />
-    <van-field v-model="password" type="password" label="密码" placeholder="请填写密码" v-on:keyup.enter="onSubmit" :rules="passwordRules" />
+    <van-field v-model="username" label="用户名" placeholder="可用用户名：user" :rules="usernameRules" />
+    <van-field v-model="password" type="password" label="密码" placeholder="密码：123456" v-on:keyup.enter="onSubmit" :rules="passwordRules" />
     <div class="action">
       <van-button round block type="info" native-type="submit">登录</van-button>
     </div>
