@@ -4,7 +4,7 @@ const state = {
   conversationList: [],
   userInfoList: [
     {
-      id: 'robot',
+      userId: 'robot',
       photo: robotHead,
       nickname: 'robot'
     }
